@@ -1,0 +1,126 @@
+/* Inputs */
+
+.input-wrapper
+{
+	width: 100%;
+
+	&:not(:has([readonly]))
+	{
+		&:hover
+		{
+			cursor: pointer;
+			transform: scale(.99);
+		}
+
+		&:has(input:focus)
+		{
+			transform: scale(.95);
+		}
+	}
+
+	&.search
+	{
+		width: 26%;
+
+		&.type-1
+		{
+			input
+			{
+				border: none;
+				border-bottom: 2px solid var(--grey2);
+				border-radius: 0;
+				padding: 9px 0 9px 15px;
+			}
+		}
+
+		&.type-2
+		{
+			input
+			{
+				border: 2px solid var(--grey3);
+				border-radius: 5px;
+				padding: 10px;
+
+				&:hover, &:focus
+				{
+					border-color: var(--grey2);
+				}
+			}
+		}
+	}
+
+	iconify-icon
+	{
+		border-right: 2px solid var(--grey);
+		bottom: 0;
+		color: var(--grey);
+		left: 0;
+		padding-right: 5px;
+		position: absolute;
+		pointer-events: none;
+		transform: translate(12px, -12px);
+		width: max-content;
+
+		&.show-hide-password
+		{
+			border: none;
+			cursor: pointer;
+			left: unset;
+			padding: 10px;
+			pointer-events: unset;
+			right: 0;
+			transform: translateY(-3px);
+
+			&:hover
+			{
+				color: var(--darkBlue);
+				transform: scale(.95) translateY(-3px);
+			}
+		}
+	}
+
+	input, select, textarea
+	{
+		background: var(--white);
+		border: 2px solid rgba(var(--whiteRGB), 0);
+		border-radius: 5px;
+		cursor: pointer;
+		height: 100%;
+		padding: 15px;
+		resize: none;
+		width: 100%;
+
+		&::-webkit-outer-spin-button, &::-webkit-inner-spin-button
+		{
+			-webkit-appearance: none;
+		}
+
+		&:focus
+		{
+			border-color: var(--blue);
+			border-radius: 10px;
+			cursor: text;
+		}
+
+		&:read-only
+		{
+			background: rgba(var(--grey3RGB), .7);
+			border-color: var(--grey2);
+			color: var(--grey2);
+			font-weight: 600;
+		}
+	}
+
+	select
+	{
+		&:focus
+		{
+			cursor: pointer;
+		}
+	}
+
+	textarea
+	{
+		min-height: 60px;
+	}
+}

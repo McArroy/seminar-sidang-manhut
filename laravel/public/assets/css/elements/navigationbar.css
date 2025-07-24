@@ -1,0 +1,181 @@
+/* Navigationbar */
+
+navbar
+{
+	&.top
+	{
+		background: var(--blue2);
+		flex-direction: row;
+		height: auto;
+		justify-content: space-between;
+		padding: 15px 30px;
+		position: fixed;
+		width: 100%;
+		z-index: var(--navBar);
+
+		.left, .right
+		{
+			flex-direction: row;
+			gap: 10px;
+
+			iconify-icon
+			{
+				color: var(--white);
+				cursor: pointer;
+
+				&:hover
+				{
+					color: var(--darkBlue);
+					transform: scale(.95);
+				}
+			}
+
+			img
+			{
+				width: 45px;
+			}
+
+			.text
+			{
+				align-items: flex-start;
+				color: var(--white);
+				flex-direction: column;
+				width: 100%;
+
+				h1
+				{
+					display: flex;
+					font-size: 10pt;
+					font-weight: 400;
+
+					&:nth-child(2)
+					{
+						color: var(--orange2);
+					}
+				}
+			}
+		}
+
+		.right
+		{
+			gap: -3px;
+
+			img
+			{
+				aspect-ratio: 1/1;
+				border-radius: 50%;
+				object-fit: cover;
+			}
+
+			.text
+			{
+				flex-direction: row;
+
+				h1
+				{
+					font-size: 11pt;
+
+					&:nth-child(2)
+					{
+						color: var(--white);
+						font-weight: 550;
+					}
+				}
+			}
+		}
+	}
+
+	&.side
+	{
+		align-items: flex-start;
+		background: var(--lightGrey);
+		height: 100dvh;
+		justify-content: flex-start;
+		left: 0;
+		overflow-y: auto;
+		padding: 120px 27px 90px;
+		position: fixed;
+		transform: translateX(-400px);
+		width: 0;
+		z-index: calc(var(--navBar) - 1);
+
+		*
+		{
+			flex-shrink: 0;
+		}
+
+		&.active
+		{
+			position: relative;
+			transform: translateX(0);
+			width: 350px;
+		}
+
+		h1
+		{
+			color: var(--grey);
+			display: block;
+			font-size: 12pt;
+			font-weight: 500;
+			margin-bottom: 10px;
+			margin-top: 20px;
+		}
+
+		.button
+		{
+			background: var(--lightGrey);
+			border-color: rgba(var(--whiteRGB), 0);
+			flex-direction: row;
+			font-weight: 500;
+			gap: 5px;
+			justify-content: flex-start;
+			padding: 10px 6px;
+
+			&.button-logout
+			{
+				color: var(--red);
+
+				&:hover, &.active
+				{
+					background: var(--red);
+				}
+			}
+
+			&:hover, &.active, &.listed
+			{
+				background: var(--blue3);
+				border-color: var(--white);
+				color: var(--white);
+			}
+		}
+
+		.button-list
+		{
+			z-index: 1;
+
+			&.listed
+			{
+				iconify-icon:nth-child(2)
+				{
+					transform: rotate(90deg);
+				}
+			}
+		}
+
+		.button-list-wrapper
+		{
+			align-items: flex-end;
+			height: 0;
+			opacity: 0;
+			padding-left: 13px;
+			width: 100%;
+			z-index: -1;
+
+			&.active
+			{
+				height: auto;
+				opacity: 1;
+			}
+		}
+	}
+}

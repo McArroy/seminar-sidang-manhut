@@ -1,0 +1,46 @@
+/* Loading Animations */
+
+loading
+{
+	background: radial-gradient(circle at center, rgba(var(--grey2RGB), .7), rgba(var(--blackRGB), .7));
+	display: none;
+	height: 100dvh;
+	position: fixed;
+	width: 100dvw;
+	z-index: var(--loadingAnim);
+
+	&.active
+	{
+		display: flex;
+	}
+
+	.container
+	{
+		color: var(--white);
+		height: 100%;
+		width: 100%;
+
+		.morphing-shape
+		{
+			animation: morph 3.5s ease-in-out infinite;
+			aspect-ratio: 1/1;
+			background: linear-gradient(135deg, var(--lightBlue), var(--darkBlue2));
+			border-radius: 50%;
+			filter: drop-shadow(0 0 30px rgba(var(--blueRGB), .6));
+			margin: 0 auto 30px;
+			width: 10%;
+		}
+
+		.loading-text
+		{
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			animation: shimmer 5s infinite linear;
+			background: linear-gradient(90deg, var(--white), var(--darkBlue));
+			background-clip: text;
+			background-size: 200% auto;
+			font-size: 25pt;
+			font-weight: bold;
+		}
+	}
+}

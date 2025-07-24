@@ -1,0 +1,18 @@
+/* Scrollbar */
+
+::-webkit-scrollbar
+{
+	width: .5rem;
+}
+
+::-webkit-scrollbar-thumb
+{
+	background: var(--darkBlue);
+	border-radius: .2rem;
+	cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb:hover
+{
+	background: var(--lightBlue);
+}

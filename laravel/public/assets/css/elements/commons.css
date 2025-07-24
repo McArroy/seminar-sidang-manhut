@@ -1,0 +1,51 @@
+/* Commons */
+
+*
+{
+	box-sizing: border-box;
+	cursor: default;
+	font-family: "Inter", sans-serif;
+	font-weight: Medium;
+	gap: 0;
+	scroll-behavior: smooth;
+	transition: var(--trEaseInOut);
+	user-select: none;
+	white-space: nowrap;
+
+	/* Add font-smoothing for better font rendering (especially on macOS/Safari) */
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+}
+
+body, body *
+{
+	align-items: center;
+	border: none;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: 0;
+	outline: none;
+	padding: 0;
+}
+
+body
+{
+	background: var(--lightBlue);
+	height: 100%;
+	justify-content: flex-start;
+	overflow: hidden;	/* Fallback */
+	overflow: clip;
+	position: relative;
+	width: 100%;
+
+	.hidden
+	{
+		display: none;
+	}
+}
+
+script
+{
+	display: none;
+}

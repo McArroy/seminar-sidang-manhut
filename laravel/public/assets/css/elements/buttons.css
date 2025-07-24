@@ -1,0 +1,44 @@
+/* Buttons */
+
+.button
+{
+	border: 2px solid rgba(var(--whiteRGB), 0);
+	border-radius: 5px;
+	color: var(--black);
+	cursor: not-allowed;
+	padding: 10px 0;
+	text-decoration: none;
+	width: 100%;
+
+	&:not(:disabled)
+	{
+		cursor: pointer;
+
+		&:hover
+		{
+			border-color: var(--black);
+			transform: scale(.95);
+		}
+	}
+
+	&.add
+	{
+		background: var(--darkBlue);
+		color: var(--white);
+		flex-direction: row;
+		font-size: 13pt;
+		padding: 7px 10px;
+		width: max-content;
+
+		&:hover
+		{
+			background: var(--darkBlue2);
+			border-color: var(--white);
+		}
+	}
+
+	iconify-icon
+	{
+		pointer-events: none;
+	}
+}

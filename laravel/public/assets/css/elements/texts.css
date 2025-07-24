@@ -1,0 +1,30 @@
+/* Texts */
+
+a
+{
+	cursor: pointer;
+}
+
+p
+{
+	font-size: 12pt;
+}
+
+textarea
+{
+	overflow-wrap: break-word;
+	white-space: pre-wrap;
+}
+
+h1, h6, label, li, p, span, ul
+{
+	display: unset;
+	overflow-wrap: break-word;
+	white-space: normal;
+	text-align: justify;
+}
+
+ul
+{
+	display: flex;
+}

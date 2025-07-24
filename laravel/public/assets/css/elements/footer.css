@@ -1,0 +1,21 @@
+/* Footer */
+
+.footer
+{
+	background: var(--white);
+	border-top: 1px solid var(--grey);
+	bottom: 0;
+	padding: 16px 120px;
+	position: fixed;
+	width: 100%;
+	z-index: calc(var(--navBar) - 1);
+
+	h6
+	{
+		align-items: flex-end;
+		color: var(--grey);
+		display: flex;
+		font-weight: 500;
+		width: 100%;
+	}
+}

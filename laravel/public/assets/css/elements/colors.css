@@ -1,0 +1,38 @@
+/* Colors */
+
+:root
+{
+	--black: rgb(0, 0, 0);
+	--blackRGB: 0, 0, 0;
+	--blue: rgb(38, 60, 146);
+	--blueRGB: 5, 67, 141;
+	--blue2: rgb(0, 84, 155);
+	--blue3: rgb(5, 67, 141);
+	--blue3RGB: 5, 67, 141;
+	--darkBlue: rgb(4, 32, 73);
+	--darkBlue2: rgb(3, 22, 51);
+	--darkOrange: rgb(185, 111, 0);
+	--darkOrangeRGB: 185, 111, 0;
+	--darkRed: rgb(107, 3, 20);
+	--darkGreen: rgb(0, 79, 43);
+	--green: rgb(92, 184, 92);
+	--green2:rgb(0, 160, 102);
+	--green2RGB: 0, 160, 102;
+	--grey: rgb(86, 86, 86);
+	--grey2: rgb(102, 102, 102);
+	--grey2RGB: 102, 102, 102;
+	--grey3: rgb(191, 191, 191);
+	--grey3RGB: 191, 191, 191;
+	--grey4: rgb(67, 71, 82);
+	--grey5: rgb(38, 39, 46);
+	--lightBlue: rgb(0, 72, 180);
+	--lightGrey: rgb(245, 245, 245);
+	--lightCoolGrey: rgb(229, 233, 236);
+	--lightRed: rgb(217, 83, 79);
+	--orange: rgb(255, 153, 0);
+	--orange2: rgb(255, 178, 29);
+	--red: rgb(180, 11, 11);
+	--redRGB: 180, 11, 11;
+	--white: rgb(255, 255, 255);
+	--whiteRGB: 255, 255, 255;
+}

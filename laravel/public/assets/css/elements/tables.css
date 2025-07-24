@@ -1,0 +1,260 @@
+/* Tables */
+
+table, thead, tbody, tr, th, td
+{
+	border-collapse: collapse;
+	border-spacing: 0;
+	display: table;
+	width: auto;
+}
+
+table
+{
+	counter-reset: rowNumber;
+	table-layout: auto;
+	width: 100%;
+
+	&.type-2
+	{
+		border: 2px solid var(--grey3);
+
+		th, td
+		{
+			border-left: 2px solid var(--grey3);
+			border-right: 2px solid var(--grey3);
+			text-align: center;
+		}
+		
+		tr
+		{
+			border-bottom: none !important;
+
+			&:nth-child(1)
+			{
+				border: 2px solid var(--grey3);
+			}
+		}
+
+		.button-actions
+		{
+			border: none;
+			display: flex;
+			flex-direction: row;
+			gap: auto;
+			width: auto;
+
+			.button
+			{
+				padding: 10px;
+				width: max-content;
+			}
+		}
+	}
+
+	tr
+	{
+		border-bottom: 2px solid var(--grey3);
+		display: table-row;
+	}
+
+	thead
+	{
+		display: table-header-group;
+	}
+
+	tbody
+	{
+		display: table-row-group;
+	}
+
+	th, td
+	{
+		display: table-cell;
+		overflow-wrap: break-word;
+		padding: 8px;
+		vertical-align: middle;
+		white-space: normal;
+		word-break: break-word;
+		width: 12%;
+		
+		ul
+		{
+			li
+			{
+				align-items: center;
+				width: 100%;
+
+				&::before
+				{
+					color: var(--black);
+					content: "•";
+					margin-right: 2px;
+				}
+			}
+		}
+
+		.button
+		{
+			color: var(--white);
+
+			&.edit, &.revision, &.form
+			{
+				background: var(--orange);
+				border-color: var(--white);
+
+				&:hover
+				{
+					background: var(--darkOrange);
+					border-color: var(--white);
+				}
+			}
+
+			&.remove, &.declined
+			{
+				background: var(--lightRed);
+				border-color: var(--white);
+
+				&:hover
+				{
+					background: var(--red);
+					border-color: var(--white);
+				}
+			}
+
+			&.verification
+			{
+				background: var(--green);
+				border-color: var(--white);
+
+				&:hover
+				{
+					background: var(--darkGreen);
+					border-color: var(--white);
+				}
+			}
+
+			&.folder
+			{
+				background: none;
+				color: var(--blue);
+				padding: 0;
+			}
+
+			&.form, &.print
+			{
+				flex-direction: row;
+				gap: 10px;
+				padding: 5px;
+			}
+			
+			&.print
+			{
+				background: var(--blue3);
+				border-color: var(--white);
+
+				&:hover
+				{
+					background: var(--darkBlue);
+					border-color: var(--white);
+				}
+			}
+		}
+
+		.status
+		{
+			border-radius: 6px;
+			display: block;
+			font-size: 10pt;
+			font-weight: 900;
+			padding: 4px 12px;
+			white-space: nowrap;
+			width: 100%;
+
+			&.verified
+			{
+				background: rgba(var(--green2RGB), .3);
+				color: var(--green2);
+			}
+
+			&.rejected
+			{
+				background: rgba(var(--redRGB), .3);
+				color: var(--red);
+			}
+
+			&.corrected
+			{
+				background: rgba(var(--darkOrangeRGB), .3);
+				color: var(--darkOrange);
+			}
+
+			&.waiting
+			{
+				background: rgba(var(--grey3RGB), .7);
+				color: var(--grey);
+			}
+
+			&.revised
+			{
+				background: rgba(var(--redRGB), .2);
+				color: var(--lightRed);
+			}
+		}
+	}
+
+	td.numbered
+	{
+		text-align: center;
+		white-space: nowrap;
+
+		&::before
+		{
+			content: counter(rowNumber);
+			counter-increment: rowNumber;
+		}
+	}
+}
+
+.bottom-actions
+{
+	color: var(--grey2);
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 30px;
+	width: 100%;
+
+	.buttons
+	{
+		flex-direction: row;
+		gap: 6px;
+		width: max-content;
+
+		.button
+		{
+			background: var(--white);
+			border-color: var(--grey3);
+			border-radius: 8px;
+			font-weight: 500;
+			padding: 10px;
+			width: max-content;
+
+			&:disabled
+			{
+				background: var(--grey3);
+			}
+
+			&:not(:disabled):hover, &.active
+			{
+				background: var(--lightBlue);
+				border-color: var(--lightBlue);
+				color: var(--white);
+			}
+
+			&.page
+			{
+				padding-left: 15px;
+				padding-right: 15px;
+			}
+		}
+	}
+}

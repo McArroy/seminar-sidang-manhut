@@ -1,0 +1,69 @@
+.letter-viewer
+{
+	background: var(--grey4);
+	width: 100%;
+
+	&.dialog
+	{
+		justify-content: flex-start;
+
+		&.active
+		{
+			display: flex;
+		}
+
+		.top
+		{
+			.buttons
+			{
+				margin: 0;
+			}
+		}
+	}
+
+	.top
+	{
+		background: var(--grey5);
+		flex-direction: row;
+		justify-content: space-between;
+		padding: 0 15px;
+		width: 100%;
+
+		p
+		{
+			color: var(--white);
+			font-weight: 400;
+			width: max-content !important;
+		}
+
+		.buttons
+		{
+			flex-direction: row;
+			width: max-content;
+
+			.button
+			{
+				border-radius: 0;
+				color: var(--white);
+				padding: 10px;
+				width: max-content;
+
+				&:hover
+				{
+					background: var(--white);
+					border-color: var(--white);
+					color: var(--black);
+				}
+			}
+		}
+	}
+	
+	iframe
+	{
+		background: var(--grey4);
+		height: 50dvh;
+		margin-top: 20px;
+		padding: 0 30px;
+		width: 100%;
+	}
+}

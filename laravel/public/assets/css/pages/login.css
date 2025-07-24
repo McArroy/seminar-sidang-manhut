@@ -1,0 +1,106 @@
+body
+{
+	background-color: var(--black) !important;
+}
+
+.content-container
+{
+	background-image: linear-gradient(to right, rgba(var(--blueRGB), .5), rgba(var(--grey2RGB), .5)), url("../../img/auth-background.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	flex-direction: row;
+	justify-content: space-around;
+
+	.left
+	{
+		color: var(--white);
+		text-align: justify;
+		width: 47%;
+
+		img
+		{
+			width: 150px;
+		}
+
+		.text
+		{
+			flex-direction: column;
+			width: 100%;
+
+			h1
+			{
+				font-size: 20pt;
+
+				&:nth-child(3)
+				{
+					color: var(--orange2);
+				}
+			}
+
+			h6
+			{
+				font-size: 18pt;
+				font-weight: 400;
+				margin-top: 30px;
+			}
+		}
+	}
+
+	.right
+	{
+		background: rgba(var(--whiteRGB), .7);
+		border-radius: 15px;
+		padding: 40px;
+		width: 35%;
+
+		h6
+		{
+			font-size: 10pt;
+			font-weight: 400;
+			color: var(--grey);
+			margin-top: 40px;
+		}
+
+		form
+		{
+			width: 100%;
+
+			button
+			{
+				background: var(--blue);
+				color: var(--white);
+				font-size: 17pt;
+				font-weight: 600;
+				margin-top: 30px;
+
+				&:hover
+				{
+					background: var(--darkBlue);
+					border-color: var(--white);
+				}
+			}
+
+			.input-wrapper
+			{
+				position: relative;
+
+				&:nth-child(2)
+				{
+					margin-top: 12px;
+				}
+
+				label
+				{
+					font-weight: 500;
+					margin-bottom: 8px;
+					width: 100%;
+				}
+
+				input
+				{
+					padding-left: 50px;
+				}
+			}
+		}
+	}
+}
