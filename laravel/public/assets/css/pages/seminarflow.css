@@ -1,0 +1,22 @@
+.content-container
+{
+	background: var(--lightGrey);
+	padding: 0 !important;
+
+	.main-content
+	{
+		.wrapper
+		{
+			.inner-content
+			{
+				background: none !important;
+				padding: 0 !important;
+
+				img
+				{
+					width: 100%;
+				}
+			}
+		}
+	}
+}
