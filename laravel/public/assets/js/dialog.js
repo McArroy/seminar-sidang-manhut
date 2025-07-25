@@ -1,21 +1,21 @@
 function DialogMessage($Type = 0, $DialogMessageText = ["Warning!", ""], $DialogMessageButtonText = ["Close", "OK"], $Functions = [null, null])
 {
-	let $IconAnimation = "/resource/anim/warning.json?hash=elQsa";
+	let $IconAnimation = "/assets/anim/warning.json?hash=elQsa";
 	let $ConfirmOK = "hidden";
 
 	if ($Type == 0)	// Info
 	{
-		$IconAnimation = "/resource/anim/warning.json?hash=elQsa";
+		$IconAnimation = "/assets/anim/warning.json?hash=elQsa";
 		$ConfirmOK = "hidden";
 	}
 	else if ($Type == 1)	// Confirmation
 	{
-		$IconAnimation = "/resource/anim/warning.json?hash=elQsa";
+		$IconAnimation = "/assets/anim/warning.json?hash=elQsa";
 		$ConfirmOK = "active";
 	}
 	else if ($Type == 2)	// Success
 	{
-		$IconAnimation = "/resource/anim/success.json?hash=elQsa";
+		$IconAnimation = "/assets/anim/success.json?hash=elQsa";
 		$ConfirmOK = "hidden";
 	}
 
