@@ -1,0 +1,106 @@
+.content-container
+{
+	background: var(--lightGrey);
+	padding: 0 !important;
+
+	.main-content
+	{
+		.wrapper
+		{
+			.inner-content
+			{
+				form
+				{
+					width: 100%;
+						
+					button
+					{
+						background: var(--green);
+						color: var(--white);
+						font-size: 15pt;
+						font-weight: 600;
+						margin-top: 30px;
+
+						&:hover
+						{
+							border-color: var(--white);
+						}
+					}
+
+					.input
+					{
+						flex-direction: row;
+						gap: 20px;
+						justify-content: space-between;
+						margin-top: 30px;
+						width: 100%;
+
+						&:first-child
+						{
+							margin-top: 0;
+						}
+
+						.input-wrapper
+						{
+							align-items: flex-start;
+							flex: 1;
+							gap: 10px;
+
+							label
+							{
+								font-weight: 600;
+							}
+
+							input, textarea
+							{
+								border-color: var(--grey3);
+
+								&:focus
+								{
+									border-color: var(--blue);
+								}
+							}
+
+							textarea
+							{
+								height: 100px;
+							}
+
+							select
+							{
+								background: var(--white);
+
+								&:focus
+								{
+									border-color: var(--blue);
+								}
+							}
+						}
+					}
+				}
+
+				.letter
+				{
+					width: 100%;
+
+					p
+					{
+						font-weight: 620;
+						width: 100%;
+
+						&:nth-child(2)
+						{
+							margin-bottom: 30px;
+							margin-top: 20px;
+						}
+
+						span
+						{
+							color: var(--lightRed);
+						}
+					}
+				}
+			}
+		}
+	}
+}
