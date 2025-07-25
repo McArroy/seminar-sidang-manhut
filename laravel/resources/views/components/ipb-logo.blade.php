@@ -1,0 +1,1 @@
+<img src="/assets/img/ipb-logo.png?v=1.0" alt="ipb-logo">
