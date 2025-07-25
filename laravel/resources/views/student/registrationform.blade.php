@@ -17,8 +17,6 @@
 	<x-slot name="icon">basil:document-outline</x-slot>
 
 	@if ($_GET["type"] === "seminar")
-	
-	@php $IsThesisDefense = false; @endphp
 
 	<x-slot name="pagetitle">Form Pendafataran Seminar Proposal</x-slot>
 
@@ -32,13 +30,13 @@
 
 	<form action="{{ route('student.registrationform', ['type' => $_GET['type']]) }}" method="POST">
 		@csrf
-		
+
 		<div class="input">
 			<x-input-wrapper id="username" label="Nama" type="text" value="{{ Auth::user()->username }}" readonly/>
 			<x-input-wrapper id="useridnumber" label="NIM" type="text" value="{{ Auth::user()->useridnumber }}" readonly/>
 		</div>
 
-		@if ($IsThesisDefense)
+		@if (isset($IsThesisDefense))
 		<div class="input">
 			<x-input-wrapper id="semester" label="Semester" type="text" placeholder="8 (Delapan)" required/>
 		</div>
