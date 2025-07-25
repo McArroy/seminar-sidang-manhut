@@ -121,11 +121,18 @@ navbar
 			margin-top: 20px;
 		}
 
+		form
+		{
+			height: auto;
+			width: 100%;
+		}
+
 		.button
 		{
 			background: var(--lightGrey);
 			border-color: rgba(var(--whiteRGB), 0);
 			flex-direction: row;
+			font-size: 12pt;
 			font-weight: 500;
 			gap: 5px;
 			justify-content: flex-start;

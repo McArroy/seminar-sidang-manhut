@@ -22,7 +22,6 @@ table
 		{
 			border-left: 2px solid var(--grey3);
 			border-right: 2px solid var(--grey3);
-			text-align: center;
 		}
 		
 		tr
@@ -72,6 +71,7 @@ table
 		display: table-cell;
 		overflow-wrap: break-word;
 		padding: 8px;
+		text-align: center;
 		vertical-align: middle;
 		white-space: normal;
 		word-break: break-word;
@@ -136,15 +136,29 @@ table
 			&.folder
 			{
 				background: none;
-				color: var(--blue);
+				color: var(--grey);
 				padding: 0;
 			}
 
-			&.form, &.print
+			&.form, &.print, &.viewform
 			{
 				flex-direction: row;
 				gap: 10px;
 				padding: 5px;
+			}
+
+			&.viewform
+			{
+				background: var(--lightBlue2);
+				border-color: var(--white);
+				font-size: 13pt;
+				gap: 5px;
+
+				&:hover
+				{
+					background: var(--lightBlue);
+					border-color: var(--white);
+				}
 			}
 			
 			&.print
@@ -165,8 +179,9 @@ table
 			border-radius: 6px;
 			display: block;
 			font-size: 10pt;
-			font-weight: 900;
+			font-weight: 700;
 			padding: 4px 12px;
+			text-align: center;
 			white-space: nowrap;
 			width: 100%;
 
