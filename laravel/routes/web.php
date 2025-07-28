@@ -52,8 +52,8 @@ Route::middleware(
 			if (!Auth::check() || Auth::user()->userrole !== "student")
 				return redirect("/");
 
-			return view("student.registrationform");
-		})->name("registrationform");
+			return view("student.registrationletter");
+		})->name("registrationletter");
 		
 		Route::get("/requirements", function()
 		{
