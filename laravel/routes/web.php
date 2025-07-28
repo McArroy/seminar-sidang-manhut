@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\SeminarController;
+
 Route::middleware(
 [
 	"auth:sanctum",
@@ -39,21 +41,11 @@ Route::middleware(
 			return view("student.flow");
 		})->name("flow");
 		
-		Route::get("/registrationform", function()
-		{
-			if (!Auth::check() || Auth::user()->userrole !== "student")
-				return redirect("/");
+		Route::get("/registrationform", [SeminarController::class, "Create"])->name("registrationform");
 
-			return view("student.registrationform");
-		})->name("registrationform");
+		Route::get("/registrationform/letter", [SeminarController::class, "Created"])->name("registrationletter");
 		
-		Route::post("/registrationform", function()
-		{
-			if (!Auth::check() || Auth::user()->userrole !== "student")
-				return redirect("/");
-
-			return view("student.registrationletter");
-		})->name("registrationletter");
+		Route::post("/registrationform", [SeminarController::class, "Store"])->name("registrationform");
 		
 		Route::get("/requirements", function()
 		{
