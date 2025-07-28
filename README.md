@@ -9,15 +9,26 @@ These changelogs are basically just a summary list of changes that are very impo
 **[ COMMONS ]**
 - Updated PDF-viewer must be reset to default zoom before download it
 
+**[ DATABASE ]**
+- Added Seminar database
+
 **[ UI/UX ]**
 - Added registrationletter page
 - Added activated navbar-button on registrationletter page
+- Added letter-viewer element
 - Fixed loading-text name based on app name
 - Fixed default background button to none instead of white
+- Fixed pages' padding when auto scroll engaged
+- Fixed navigation button not activated on some pages
 
 **[ LARAVEL ]**
 - Added DateIndoFormatter controller
 - Added registrationletter route
+- Added Seminar model
+- Added Seminar controller
+- Fixed registration-form routes as what they should be
+- Fixed typo
+- Removed unused codes
 
 </details>
 
