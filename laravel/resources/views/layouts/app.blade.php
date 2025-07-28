@@ -66,7 +66,7 @@ $PageName = "";
 		<loading class="active">
 			<div class="container">
 				<div class="morphing-shape"></div>
-				<div class="loading-text">SISEMINAR</div>
+				<div class="loading-text">{{ config("app.name") }}</div>
 				<p>Mohon Tunggu Sebentar ...</p>
 			</div>
 		</loading>
@@ -109,13 +109,13 @@ $PageName = "";
 
 				<h1>Menu Utama</h1>
 
-				<x-nav-link href="{{ route('student.flow', ['type' => 'seminar']) }}" class="button-list" :active="request()->routeIs('student.flow') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationform') && request()->query('type') === 'seminar' || request()->routeIs('student.requirements') && request()->query('type') === 'seminar'" onclick="ToggleButtonList($(this))">
+				<x-nav-link href="{{ route('student.flow', ['type' => 'seminar']) }}" class="button-list" :active="request()->routeIs('student.flow') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationform') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationletter') && request()->query('type') === 'seminar' || request()->routeIs('student.requirements') && request()->query('type') === 'seminar'" onclick="ToggleButtonList($(this))">
 					<iconify-icon icon="fluent:form-28-regular" width="21"></iconify-icon>
 					Daftar Seminar
 					<iconify-icon icon="weui:arrow-filled" width="12"></iconify-icon>
 				</x-nav-link>
-				<x-nav-link-dropdown :active="request()->routeIs('student.flow') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationform') && request()->query('type') === 'seminar' || request()->routeIs('student.requirements') && request()->query('type') === 'seminar'">
-					<x-nav-link href="{{ route('student.registrationform', ['type' => 'seminar']) }}" :active="request()->routeIs('student.registrationform') && request()->query('type') === 'seminar'">
+				<x-nav-link-dropdown :active="request()->routeIs('student.flow') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationform') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationletter') && request()->query('type') === 'seminar' || request()->routeIs('student.requirements') && request()->query('type') === 'seminar'">
+					<x-nav-link href="{{ route('student.registrationform', ['type' => 'seminar']) }}" :active="request()->routeIs('student.registrationform') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationletter') && request()->query('type') === 'seminar'">
 						<iconify-icon icon="basil:document-outline" width="21"></iconify-icon>
 						Form Pendaftaran
 					</x-nav-link>
