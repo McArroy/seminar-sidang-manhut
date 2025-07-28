@@ -125,7 +125,7 @@ $PageName = "";
 					</x-nav-link>
 				</x-nav-link-dropdown>
 
-				<x-nav-link href="{{ route('student.flow', ['type' => 'thesisdefense']) }}" class="button-list" :active="request()->routeIs('student.flow') && request()->query('type') === 'thesisdefense'" onclick="ToggleButtonList($(this))">
+				<x-nav-link href="{{ route('student.flow', ['type' => 'thesisdefense']) }}" class="button-list" :active="request()->routeIs('student.flow') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.registrationform') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.requirements') && request()->query('type') === 'thesisdefense'" onclick="ToggleButtonList($(this))">
 					<iconify-icon icon="streamline-flex:presentation" width="21"></iconify-icon>
 					Daftar Sidang Akhir
 					<iconify-icon icon="weui:arrow-filled" width="12"></iconify-icon>
