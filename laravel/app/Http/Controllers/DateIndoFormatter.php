@@ -6,13 +6,13 @@ use DateTime;
 
 class DateIndoFormatter
 {
-	protected static array $MonthNames =
+	protected static array $monthNames =
 	[
 		1 => "Januari", "Februari", "Maret", "April", "Mei", "Juni",
 		"Juli", "Agustus", "September", "Oktober", "November", "Desember"
 	];
 
-	protected static array $DayNames =
+	protected static array $dayNames =
 	[
 		"Sunday" => "Minggu",
 		"Monday" => "Senin",
@@ -26,16 +26,16 @@ class DateIndoFormatter
 	/**
 	 * Format date into Indonesian: e.g. "Jumat / 1 Agustus 2025"
 	 */
-	public static function Full(DateTime|string $Date) : string
+	public static function Full(DateTime|string $date) : string
 	{
-		$Date = self::EnsureDateTime($Date);
+		$date = self::EnsureDateTime($date);
 
-		$DayName = self::$DayNames[$Date->format("l")];
-		$Day = $Date->format("j");
-		$Month = self::$MonthNames[(int) $Date->format("n")];
-		$Year = $Date->format("Y");
+		$dayName = self::$dayNames[$date->format("l")];
+		$day = $date->format("j");
+		$month = self::$monthNames[(int) $date->format("n")];
+		$year = $date->format("Y");
 
-		return "$DayName / $Day $Month $Year";
+		return "$dayName / $day $month $year";
 	}
 
 	/**
@@ -49,20 +49,20 @@ class DateIndoFormatter
 	/**
 	 * Format date as: "1 Agustus 2025"
 	 */
-	public static function Simple(DateTime|string $Date) : string
+	public static function Simple(DateTime|string $date) : string
 	{
-		$Date = self::ensureDateTime($Date);
+		$date = self::ensureDateTime($date);
 
-		return $Date->format("j") . " " .
-			self::$MonthNames[(int) $Date->format("n")] . " " .
-			$Date->format("Y");
+		return $date->format("j") . " " .
+			self::$monthNames[(int) $date->format("n")] . " " .
+			$date->format("Y");
 	}
 
 	/**
 	 * Helper to convert string to DateTime
 	 */
-	protected static function EnsureDateTime(DateTime|string $Date) : DateTime
+	protected static function EnsureDateTime(DateTime|string $date) : DateTime
 	{
-		return $Date instanceof DateTime ? $Date : new DateTime($Date);
+		return $date instanceof DateTime ? $date : new DateTime($date);
 	}
 }
