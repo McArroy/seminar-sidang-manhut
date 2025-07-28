@@ -2,6 +2,25 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 0.0.1.03 [ Last update: 07/28/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ COMMONS ]**
+- Updated PDF-viewer must be reset to default zoom before download it
+
+**[ UI/UX ]**
+- Added registrationletter page
+- Added activated navbar-button on registrationletter page
+- Fixed loading-text name based on app name
+- Fixed default background button to none instead of white
+
+**[ LARAVEL ]**
+- Added DateIndoFormatter controller
+- Added registrationletter route
+
+</details>
+
 #### UPDATE Version 0.0.1.02 [ Last update: 07/25/2025 ]
 <details>
 <summary>Click to expand</summary>
