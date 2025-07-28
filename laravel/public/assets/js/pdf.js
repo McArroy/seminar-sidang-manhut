@@ -86,6 +86,8 @@ function DownloadPDF($PDFFrame)
 {
 	const PDFFrame = $PDFFrame[0];
 
+	ZoomResetPDFFrame($PDFFrame);
+
 	if (PDFFrame && PDFFrame.contentWindow)
 	{
 		PDFFrame.contentWindow.focus();
