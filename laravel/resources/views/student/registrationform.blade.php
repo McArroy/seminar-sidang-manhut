@@ -45,7 +45,7 @@
 		</div>
 		@else
 		<div class="input">
-			<x-input-wrapper id="study" label="Program Studi" type="text" placeholder="Masukkan Program Studi" required/>
+			<x-input-wrapper id="studyprogram" label="Program Studi" type="text" placeholder="Masukkan Program Studi" required/>
 			<x-input-wrapper id="department" label="Departemen" type="text" placeholder="Masukkan Departemen" required/>
 		</div>
 		@endif
