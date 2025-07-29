@@ -21,7 +21,7 @@
 		}
 	}
 
-	.top
+	.letter-viewer-top
 	{
 		background: var(--grey5);
 		flex-direction: row;
@@ -36,7 +36,7 @@
 			width: max-content !important;
 		}
 
-		.buttons
+		.letter-viewer-buttons
 		{
 			flex-direction: row;
 			width: max-content;

@@ -109,7 +109,7 @@ table
 				}
 			}
 
-			&.remove, &.declined
+			&.remove, &.decline
 			{
 				background: var(--lightRed);
 				border-color: var(--white);
@@ -138,6 +138,11 @@ table
 				background: none;
 				color: var(--grey);
 				padding: 0;
+
+				&.active
+				{
+					color: var(--lightBlue2);
+				}
 			}
 
 			&.form, &.print, &.viewform
@@ -197,7 +202,7 @@ table
 				color: var(--red);
 			}
 
-			&.corrected
+			&.revised
 			{
 				background: rgba(var(--darkOrangeRGB), .3);
 				color: var(--darkOrange);
@@ -207,12 +212,6 @@ table
 			{
 				background: rgba(var(--grey3RGB), .7);
 				color: var(--grey);
-			}
-
-			&.revised
-			{
-				background: rgba(var(--redRGB), .2);
-				color: var(--lightRed);
 			}
 		}
 	}
