@@ -39,10 +39,7 @@ $PageName = "";
 		<link rel="stylesheet" href="/assets/css/pages/login.css?hash=<?= $HashFile ?>">
 		@else
 		@yield("css")
-		<?php if ($PageName === "Requirements"): ?>
-		<link rel="stylesheet" href="/assets/css/pages/registrationform.css?hash=<?= $HashFile ?>">
-		<link rel="stylesheet" href="/assets/css/pages/seminarrequirements.css?hash=<?= $HashFile ?>">
-		<?php elseif ($PageName === "Schedule"): ?>
+		<?php if ($PageName === "Schedule"): ?>
 		<link rel="stylesheet" href="/assets/css/pages/schedule.css?hash=<?= $HashFile ?>">
 		<?php elseif ($PageName === "Students" || $PageName === "Lecturers" || $PageName === "Seminar" || $PageName === "Announcements" || $PageName === "Thesis Defense"): ?>
 		<link rel="stylesheet" href="/assets/css/pages/datatables.css?hash=<?= $HashFile ?>">
@@ -82,7 +79,6 @@ $PageName = "";
 				<iconify-icon icon="material-symbols:menu-rounded" width="30" onclick="ToggleNavbar();"></iconify-icon>
 			</div>
 			<div class="right">
-				<img src="/resource/img/user.png?hash=<?= $HashFile ?>" alt="user-image">
 				<div class="text">
 					<h1>Halo,&nbsp;</h1>
 					<h1>{{ Auth::user()->username }}</h1>
