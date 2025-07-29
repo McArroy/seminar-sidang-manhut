@@ -2,6 +2,30 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.7.29 [ Last update: 07/29/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ DATABASE ]**
+- Fixed Seminar database for encrypted data
+
+**[ UI/UX ]**
+- Added CSS elements
+- Added letter element
+- Added "href" and "target" attribute on button element that acts like from tag <a>
+- Fixed some bugs
+- Updated requirements page
+
+**[ LARAVEL ]**
+- Added routes for registrationform and requirements
+- Updated routes for dashboard with the needed method
+- Updated Seminar model by enabling encrypted data
+- Updated Seminar controller into usable function for showing page, creating, updating, deleting database, and so on
+- Fixed dashboard page into active page (not a static page anymore)
+- Removed unused codes
+
+</details>
+
 #### UPDATE Version 0.0.1.03 [ Last update: 07/28/2025 ]
 <details>
 <summary>Click to expand</summary>
