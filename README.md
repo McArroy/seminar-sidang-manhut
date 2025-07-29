@@ -12,7 +12,7 @@ These changelogs are basically just a summary list of changes that are very impo
 **[ UI/UX ]**
 - Added CSS elements
 - Added letter element
-- Added "href" and "target" attribute on button element that acts like from tag <a>
+- Added "href" and "target" attribute on button element that acts like from tag `<a>`
 - Fixed some bugs
 - Updated requirements page
 
