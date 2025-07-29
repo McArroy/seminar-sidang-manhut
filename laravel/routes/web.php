@@ -25,13 +25,8 @@ Route::middleware(
 	// student
 	Route::prefix("student")->name("student.")->group(function()
 	{
-		Route::get("/dashboard", function()
-		{
-			if (!Auth::check() || Auth::user()->userrole !== "student")
-				return redirect("/");
-
-			return view("student.dashboard");
-		})->name("dashboard");
+		Route::get("/dashboard", [SeminarController::class, "Index"])->name("dashboard");
+		Route::delete("/seminar/{seminar}", [SeminarController::class, "Destroy"])->name("seminar.delete");
 
 		Route::get("/flow", function()
 		{
@@ -44,6 +39,7 @@ Route::middleware(
 		Route::get("/registrationform", [SeminarController::class, "Create"])->name("registrationform");
 
 		Route::get("/registrationform/letter", [SeminarController::class, "Created"])->name("registrationletter");
+		Route::get("/registrationform/letter/preview", [SeminarController::class, "RePreview"])->name("registrationletterrepreview");
 		
 		Route::post("/registrationform", [SeminarController::class, "Store"])->name("registrationform");
 		
@@ -54,6 +50,8 @@ Route::middleware(
 
 			return view("student.requirements");
 		})->name("requirements");
+
+		Route::post("/requirements", [SeminarController::class, "UpdateLink"])->name("requirements");
 		
 		Route::get("/thesisdefenseflow", function()
 		{
