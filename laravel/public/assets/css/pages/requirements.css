@@ -1,0 +1,64 @@
+.content-container
+{
+	background: var(--lightGrey);
+	padding: 75px 0 0 !important;
+
+	.main-content
+	{
+		.wrapper
+		{
+			.inner-content
+			{
+				.letter
+				{
+					p
+					{
+						margin: 2px 2px;
+
+						&:nth-child(2)
+						{
+							margin-bottom: 0;
+							margin-top: 18px;
+						}
+
+						&.indented
+						{
+							margin-left: 40px;
+						}
+					}
+				}
+
+				.link
+				{
+					margin-top: 40px;
+
+					p
+					{
+						&:nth-child(2)
+						{
+							margin: 5px 5px;
+						}
+					}
+
+					.input
+					{
+						margin: 10px 10px;
+
+						.input-wrapper
+						{
+							textarea
+							{
+								height: 170px;
+							}
+						}
+					}
+
+					.button
+					{
+						margin: 0;
+					}
+				}
+			}
+		}
+	}
+}
