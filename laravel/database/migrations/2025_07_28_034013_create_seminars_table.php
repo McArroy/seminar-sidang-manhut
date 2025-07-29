@@ -14,16 +14,17 @@ return new class extends Migration
 		Schema::create("seminars", function(Blueprint $table)
 		{
 			$table->string("seminarid")->primary();
-			$table->string("useridnumber");
-			$table->string("studyprogram");
-			$table->string("department");
-			$table->string("supervisor1");
-			$table->string("supervisor2");
-			$table->string("date");
-			$table->string("time");
-			$table->string("place");
-			$table->string("title");
-			$table->longText("comment")->nullable();
+			$table->text("useridnumber");
+			$table->text("studyprogram");
+			$table->text("department");
+			$table->text("supervisor1");
+			$table->text("supervisor2");
+			$table->text("date");
+			$table->text("time");
+			$table->text("place");
+			$table->text("title");
+			$table->text("link")->nullable();
+			$table->text("comment")->nullable();
 			$table->tinyInteger("status")->nullable();
 			$table->timestamps();
 		});
