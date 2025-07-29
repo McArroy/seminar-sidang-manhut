@@ -8,18 +8,20 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
 class SeminarController extends Controller
-{
-	public function __construct()
+{	
+	public function Index()
 	{
-		if (!Auth::check())
-			return redirect("/");
-	}
-	
-	public function index()
-	{
-		$posts = Seminar::all();
+		if (Auth::user()->userrole === "student")
+		{
+			$userId = Auth::user()->useridnumber;
 
-		return view("posts.index", compact("posts"));
+			$data = Seminar::all()->filter(function($seminar) use ($userId)
+			{
+				return $seminar->useridnumber === $userId;
+			});
+
+			return view("student.dashboard", compact("data"));
+		}
 	}
 
 	public function Create()
@@ -35,9 +37,21 @@ class SeminarController extends Controller
 		if (!Auth::check() || Auth::user()->userrole !== "student")
 			return redirect("/");
 
-		$data = session("validated_data_letter", []);
+		$data = session()->pull("validated_data_letter", []);
 
 		return view("student.registrationletter", ["data" => $data]);
+	}
+
+	public function RePreview(Request $request)
+	{
+		if (!Auth::check() || Auth::user()->userrole !== "student")
+			return redirect("/");
+
+		$data = $request->all();
+
+		session(["validated_data_letter" => $data]);
+
+		return redirect()->route("student.registrationletter");
 	}
 
 	public function Store(Request $request)
@@ -56,6 +70,7 @@ class SeminarController extends Controller
 			"time" => "required|string|max:17",
 			"place" => "required|string|max:255",
 			"title" => "required|string|max:255",
+			"link" => "nullable|string|max:1000",
 			"comment" => "nullable|string|max:1000",
 			"status" => "nullable|integer|in:0,1"
 		]);
@@ -69,33 +84,67 @@ class SeminarController extends Controller
 		return redirect()->route("student.registrationletter")->with("toast", "Post created.");
 	}
 
-	public function show(Seminar $post)
+	public function Show(Seminar $seminar)
 	{
-		return view("posts.show", compact("post"));
+		return view("posts.show", compact("seminar"));
 	}
 
-	public function edit(Seminar $post)
+	public function Edit(Seminar $seminar)
 	{
 		return view("posts.edit", compact("post"));
 	}
 
-	public function update(Request $request, Post $post)
+	public function Update(Request $request, Seminar $seminar)
 	{
 		$request->validate(
 		[
 			"title" => "required|string|max:255",
-			"content" => "required|string",
+			"content" => "required|string"
 		]);
 
-		$post->update($request->only("title", "content"));
+		$seminar->update($request->only("title", "content"));
 
 		return redirect()->route("posts.index")->with("success", "Post updated.");
 	}
 
-	public function destroy(Post $post)
+	public function UpdateLink(Request $request)
 	{
-		$post->delete();
+		if (!Auth::check() || Auth::user()->userrole !== "student")
+			return redirect("/");
 
-		return redirect()->route("posts.index")->with("success", "Post deleted.");
+		$validated = $request->validate(
+		[
+			"link" => "required|string|max:1000"
+		]);
+
+		$userId = Auth::user()->useridnumber;
+
+		$seminars = Seminar::all()->filter(function($seminar) use ($userId)
+		{
+			return $seminar->useridnumber === $userId;
+		});
+
+		$seminarToUpdate = $seminars->filter(function($s)
+		{
+			return empty($s->link);
+		})->sortBy("created_at")->first();
+
+		if (!$seminarToUpdate)
+			return redirect()->back()->with("error", "No seminar with an empty link found for your account.");
+
+		$seminarToUpdate->update(
+		[
+			"link" => $validated["link"],
+		]);
+
+		return redirect()->route("student.dashboard")->with("success", "Link successfully updated.");
+	}
+
+	public function Destroy(Seminar $seminar)
+	{
+		$seminar->delete();
+
+		if (Auth::user()->userrole === "student")
+			return redirect()->route("student.dashboard")->with("toast", "Seminar Deleted");
 	}
 }
