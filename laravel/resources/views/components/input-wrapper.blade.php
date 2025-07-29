@@ -1,11 +1,11 @@
-@props(["id" => "input-name", "label", "type" => "text", "placeholder" => "", "value" => "", "options" => [], "readonly" => false, "required" => false])
+@props(["id" => "input-name", "label" => null, "type" => "text", "placeholder" => "", "value" => "", "options" => [], "readonly" => false, "required" => false])
 
 <div {{ $attributes->merge(["class" => "input-wrapper"]) }}>
 	@if ($label)
 	<label for="{{ $id }}">{{ $label }}</label>
 	@endif
 
-	@if ($type === "textarea")
+	@if ($type === "textarea" || $type === "url")
 	<textarea id="{{ $id }}" name="{{ $id }}" placeholder="{{ $placeholder }}" @if($readonly) readonly @endif @if($required) required @endif>{{ $value }}</textarea>
 	@elseif ($type === "select")
 	<select name="{{ $id }}" id="{{ $id }}" @if($readonly) disabled @endif @if($required) required @endif>
