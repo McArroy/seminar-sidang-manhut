@@ -15,7 +15,8 @@
 			? "{$year}-" . ($year + 1)
 			: ($year - 1) . "-{$year}";
 		
-		$semesterSelectTriggered = true;
+		if (isset($semesterList[$SelectedSemester]))
+			$semesterSelectTriggered = true;
 	}
 
 	$SelectedType = $_GET["type"] ?? "";
@@ -42,7 +43,11 @@
 
 	@if (isset($semesterSelectTriggered))
 		<script>
-			$("select#semester").trigger("change");
+			var $select = $("select#semester");
+			var selectedValue = "{{ $SelectedSemester }}";
+
+			if ($select.length && $select.find("option[value='" + selectedValue + "']").length)
+				$select.val(selectedValue).trigger("change");
 		</script>
 	@endif
 
