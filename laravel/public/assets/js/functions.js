@@ -8,11 +8,16 @@ function GetHashValue($Hash)
 	return false;
 }
 
-function UpdateQueryParam($Key, $Value)
+function UpdateQueryParam($Key, $Value, ResetParams = [])
 {
 	let Params = new URLSearchParams(window.location.search);
 
 	Params.set($Key, $Value);
+
+	ResetParams.forEach(paramKey =>
+	{
+		Params.delete(paramKey);
+	});
 
 	window.location.search = Params.toString();
 }
