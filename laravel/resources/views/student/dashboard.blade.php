@@ -56,7 +56,6 @@ use App\Http\Controllers\DateIndoFormatterController;
 					@php
 					$baseParams =
 					[
-						"type" => $item->submission_type,
 						"useridnumber" => $item->useridnumber,
 						"supervisor1" => $item->supervisor1,
 						"supervisor2" => $item->supervisor2,
@@ -71,6 +70,7 @@ use App\Http\Controllers\DateIndoFormatterController;
 						$pageName = "seminar";
 						$extraParams =
 						[
+							"type" => $pageName,
 							"studyprogram" => $item->studyprogram,
 							"department" => $item->department
 						];
@@ -80,6 +80,7 @@ use App\Http\Controllers\DateIndoFormatterController;
 						$pageName = "thesisdefense";
 						$extraParams =
 						[
+							"type" => $pageName,
 							"semester" => $item->semester,
 							"address" => $item->address
 						];
