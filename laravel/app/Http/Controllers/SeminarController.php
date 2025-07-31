@@ -8,28 +8,25 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
 class SeminarController extends Controller
-{	
+{
+	public function GetAll()
+	{
+		return Seminar::all();
+	}
+
 	public function Index()
 	{
 		if (Auth::user()->userrole === "student")
 		{
 			$userId = Auth::user()->useridnumber;
 
-			$data = Seminar::all()->filter(function($seminar) use ($userId)
+			$dataseminar = $this->GetAll()->filter(function($seminar) use ($userId)
 			{
 				return $seminar->useridnumber === $userId;
 			});
 
-			return view("student.dashboard", compact("data"));
+			return $dataseminar;
 		}
-	}
-
-	public function Create()
-	{
-		if (!Auth::check() || Auth::user()->userrole !== "student")
-			return redirect("/");
-		
-		return view("student.registrationform");
 	}
 
 	public function Created(Request $request)
@@ -51,7 +48,7 @@ class SeminarController extends Controller
 
 		session(["validated_data_letter" => $data]);
 
-		return redirect()->route("student.registrationletter");
+		return redirect()->route("student.registrationletter", ["type" => "seminar"]);
 	}
 
 	public function Store(Request $request)
@@ -81,17 +78,7 @@ class SeminarController extends Controller
 
 		session(["validated_data_letter" => $validated]);
 
-		return redirect()->route("student.registrationletter")->with("toast", "Post created.");
-	}
-
-	public function Show(Seminar $seminar)
-	{
-		return view("posts.show", compact("seminar"));
-	}
-
-	public function Edit(Seminar $seminar)
-	{
-		return view("posts.edit", compact("post"));
+		return redirect()->route("student.registrationletter", ["type" => "seminar"])->with("toast_success", "Seminar Berhasil Dibuat");
 	}
 
 	public function Update(Request $request, Seminar $seminar)
@@ -104,7 +91,7 @@ class SeminarController extends Controller
 
 		$seminar->update($request->only("title", "content"));
 
-		return redirect()->route("posts.index")->with("success", "Post updated.");
+		return redirect()->route("posts.index")->with("toast_success", "Post updated.");
 	}
 
 	public function UpdateLink(Request $request)
@@ -130,14 +117,14 @@ class SeminarController extends Controller
 		})->sortBy("created_at")->first();
 
 		if (!$seminarToUpdate)
-			return redirect()->back()->with("error", "No seminar with an empty link found for your account.");
+			return redirect()->back()->with("toast_info", "Semua Seminar Anda Sudah Lengkap");
 
 		$seminarToUpdate->update(
 		[
 			"link" => $validated["link"],
 		]);
 
-		return redirect()->route("student.dashboard")->with("success", "Link successfully updated.");
+		return redirect()->route("student.dashboard")->with("toast_success", "Link Dokumen Seminar Berhasil Ditambahkan");
 	}
 
 	public function Destroy(Seminar $seminar)
@@ -145,6 +132,6 @@ class SeminarController extends Controller
 		$seminar->delete();
 
 		if (Auth::user()->userrole === "student")
-			return redirect()->route("student.dashboard")->with("toast", "Seminar Deleted");
+			return redirect()->route("student.dashboard")->with("toast_success", "Seminar Berhasil Dihapus");
 	}
 }
