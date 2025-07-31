@@ -1,7 +1,9 @@
 @props(["id" => null, "data", "IsThesisDefense" => null])
 
 @php
-use App\Http\Controllers\DateIndoFormatter;
+use App\Http\Controllers\DateIndoFormatterController;
+use App\Http\Controllers\UserController;
+
 if ($id)
 	$id = "pdf-source-" . $id;
 else
@@ -14,7 +16,7 @@ else
 		<head>
 			<meta charset='UTF-8'>
 			<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-			<title>Berkas Pendaftaran {{ $IsThesisDefense ? 'Sidang Akhir' : 'Seminar' . ' - ' . Auth::user()->username }}></title>
+			<title>Berkas Pendaftaran {{ $IsThesisDefense ? 'Sidang Akhir' : 'Seminar' . ' - ' . UserController::GetUsername($data['useridnumber']) }}></title>
 			<style>
 				@page {
 					size: A4;
@@ -80,12 +82,12 @@ else
 						<tr>
 							<td class='label'>Nama Mahasiswa</td>
 							<td class='colon'>:</td>
-							<td class='value'>{{ Auth::user()->username }}</td>
+							<td class='value'>{{ UserController::GetUsername($data['useridnumber']) }}</td>
 						</tr>
 						<tr>
 							<td class='label'>NIM</td>
 							<td class='colon'>:</td>
-							<td class='value'>{{ Auth::user()->useridnumber }}</td>
+							<td class='value'>{{ $data['useridnumber'] }}</td>
 						</tr>
 						<tr>
 							<td class='label'>Semester</td>
@@ -103,7 +105,7 @@ else
 						<tr>
 							<td class='label'>Hari / Tanggal</td>
 							<td class='colon'>:</td>
-							<td class='value'>{{ DateIndoFormatter::Full($data['date']) }}</td>
+							<td class='value'>{{ DateIndoFormatterController::Full($data['date']) }}</td>
 						</tr>
 						<tr>
 							<td class='label'>Waktu</td>
@@ -124,7 +126,7 @@ else
 						<tr>
 							<td class='label'>Nama / NRP</td>
 							<td class='colon'>:</td>
-							<td class='value'>{{ Auth::user()->username . ' / ' . Auth::user()->useridnumber }}</td>
+							<td class='value'>{{ UserController::GetUsername($data['useridnumber']) . ' / ' . $data['useridnumber'] }}</td>
 						</tr>
 						<tr>
 							<td class='label'>Program Studi</td>
@@ -142,7 +144,7 @@ else
 						<tr>
 							<td class='label'>Hari / Tanggal / Jam</td>
 							<td class='colon'>:</td>
-							<td class='value'>{{ DateIndoFormatter::Full($data['date']) . ' / ' . $data['time'] }}</td>
+							<td class='value'>{{ DateIndoFormatterController::Full($data['date']) . ' / ' . $data['time'] }}</td>
 						</tr>
 						<tr>
 							<td class='label'>Tempat / Ruangan</td>
@@ -182,10 +184,10 @@ else
 							@endif
 							<td style='width: 50%; vertical-align: top; '>
 								<div style='float: right; margin-left: 90px ;'>
-									Bogor, {{ DateIndoFormatter::Today() }}<br>
+									Bogor, {{ DateIndoFormatterController::Today() }}<br>
 									Seminaris,
 									<div style='margin-top: 90px;'>
-										{{ Auth::user()->username }}
+										{{ UserController::GetUsername($data['useridnumber']) }}
 									</div>
 									<div style='margin-top: 35px;'>
 										{{ $IsThesisDefense ? '<br>Anggota Komisi Pembimbing' : 'Komisi AJMP dan Kemahasiswaan' }}
