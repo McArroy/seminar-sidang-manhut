@@ -1,9 +1,12 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\SeminarController;
+use App\Http\Controllers\ThesisdefenseController;
 
 Route::middleware(
 [
@@ -12,21 +15,15 @@ Route::middleware(
 	"verified",
 ])->group(function()
 {
-	Route::get("/", function()
-	{
-		return view("welcome");
-	});
-
-	Route::get("/dashboard", function()
-	{
-		return view("dashboard");
-	})->name("dashboard");
-
 	// student
 	Route::prefix("student")->name("student.")->group(function()
 	{
-		Route::get("/dashboard", [SeminarController::class, "Index"])->name("dashboard");
-		Route::delete("/seminar/{seminar}", [SeminarController::class, "Destroy"])->name("seminar.delete");
+		// base
+		Route::get("/dashboard", [PageController::class, "Dashboard"])->name("dashboard");
+
+		Route::delete("/dashboard/seminar/{seminar}", [SeminarController::class, "Destroy"])->name("seminar.delete");
+
+		Route::delete("/dashboard/thesisdefense/{thesisdefense}", [ThesisdefenseController::class, "Destroy"])->name("thesisdefense.delete");
 
 		Route::get("/flow", function()
 		{
@@ -35,14 +32,42 @@ Route::middleware(
 
 			return view("student.flow");
 		})->name("flow");
-		
-		Route::get("/registrationform", [SeminarController::class, "Create"])->name("registrationform");
 
-		Route::get("/registrationform/letter", [SeminarController::class, "Created"])->name("registrationletter");
-		Route::get("/registrationform/letter/preview", [SeminarController::class, "RePreview"])->name("registrationletterrepreview");
-		
-		Route::post("/registrationform", [SeminarController::class, "Store"])->name("registrationform");
-		
+		Route::get("/registrationform", function()
+		{
+			if (!Auth::check() || Auth::user()->userrole !== "student")
+				return redirect("/");
+
+			return view("student.registrationform");
+		})->name("registrationform");
+
+		Route::post("/registrationform", function(Request $request)
+		{
+			if (!Auth::check() || Auth::user()->userrole !== "student")
+				return redirect("/");
+
+			if ($request->query("type") === "seminar")
+				return app()->make(SeminarController::class)->Store($request);
+			else
+				return app()->make(ThesisdefenseController::class)->Store($request);
+		})->name("registrationform");
+
+		Route::get("/registrationform/letter", function(Request $request)
+		{
+			if ($request->query("type") === "seminar")
+				return app()->make(SeminarController::class)->Created($request);
+			else
+				return app()->make(ThesisdefenseController::class)->Created($request);
+		})->name("registrationletter");
+
+		Route::get("/registrationform/letter/preview", function(Request $request)
+		{
+			if ($request->query("type") === "seminar")
+				return app()->make(SeminarController::class)->RePreview($request);
+			else
+				return app()->make(ThesisdefenseController::class)->RePreview($request);
+		})->name("registrationletterrepreview");
+
 		Route::get("/requirements", function()
 		{
 			if (!Auth::check() || Auth::user()->userrole !== "student")
@@ -51,8 +76,17 @@ Route::middleware(
 			return view("student.requirements");
 		})->name("requirements");
 
-		Route::post("/requirements", [SeminarController::class, "UpdateLink"])->name("requirements");
-		
+		Route::post("/requirements", function(Request $request)
+		{
+			if (!Auth::check() || Auth::user()->userrole !== "student")
+				return redirect("/");
+
+			if ($request->query("type") === "seminar")
+				return app()->make(SeminarController::class)->UpdateLink($request);
+			else
+				return app()->make(ThesisdefenseController::class)->UpdateLink($request);
+		})->name("requirements");
+
 		Route::get("/thesisdefenseflow", function()
 		{
 			if (!Auth::check() || Auth::user()->userrole !== "student")
@@ -60,13 +94,7 @@ Route::middleware(
 
 			return view("student.thesisdefenseflow");
 		})->name("thesisdefenseflow");
-		
-		Route::get("/schedule", function()
-		{
-			if (!Auth::check() || Auth::user()->userrole !== "student")
-				return redirect("/");
 
-			return view("student.schedule");
-		})->name("schedule");
+		Route::get("/schedule", [PageController::class, "Schedule"])->name("schedule");
 	});
 });
