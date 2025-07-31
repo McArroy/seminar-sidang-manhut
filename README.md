@@ -2,6 +2,40 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.7.31 [ Last update: 07/31/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ COMMONS ]**
+- Updated UpdateQueryParam by added ResetParams to reset unnecessary parameter(s)
+
+**[ DATABASE ]**
+- Added Thesis Defense database
+
+**[ UI/UX ]**
+- Added CSS elements
+- Added toast pop-up
+- Added "oninput", "onchange", and "autofocus" attribute on input element and fixed some bugs when element added a new slot inside it
+- Updated Seminar and Thesis Defense Flow image
+- Updated login page
+- Updated schedule page
+- Fixed some bugs
+- Fixed animations' path
+
+**[ LARAVEL ]**
+- Added PageController controller
+- Added Thesisdefense model
+- Added ThesisdefenseController controller
+- Added UserController controller
+- Updated routes by added classes and queries
+- Fixed users are not redirected to the desired dashboard
+- Fixed letter element dynamically get username from database instead of just get current user session
+- Fixed some bugs
+- Renamed DateIndoFormatter into DateIndoFormatterController
+- Removed unused codes
+
+</details>
+
 #### UPDATE Version 1.25.7.29 [ Last update: 07/29/2025 ]
 <details>
 <summary>Click to expand</summary>
