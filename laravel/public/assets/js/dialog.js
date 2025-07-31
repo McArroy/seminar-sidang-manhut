@@ -54,17 +54,17 @@ function DialogMessage($Type = 0, $DialogMessageText = ["Warning!", ""], $Dialog
 function DialogMessageToast($Type = 0, $DialogMessageText = "Warning!", $Duration = 4000)
 {
 	let $Class = "warning";
-	let $IconAnimation = "/resource/anim/warning.json?hash=elQsa";
+	let $IconAnimation = "/assets/anim/warning.json?hash=elQsa";
 
 	if ($Type == 0)	// Info
 	{
 		$Class = "warning";
-		$IconAnimation = "/resource/anim/warning.json?hash=elQsa";
+		$IconAnimation = "/assets/anim/warning.json?hash=elQsa";
 	}
 	else if ($Type == 1)	// Success
 	{
 		$Class = "success";
-		$IconAnimation = "/resource/anim/success.json?hash=elQsa";
+		$IconAnimation = "/assets/anim/success.json?hash=elQsa";
 	}
 
 	const $FirstChild = $("body").children().first();
