@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use DateTime;
 
-class DateIndoFormatter
+class DateIndoFormatterController
 {
 	protected static array $monthNames =
 	[
@@ -26,7 +26,7 @@ class DateIndoFormatter
 	/**
 	 * Format date into Indonesian: e.g. "Jumat / 1 Agustus 2025"
 	 */
-	public static function Full(DateTime|string $date) : string
+	public static function Full(DateTime|string $date, int $type = 0) : string
 	{
 		$date = self::EnsureDateTime($date);
 
@@ -35,7 +35,10 @@ class DateIndoFormatter
 		$month = self::$monthNames[(int) $date->format("n")];
 		$year = $date->format("Y");
 
-		return "$dayName / $day $month $year";
+		if ($type === 0)
+			return "$dayName / $day $month $year";
+		else if ($type === 1)
+			return "$dayName, $day $month $year";
 	}
 
 	/**
