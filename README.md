@@ -29,6 +29,8 @@ These changelogs are basically just a summary list of changes that are very impo
 - Added UserController controller
 - Updated routes by added classes and queries
 - Fixed users are not redirected to the desired dashboard
+- Fixed type page not as expected
+- Fixed schedule page gives infinite loop if the semester is not available on the database
 - Fixed letter element dynamically get username from database instead of just get current user session
 - Fixed some bugs
 - Renamed DateIndoFormatter into DateIndoFormatterController
