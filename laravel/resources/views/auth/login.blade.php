@@ -1,45 +1,33 @@
 <x-guest-layout>
-	@section("title", "Login")
+	@section("css")
+		<link rel="stylesheet" href="/assets/css/pages/login.css?v=1.0">
+	@endsection
 
-	<x-authentication-card>
-		<x-slot name="logo">
-			<x-authentication-card-logo />
-		</x-slot>
+	<x-slot name="title">Login</x-slot>
 
-		<x-validation-errors class="mb-4" />
+	<div class="left">
+		<img src="/assets/img/ipb-logo.png" alt="ipb-logo">
+		<div class="text">
+			<h6>Selamat Datang di</h6>
+			<h1>{{ config("app.name") }}</h1>
+			<h2>Sistem Akademik Manajemen Hutan</h2>
+		</div>
+	</div>
 
-		@session('status')
-			<div class="mb-4 font-medium text-sm text-green-600">
-				{{ $value }}
-			</div>
-		@endsession
-
-		<form method="POST" action="{{ route('login') }}">
+	<div class="right">
+		<form action="{{ route('login') }}" method="POST">
 			@csrf
 
-			<div>
-				<x-label for="useridnumber" value="{{ __('ID Number') }}" />
-				<x-input id="useridnumber" class="block mt-1 w-full" type="text" name="useridnumber" :value="old('useridnumber')" required autofocus autocomplete="username" />
-			</div>
-
-			<div class="mt-4">
-				<x-label for="password" value="{{ __('Password') }}" />
-				<x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
-			</div>
-
-			<div class="block mt-4">
-				<label for="remember_me" class="flex items-center">
-					<x-checkbox id="remember_me" name="remember" />
-					<span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-				</label>
-			</div>
-
-			<div class="flex items-center justify-end mt-4">
-
-				<x-button class="ms-4">
-					{{ __('Log in') }}
-				</x-button>
-			</div>
+			<x-input-wrapper id="useridnumber" label="ID Pengguna" type="text" placeholder="Masukkan ID Pengguna" required>
+				<iconify-icon icon="solar:user-bold" width="24"></iconify-icon>
+			</x-input-wrapper>
+			<x-input-wrapper id="password" label="Kata Sandi" type="password" placeholder="Masukkan Kata Sandi" required>
+				<iconify-icon icon="carbon:password" width="24"></iconify-icon>
+				<iconify-icon icon="basil:eye-outline" class="show-hide-password" width="24" onclick="TogglePassword($(this))"></iconify-icon>
+			</x-input-wrapper>
+			<x-button>MASUK</x-button>
 		</form>
-	</x-authentication-card>
+
+		<h6>© {{ getdate()["year"] }} Forest Management — All Rights Reserved</h6>
+	</div>
 </x-guest-layout>
