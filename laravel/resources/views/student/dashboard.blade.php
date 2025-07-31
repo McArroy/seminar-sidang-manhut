@@ -1,5 +1,5 @@
 @php
-use App\Http\Controllers\DateIndoFormatter;
+use App\Http\Controllers\DateIndoFormatterController;
 @endphp
 
 <x-app-layout>
@@ -28,25 +28,25 @@ use App\Http\Controllers\DateIndoFormatter;
 			</tr>
 		</thead>
 		<tbody>
-			@forelse ($data as $index => $seminar)
+			@forelse ($dataSubmissions as $index => $item)
 			<tr>
 				<td class="numbered"></td>
-				<td>Seminar</td>
-				<td>{{ DateIndoFormatter::Simple($seminar->created_at) }}</td>
-				<td>{{ $seminar->comment }}</td>
+				<td>{{ ucfirst($item->submission_type) }}</td>
+				<td>{{ DateIndoFormatterController::Simple($item->created_at) }}</td>
+				<td>{{ $item->comment }}</td>
 				<td>
-					@if (!empty($seminar->link))
-					<x-button href="{{ $seminar->link }}" class="folder active" icon="fluent:folder-open-20-filled" iconwidth="30"></x-button>
+					@if (!empty($item->link))
+					<x-button href="{{ $item->link }}" class="folder active" icon="fluent:folder-open-20-filled" iconwidth="30"></x-button>
 					@else
-					<x-button class="folder" icon="fluent:folder-open-20-filled" iconwidth="30" onclick="return DialogMessage(0, ['Dokumen Tidak Tersedia', 'Silakan Kirim Dokumen Berupa Link Google Drive Di Menu Persyaratan Seminar'], ['Kembali']);"></x-button>
+					<x-button class="folder" icon="fluent:folder-open-20-filled" iconwidth="30" onclick="return DialogMessage(0, ['Dokumen Tidak Tersedia', 'Silakan Kirim Dokumen Berupa Link Google Drive Di Menu Persyaratan {{ ucfirst($item->submission_type) }}'], ['Kembali']);"></x-button>
 					@endif
 				</td>
 				<td>
-					@if ($seminar->status === 0)
+					@if ($item->status === 0)
 					<span class="status rejected">Ditolak</span>
-					@elseif ($seminar->status === 1)
+					@elseif ($item->status === 1)
 					<span class="status verified">Disetujui</span>
-					@elseif (!empty($seminar->comment))
+					@elseif (!empty($item->comment))
 					<span class="status revised">Revisi</span>
 					@else
 					<span class="status waiting">Menunggu Verifikasi</span>
@@ -54,25 +54,46 @@ use App\Http\Controllers\DateIndoFormatter;
 				</td>
 				<td>
 					@php
-					$query = http_build_query(array_merge(["type" => "seminar"],
+					$baseParams =
 					[
-						"useridnumber" => $seminar->useridnumber,
-						"studyprogram" => $seminar->studyprogram,
-						"department" => $seminar->department,
-						"supervisor1" => $seminar->supervisor1,
-						"supervisor2" => $seminar->supervisor2,
-						"date" => $seminar->date,
-						"time" => $seminar->time,
-						"place" => $seminar->place,
-						"title" => $seminar->title
-					]));
+						"type" => $item->submission_type,
+						"useridnumber" => $item->useridnumber,
+						"supervisor1" => $item->supervisor1,
+						"supervisor2" => $item->supervisor2,
+						"date" => $item->date,
+						"time" => $item->time,
+						"place" => $item->place,
+						"title" => $item->title
+					];
+
+					if ($item->submission_type === "Seminar")
+					{
+						$pageName = "seminar";
+						$extraParams =
+						[
+							"studyprogram" => $item->studyprogram,
+							"department" => $item->department
+						];
+					}
+					else
+					{
+						$pageName = "thesisdefense";
+						$extraParams =
+						[
+							"semester" => $item->semester,
+							"address" => $item->address
+						];
+					}
+
+					$query = http_build_query(array_merge($baseParams, $extraParams));
+
 					$url = route("student.registrationletterrepreview") . "?" . $query;
 					@endphp
 
 					<x-button href="{!! $url !!}" class="viewform" icon="fe:document" iconwidth="25">Lihat</x-button>
 				</td>
 				<td>
-					<form action="{{ route('student.seminar.delete', $seminar->seminarid) }}" method="POST" onsubmit="return FormConfirmation(event, ['Anda Yakin Akan Menghapus Data Ini?', 'Pastikan Data Yang Anda Pilih Benar'], ['Batal', 'Hapus']);">
+					<form action="{{ route('student.' . $pageName . '.delete', $item->{$pageName . 'id'}) }}" method="POST" onsubmit="return FormConfirmation(event, ['Anda Yakin Akan Menghapus Data Ini?', 'Pastikan Data Yang Anda Pilih Benar'], ['Batal', 'Hapus']);">
 						@csrf
 						@method("DELETE")
 						
@@ -82,7 +103,7 @@ use App\Http\Controllers\DateIndoFormatter;
 			</tr>
 			@empty
 			<tr>
-				<td colspan="8" class="text-center">Tidak Ada Data Seminar</td>
+				<td colspan="8" class="not-found">Tidak Ada Data Yang Ditemukan</td>
 			</tr>
 			@endforelse
 		</tbody>
