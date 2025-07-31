@@ -35,16 +35,10 @@ $PageName = "";
 		<link rel="stylesheet" href="/assets/css/elements/scrollbar.css?hash=<?= $HashFile ?>">
 		<link rel="stylesheet" href="/assets/css/elements/tables.css?hash=<?= $HashFile ?>">
 
-		@guest
-		<link rel="stylesheet" href="/assets/css/pages/login.css?hash=<?= $HashFile ?>">
-		@else
 		@yield("css")
-		<?php if ($PageName === "Schedule"): ?>
-		<link rel="stylesheet" href="/assets/css/pages/schedule.css?hash=<?= $HashFile ?>">
-		<?php elseif ($PageName === "Students" || $PageName === "Lecturers" || $PageName === "Seminar" || $PageName === "Announcements" || $PageName === "Thesis Defense"): ?>
+		<?php if ($PageName === "Students" || $PageName === "Lecturers" || $PageName === "Seminar" || $PageName === "Announcements" || $PageName === "Thesis Defense"): ?>
 		<link rel="stylesheet" href="/assets/css/pages/datatables.css?hash=<?= $HashFile ?>">
 		<?php endif; ?>
-		@endguest
 
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 		<script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
@@ -121,13 +115,13 @@ $PageName = "";
 					</x-nav-link>
 				</x-nav-link-dropdown>
 
-				<x-nav-link href="{{ route('student.flow', ['type' => 'thesisdefense']) }}" class="button-list" :active="request()->routeIs('student.flow') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.registrationform') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.requirements') && request()->query('type') === 'thesisdefense'" onclick="ToggleButtonList($(this))">
+				<x-nav-link href="{{ route('student.flow', ['type' => 'thesisdefense']) }}" class="button-list" :active="request()->routeIs('student.flow') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.registrationform') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.registrationletter') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.requirements') && request()->query('type') === 'thesisdefense'" onclick="ToggleButtonList($(this))">
 					<iconify-icon icon="streamline-flex:presentation" width="21"></iconify-icon>
 					Daftar Sidang Akhir
 					<iconify-icon icon="weui:arrow-filled" width="12"></iconify-icon>
 				</x-nav-link>
-				<x-nav-link-dropdown :active="request()->routeIs('student.flow') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.registrationform') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.requirements') && request()->query('type') === 'thesisdefense'">
-					<x-nav-link href="{{ route('student.registrationform', ['type' => 'thesisdefense']) }}" :active="request()->routeIs('student.registrationform') && request()->query('type') === 'thesisdefense'">
+				<x-nav-link-dropdown :active="request()->routeIs('student.flow') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.registrationform') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.registrationletter') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.requirements') && request()->query('type') === 'thesisdefense'">
+					<x-nav-link href="{{ route('student.registrationform', ['type' => 'thesisdefense']) }}" :active="request()->routeIs('student.registrationform') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.registrationletter') && request()->query('type') === 'thesisdefense'">
 						<iconify-icon icon="basil:document-outline" width="21"></iconify-icon>
 						Form Pendaftaran
 					</x-nav-link>
@@ -188,5 +182,14 @@ $PageName = "";
 		@stack("modals")
 
 		@livewireScripts
+
+		@if (session("toast_info") || session("toast_success"))
+		<script>
+			DialogMessageToast(
+				{{ session("toast_info") ? 0 : 1 }},
+				@json(session("toast_info") ?? session("toast_success"))
+			);
+		</script>
+		@endif
 	</body>
 </html>
