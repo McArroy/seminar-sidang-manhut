@@ -218,7 +218,7 @@ table
 
 	td.numbered
 	{
-		text-align: center;
+		text-align: center !important;
 		white-space: nowrap;
 
 		&::before
@@ -226,6 +226,11 @@ table
 			content: counter(rowNumber);
 			counter-increment: rowNumber;
 		}
+	}
+
+	td.not-found
+	{
+		text-align: center !important;
 	}
 }
 
