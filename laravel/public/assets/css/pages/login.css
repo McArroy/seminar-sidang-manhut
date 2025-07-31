@@ -19,7 +19,7 @@ body
 
 		img
 		{
-			width: 150px;
+			width: 160px;
 		}
 
 		.text
@@ -29,12 +29,19 @@ body
 
 			h1
 			{
-				font-size: 20pt;
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				
+				background: linear-gradient(90deg, var(--white), var(--orange));
+				background-clip: text;
+				color: transparent;
+				font-size: 40pt;
+			}
 
-				&:nth-child(3)
-				{
-					color: var(--orange2);
-				}
+			h2
+			{
+				color: var(--orange2);
+				font-size: 20pt;
 			}
 
 			h6
@@ -84,14 +91,15 @@ body
 			{
 				position: relative;
 
-				&:nth-child(2)
+				&:nth-child(3)
 				{
 					margin-top: 12px;
 				}
 
 				label
 				{
-					font-weight: 500;
+					font-size: 13pt;
+					font-weight: 600;
 					margin-bottom: 8px;
 					width: 100%;
 				}
