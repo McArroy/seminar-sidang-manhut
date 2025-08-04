@@ -1,17 +1,17 @@
+@php
+	if (!in_array($_GET["type"] ?? null, ["seminar", "thesisdefense"]))
+	{
+		header("Location: " . url()->current() . "?type=seminar");
+		exit;
+	}
+@endphp
+
 <x-app-layout>
 	@section("css")
 		<link rel="stylesheet" href="/assets/css/pages/seminarflow.css?v=1.0">
 	@endsection
 
 	@section("activate-navbar", "active")
-
-	@php
-		if (!in_array($_GET["type"] ?? null, ["seminar", "thesisdefense"]))
-		{
-			header("Location: " . url()->current() . "?type=seminar");
-			exit;
-		}
-	@endphp
 
 	@if ($_GET["type"] === "seminar")
 

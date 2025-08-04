@@ -1,17 +1,17 @@
+@php
+	if (!in_array($_GET["type"] ?? null, ["seminar", "thesisdefense"]))
+	{
+		header("Location: " . url()->current() . "?type=seminar");
+		exit;
+	}
+@endphp
+
 <x-app-layout>
 	@section("css")
 		<link rel="stylesheet" href="/assets/css/pages/registrationform.css?v=1.0">
 	@endsection
 
 	@section("activate-navbar", "active")
-
-	@php
-		if (!in_array($_GET["type"] ?? null, ["seminar", "thesisdefense"]))
-		{
-			header("Location: " . url()->current() . "?type=seminar");
-			exit;
-		}
-	@endphp
 
 	<x-slot name="title">Form Pendaftaran</x-slot>
 	<x-slot name="icon">basil:document-outline</x-slot>
