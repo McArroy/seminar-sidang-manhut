@@ -1,5 +1,5 @@
 @php
-use App\Http\Controllers\DateIndoFormatterController;
+	use App\Http\Controllers\DateIndoFormatterController;
 @endphp
 
 <x-app-layout>
@@ -18,11 +18,11 @@ use App\Http\Controllers\DateIndoFormatterController;
 		<thead>
 			<tr>
 				<th class="numbered">No</th>
-				<th>Jenis Pengajuan</th>
-				<th>Tanggal Pengajuan</th>
-				<th>Komentar</th>
-				<th>Dokumen</th>
-				<th>Status</th>
+				<th class="type">Jenis Pengajuan</th>
+				<th class="date">Tanggal Pengajuan</th>
+				<th class="comment">Komentar</th>
+				<th class="link">Dokumen</th>
+				<th class="status">Status</th>
 				<th>Formulir</th>
 				<th>Aksi</th>
 			</tr>
@@ -31,17 +31,17 @@ use App\Http\Controllers\DateIndoFormatterController;
 			@forelse ($dataSubmissions as $index => $item)
 			<tr>
 				<td class="numbered"></td>
-				<td>{{ ucfirst($item->submission_type) }}</td>
-				<td>{{ DateIndoFormatterController::Simple($item->created_at) }}</td>
-				<td>{{ $item->comment }}</td>
-				<td>
+				<td class="type">{{ ucfirst($item->submission_type) }}</td>
+				<td class="date">{{ DateIndoFormatterController::Simple($item->created_at) }}</td>
+				<td class="comment">{{ $item->comment }}</td>
+				<td class="link">
 					@if (!empty($item->link))
 					<x-button href="{{ $item->link }}" class="folder active" icon="fluent:folder-open-20-filled" iconwidth="30"></x-button>
 					@else
-					<x-button class="folder" icon="fluent:folder-open-20-filled" iconwidth="30" onclick="return DialogMessage(0, ['Dokumen Tidak Tersedia', 'Silakan Kirim Dokumen Berupa Link Google Drive Di Menu Persyaratan {{ ucfirst($item->submission_type) }}'], ['Kembali']);"></x-button>
+					<x-button class="folder" id="folder-link" icon="fluent:folder-open-20-filled" iconwidth="30" data-text="{{ ucfirst($item->submission_type) }}"></x-button>
 					@endif
 				</td>
-				<td>
+				<td class="status">
 					@if ($item->status === 0)
 					<span class="status rejected">Ditolak</span>
 					@elseif ($item->status === 1)
@@ -94,7 +94,7 @@ use App\Http\Controllers\DateIndoFormatterController;
 					<x-button href="{!! $url !!}" class="viewform" icon="fe:document" iconwidth="25">Lihat</x-button>
 				</td>
 				<td>
-					<form action="{{ route('student.' . $pageName . '.delete', $item->{$pageName . 'id'}) }}" method="POST" onsubmit="return FormConfirmation(event, ['Anda Yakin Akan Menghapus Data Ini?', 'Pastikan Data Yang Anda Pilih Benar'], ['Batal', 'Hapus']);">
+					<form id="form-delete" action="{{ route('student.' . $pageName . '.delete', $item->{$pageName . 'id'}) }}" method="POST">
 						@csrf
 						@method("DELETE")
 						

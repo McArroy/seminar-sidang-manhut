@@ -1,3 +1,11 @@
+@php
+	if (!in_array($_GET["type"] ?? null, ["seminar", "thesisdefense"]))
+	{
+		header("Location: " . url()->current() . "?type=seminar");
+		exit;
+	}
+@endphp
+
 <x-app-layout>
 	@section("css")
 		<link rel="stylesheet" href="/assets/css/pages/registrationform.css?v=1.0">
@@ -5,14 +13,6 @@
 	@endsection
 
 	@section("activate-navbar", "active")
-
-	@php
-		if (!in_array($_GET["type"] ?? null, ["seminar", "thesisdefense"]))
-		{
-			header("Location: " . url()->current() . "?type=seminar");
-			exit;
-		}
-	@endphp
 
 	<x-slot name="icon">hugeicons:folder-upload</x-slot>
 
@@ -41,7 +41,7 @@
 		<p><span>3. ABSTRAK RINGKASAN SKRIPSI VERSI INGGRIS DAN INDONESIA</span> yang telah ditandantangani Komisi Pembimbing</p>
 		<p><span>4. BUKU KONSULTASI</span> yang sudah diisi dengan lengkap</p>
 		<p><span>5. DRAFT SKRIPSI</span> yang telah memenuhi syarat ujian akhir dan telah ditandatangani oleh Dosen Komisi Pembimbing</p>
-		<p><span>6. E-flyer / Poster</span>yang sudah disesuaikan dengan data mahasiswa sidang. template: <a href="https://www.canva.com/design/DAGtShzH230/HiBie5iuQAikznZkRKJEzw/edit?utm_content=DAGtShzH230&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank"> Template E-flyer </a></p>
+		<p><span>6. E-flyer / Poster</span>yang sudah disesuaikan dengan data mahasiswa sidang. Template: <a href="https://www.canva.com/design/DAGtShzH230/HiBie5iuQAikznZkRKJEzw/edit?utm_content=DAGtShzH230&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank">Template E-flyer</a></p>
 		@else
 		<p>Persyaratan seminar proposal berupa:</p>
 		<p><span>1. FORMULIR PENDAFTARAN SEMINAR</span> yang sudah ditandatangani Dosen Pembimbing dan Komisi AJMP dan Kemahasiswaan</p>
@@ -56,8 +56,9 @@
 		@endif
 	</div>
 
-	<form class="link letter" action="{{ route('student.requirements') . '?type=' . $_GET['type'] }}" method="POST" onsubmit="if (IsGoogleDriveUrl($('#link').val().trim())) { return FormConfirmation(event, ['Anda Yakin Akan Menyimpan Data Ini?', 'Pastikan Data Yang Dimasukkan Benar'], ['Batal', 'Simpan']); } { DialogMessage(0, ['Terjadi Kesalahan!', 'Pastikan Link Yang Anda Masukkan Adalah Link GoogleDrive'], ['Kembali']); return event.preventDefault(); }">
+	<form id="form-letter" class="link letter" action="{{ route('student.requirements') . '?type=' . $_GET['type'] }}" method="POST">
 		@csrf
+		@method("POST")
 
 		<p>Masukan Link Google Drive pada inputan di bawah dengan format yang sesuai.</p>
 		<p>Contoh format: <span>https://drive.google.com/drive/folders/link_sharing</span></p>
