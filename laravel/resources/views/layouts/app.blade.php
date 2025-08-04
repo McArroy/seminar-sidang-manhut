@@ -32,13 +32,11 @@ $PageName = "";
 		<link rel="stylesheet" href="/assets/css/elements/letter-viewer.css?hash=<?= $HashFile ?>">
 		<link rel="stylesheet" href="/assets/css/elements/loading-animations.css?hash=<?= $HashFile ?>">
 		<link rel="stylesheet" href="/assets/css/elements/navigationbar.css?hash=<?= $HashFile ?>">
+		<link rel="stylesheet" href="/assets/css/elements/navigator-buttons.css?hash=<?= $HashFile ?>">
 		<link rel="stylesheet" href="/assets/css/elements/scrollbar.css?hash=<?= $HashFile ?>">
 		<link rel="stylesheet" href="/assets/css/elements/tables.css?hash=<?= $HashFile ?>">
 
 		@yield("css")
-		<?php if ($PageName === "Students" || $PageName === "Lecturers" || $PageName === "Seminar" || $PageName === "Announcements" || $PageName === "Thesis Defense"): ?>
-		<link rel="stylesheet" href="/assets/css/pages/datatables.css?hash=<?= $HashFile ?>">
-		<?php endif; ?>
 
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 		<script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
@@ -88,16 +86,33 @@ $PageName = "";
 		<div class="content-container">
 			@auth
 			<navbar class="side @yield('activate-navbar')">
-				@if (Auth::user()->userrole === "admin")
-
-				@else
-
-				<x-nav-link href="{{ route('student.dashboard') }}" :active="request()->routeIs('student.dashboard')">
+				<x-nav-link href="{{ route(Auth::user()->userrole . '.dashboard') }}" :active="request()->routeIs(Auth::user()->userrole . '.dashboard')">
 					<iconify-icon icon="material-symbols:dashboard-outline" width="21"></iconify-icon>
 					Dashboard
 				</x-nav-link>
 
 				<h1>Menu Utama</h1>
+
+				@if (Auth::user()->userrole === "admin")
+
+				<x-nav-link href="{{ route('admin.students') }}" :active="request()->routeIs('admin.students')">
+					<iconify-icon icon="heroicons:user-group-solid" width="21"></iconify-icon>
+					Data Mahasiswa
+				</x-nav-link>
+				<x-nav-link href="{{ route('admin.lecturers') }}" :active="request()->routeIs('admin.lecturers')">
+					<iconify-icon icon="fontisto:person" width="15"></iconify-icon>
+					Data Dosen
+				</x-nav-link>
+				<x-nav-link href="{{ route('admin.seminars') }}" :active="request()->routeIs('admin.seminars')">
+					<iconify-icon icon="fluent:form-28-regular" width="21"></iconify-icon>
+					Seminar
+				</x-nav-link>
+				<x-nav-link href="{{ route('admin.thesisdefenses') }}" :active="request()->routeIs('admin.thesisdefenses')">
+					<iconify-icon icon="hugeicons:folder-upload" width="21"></iconify-icon>
+					Sidang Akhir
+				</x-nav-link>
+
+				@elseif (Auth::user()->userrole === "student")
 
 				<x-nav-link href="{{ route('student.flow', ['type' => 'seminar']) }}" class="button-list" :active="request()->routeIs('student.flow') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationform') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationletter') && request()->query('type') === 'seminar' || request()->routeIs('student.requirements') && request()->query('type') === 'seminar'" onclick="ToggleButtonList($(this))">
 					<iconify-icon icon="fluent:form-28-regular" width="21"></iconify-icon>
@@ -130,15 +145,15 @@ $PageName = "";
 						Persyaratan Sidang
 					</x-nav-link>
 				</x-nav-link-dropdown>
-
-				<x-nav-link href="{{ route('student.schedule') }}" :active="request()->routeIs('student.schedule')">
-					<iconify-icon icon="material-symbols-light:calendar-clock-outline-sharp" width="21"></iconify-icon>
-					Jadwal
-				</x-nav-link>
 				
 				@endif
 
-				<form action="{{ route('logout') }}" method="POST" onsubmit="return FormConfirmation(event, ['Anda Yakin Akan Mengakhiri Sesi?', 'Sesi anda akan berakhir dan silahkan memulai sesi baru'], ['Batal', 'Keluar']);">
+				<x-nav-link href="{{ route(Auth::user()->userrole . '.schedule') }}" :active="request()->routeIs(Auth::user()->userrole . '.schedule')">
+					<iconify-icon icon="material-symbols-light:calendar-clock-outline-sharp" width="21"></iconify-icon>
+					Jadwal
+				</x-nav-link>
+
+				<form id="form-logout" action="{{ route('logout') }}" method="POST">
 					@csrf
 
 					<button href="javascript:void(0);" class="button button-logout">
@@ -166,17 +181,6 @@ $PageName = "";
 			{{ $slot }}
 
 			@endauth
-		</div>
-
-		<div class="min-h-screen bg-gray-100">
-			<!-- Page Heading -->
-			@if (isset($header))
-				<header class="bg-white shadow">
-					<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-						{{ $header }}
-					</div>
-				</header>
-			@endif
 		</div>
 
 		@stack("modals")
