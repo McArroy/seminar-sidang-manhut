@@ -7,45 +7,97 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SeminarController;
 use App\Http\Controllers\ThesisdefenseController;
+use App\Http\Controllers\UserController;
 
+Route::get("/", function()
+{
+	if (!Auth::check() || !Auth::user()->userrole)
+		return redirect("/login");
+
+	if (Auth::user()->userrole === "admin")
+		return redirect()->route("admin.dashboard");
+	else if (Auth::user()->userrole === "student")
+		return redirect()->route("admin.dashboard");
+});
+
+// admin
 Route::middleware(
 [
 	"auth:sanctum",
 	config("jetstream.auth_session"),
 	"verified",
+	"admin"
 ])->group(function()
 {
-	// student
-	Route::prefix("student")->name("student.")->group(function()
+	Route::prefix("admin")->name("admin.")->group(function()
 	{
-		// base
 		Route::get("/dashboard", [PageController::class, "Dashboard"])->name("dashboard");
 
-		Route::delete("/dashboard/seminar/{seminar}", [SeminarController::class, "Destroy"])->name("seminar.delete");
+		Route::get("/students", [PageController::class, "Students"])->name("students");
 
-		Route::delete("/dashboard/thesisdefense/{thesisdefense}", [ThesisdefenseController::class, "Destroy"])->name("thesisdefense.delete");
+		Route::post("/students", [UserController::class, "StoreStudents"])->name("students.add");
+
+		Route::post("/students/update/{user}", [UserController::class, "UpdateStudents"])->name("students.update");
+
+		Route::delete("/students/delete/{user}", [UserController::class, "DestroyStudents"])->name("students.delete");
+
+		Route::get("/lecturers", [PageController::class, "Lecturers"])->name("lecturers");
+
+		Route::post("/lecturers", [UserController::class, "StoreLecturers"])->name("lecturers.add");
+
+		Route::post("/lecturers/update/{user}", [UserController::class, "UpdateLecturers"])->name("lecturers.update");
+
+		Route::delete("/lecturers/delete/{user}", [UserController::class, "DestroyLecturers"])->name("lecturers.delete");
+
+		Route::get("/seminars", [PageController::class, "Seminars"])->name("seminars");
+
+		Route::post("/seminars/accept/{seminar}", [SeminarController::class, "Accept"])->name("seminars.accept");
+
+		Route::post("/seminars/revision/{seminar}", [SeminarController::class, "Comment"])->name("seminars.revision");
+
+		Route::post("/seminars/reject/{seminar}", [SeminarController::class, "Reject"])->name("seminars.reject");
+
+		Route::get("/thesisdefenses", [PageController::class, "Thesisdefenses"])->name("thesisdefenses");
+
+		Route::post("/thesisdefenses/accept/{thesisdefense}", [ThesisdefenseController::class, "Accept"])->name("thesisdefenses.accept");
+
+		Route::post("/thesisdefenses/revision/{thesisdefense}", [ThesisdefenseController::class, "Comment"])->name("thesisdefenses.revision");
+
+		Route::post("/thesisdefenses/reject/{thesisdefense}", [ThesisdefenseController::class, "Reject"])->name("thesisdefenses.reject");
+
+		Route::get("/schedule", [PageController::class, "Schedule"])->name("schedule");
+	});
+});
+
+// student
+Route::middleware(
+[
+	"auth:sanctum",
+	config("jetstream.auth_session"),
+	"verified",
+	"student"
+])->group(function()
+{
+	Route::prefix("student")->name("student.")->group(function()
+	{
+		Route::get("/dashboard", [PageController::class, "Dashboard"])->name("dashboard");
+
+		Route::delete("/dashboard/delete/seminar/{seminar}", [SeminarController::class, "Destroy"])->name("seminar.delete");
+
+		Route::delete("/dashboard/delete/thesisdefense/{thesisdefense}", [ThesisdefenseController::class, "Destroy"])->name("thesisdefense.delete");
 
 		Route::get("/flow", function()
 		{
-			if (!Auth::check() || Auth::user()->userrole !== "student")
-				return redirect("/");
-
 			return view("student.flow");
 		})->name("flow");
 
 		Route::get("/registrationform", function()
 		{
-			if (!Auth::check() || Auth::user()->userrole !== "student")
-				return redirect("/");
-
 			return view("student.registrationform");
 		})->name("registrationform");
 
 		Route::post("/registrationform", function(Request $request)
 		{
-			if (!Auth::check() || Auth::user()->userrole !== "student")
-				return redirect("/");
-
 			if ($request->query("type") === "seminar")
 				return app()->make(SeminarController::class)->Store($request);
 			else
@@ -70,17 +122,11 @@ Route::middleware(
 
 		Route::get("/requirements", function()
 		{
-			if (!Auth::check() || Auth::user()->userrole !== "student")
-				return redirect("/");
-
 			return view("student.requirements");
 		})->name("requirements");
 
 		Route::post("/requirements", function(Request $request)
 		{
-			if (!Auth::check() || Auth::user()->userrole !== "student")
-				return redirect("/");
-
 			if ($request->query("type") === "seminar")
 				return app()->make(SeminarController::class)->UpdateLink($request);
 			else
@@ -89,9 +135,6 @@ Route::middleware(
 
 		Route::get("/thesisdefenseflow", function()
 		{
-			if (!Auth::check() || Auth::user()->userrole !== "student")
-				return redirect("/");
-
 			return view("student.thesisdefenseflow");
 		})->name("thesisdefenseflow");
 
