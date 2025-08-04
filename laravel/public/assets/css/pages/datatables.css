@@ -1,0 +1,28 @@
+.content-container
+{
+	background: var(--lightGrey);
+	padding: 75px 0 0 !important;
+
+	.main-content
+	{
+		.wrapper
+		{
+			.inner-content
+			{
+				.top
+				{
+					flex-direction: row;
+					height: auto;
+					justify-content: space-between;
+					width: 100%;
+				}
+
+				.middle
+				{
+					margin-top: 30px;
+					width: 100%;
+				}
+			}
+		}
+	}
+}
