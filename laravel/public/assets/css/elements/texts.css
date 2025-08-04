@@ -16,7 +16,7 @@ textarea
 	white-space: pre-wrap;
 }
 
-h1, h6, label, li, p, span, ul
+h1, h6, label, li, p, span, ul, a
 {
 	display: unset;
 	overflow-wrap: break-word;

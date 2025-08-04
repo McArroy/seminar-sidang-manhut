@@ -41,6 +41,7 @@
 		<p><span>3. ABSTRAK RINGKASAN SKRIPSI VERSI INGGRIS DAN INDONESIA</span> yang telah ditandantangani Komisi Pembimbing</p>
 		<p><span>4. BUKU KONSULTASI</span> yang sudah diisi dengan lengkap</p>
 		<p><span>5. DRAFT SKRIPSI</span> yang telah memenuhi syarat ujian akhir dan telah ditandatangani oleh Dosen Komisi Pembimbing</p>
+		<p><span>6. E-flyer / Poster</span>yang sudah disesuaikan dengan data mahasiswa sidang. template: <a href="https://www.canva.com/design/DAGtShzH230/HiBie5iuQAikznZkRKJEzw/edit?utm_content=DAGtShzH230&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank"> Template E-flyer </a></p>
 		@else
 		<p>Persyaratan seminar proposal berupa:</p>
 		<p><span>1. FORMULIR PENDAFTARAN SEMINAR</span> yang sudah ditandatangani Dosen Pembimbing dan Komisi AJMP dan Kemahasiswaan</p>
