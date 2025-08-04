@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class SeminarController extends Controller
 {
+	private string $userId;
+	private string $userRole;
+
+	public function __construct()
+	{
+		$this->userId = Auth::user()->useridnumber;
+		$this->userRole = Auth::user()->userrole;
+	}
+
 	public function GetAll()
 	{
 		return Seminar::all();
@@ -16,24 +25,25 @@ class SeminarController extends Controller
 
 	public function Index()
 	{
-		if (Auth::user()->userrole === "student")
+		if ($this->userRole === "admin")
 		{
-			$userId = Auth::user()->useridnumber;
+			$dataseminar = $this->GetAll();
+		}
+		else if ($this->userRole === "student")
+		{
+			$userId = $this->userId;
 
 			$dataseminar = $this->GetAll()->filter(function($seminar) use ($userId)
 			{
 				return $seminar->useridnumber === $userId;
 			});
-
-			return $dataseminar;
 		}
+
+		return $dataseminar;
 	}
 
 	public function Created(Request $request)
 	{
-		if (!Auth::check() || Auth::user()->userrole !== "student")
-			return redirect("/");
-
 		$data = session()->pull("validated_data_letter", []);
 
 		return view("student.registrationletter", ["data" => $data]);
@@ -41,9 +51,6 @@ class SeminarController extends Controller
 
 	public function RePreview(Request $request)
 	{
-		if (!Auth::check() || Auth::user()->userrole !== "student")
-			return redirect("/");
-
 		$data = $request->all();
 
 		session(["validated_data_letter" => $data]);
@@ -53,9 +60,6 @@ class SeminarController extends Controller
 
 	public function Store(Request $request)
 	{
-		if (!Auth::check() || Auth::user()->userrole !== "student")
-			return redirect("/");
-
 		$validated = $request->validate(
 		[
 			"useridnumber" => "required|string|max:33",
@@ -81,32 +85,16 @@ class SeminarController extends Controller
 		return redirect()->route("student.registrationletter", ["type" => "seminar"])->with("toast_success", "Seminar Berhasil Dibuat");
 	}
 
-	public function Update(Request $request, Seminar $seminar)
-	{
-		$request->validate(
-		[
-			"title" => "required|string|max:255",
-			"content" => "required|string"
-		]);
-
-		$seminar->update($request->only("title", "content"));
-
-		return redirect()->route("posts.index")->with("toast_success", "Post updated.");
-	}
-
 	public function UpdateLink(Request $request)
 	{
-		if (!Auth::check() || Auth::user()->userrole !== "student")
-			return redirect("/");
-
 		$validated = $request->validate(
 		[
 			"link" => "required|string|max:1000"
 		]);
 
-		$userId = Auth::user()->useridnumber;
+		$userId = $this->userId;
 
-		$seminars = Seminar::all()->filter(function($seminar) use ($userId)
+		$seminars = $this->GetAll()->filter(function($seminar) use ($userId)
 		{
 			return $seminar->useridnumber === $userId;
 		});
@@ -117,21 +105,73 @@ class SeminarController extends Controller
 		})->sortBy("created_at")->first();
 
 		if (!$seminarToUpdate)
-			return redirect()->back()->with("toast_info", "Semua Seminar Anda Sudah Lengkap");
+			return redirect()->back()->with("toast_info", "Semua Data Seminar Anda Sudah Lengkap");
 
 		$seminarToUpdate->update(
 		[
-			"link" => $validated["link"],
+			"link" => $validated["link"]
 		]);
 
 		return redirect()->route("student.dashboard")->with("toast_success", "Link Dokumen Seminar Berhasil Ditambahkan");
+	}
+
+	private function UpdateStatus(Request $request, Seminar $seminar)
+	{
+		$validated = $request->validate(
+		[
+			"status" => "required|integer|in:0,1"
+		]);
+
+		$seminar->update(
+		[
+			"status" => $validated["status"]
+		]);
+
+		return redirect()->route("admin.seminars")->with("toast_success", "Pengajuan Seminar Berhasil " . $request->text);
+	}
+
+	public function Accept(Request $request, Seminar $seminar)
+	{
+		$request->merge(
+		[
+			"status" => 1,
+			"text" => "Diverifikasi"
+		]);
+
+		return $this->UpdateStatus($request, $seminar);
+	}
+
+	public function Comment(Request $request, Seminar $seminar)
+	{
+		$validated = $request->validate(
+		[
+			"comment" => "required|string|max:1000"
+		]);
+
+		$seminar->update(
+		[
+			"comment" => $validated["comment"]
+		]);
+
+		return redirect()->route("admin.seminars")->with("toast_success", "Pesan Revisi Berhasil Tersimpan");
+	}
+
+	public function Reject(Request $request, Seminar $seminar)
+	{
+		$request->merge(
+		[
+			"status" => 0,
+			"text" => "Ditolak"
+		]);
+
+		return $this->UpdateStatus($request, $seminar);
 	}
 
 	public function Destroy(Seminar $seminar)
 	{
 		$seminar->delete();
 
-		if (Auth::user()->userrole === "student")
-			return redirect()->route("student.dashboard")->with("toast_success", "Seminar Berhasil Dihapus");
+		if ($this->userRole === "student")
+			return redirect()->route("student.dashboard")->with("toast_success", "Data Seminar Berhasil Dihapus");
 	}
 }
