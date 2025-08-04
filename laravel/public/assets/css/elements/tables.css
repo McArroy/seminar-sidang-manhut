@@ -76,6 +76,17 @@ table
 		white-space: normal;
 		word-break: break-word;
 		width: 12%;
+
+		&.numbered, &.number, &.link
+		{
+			white-space: nowrap;
+			width: 1% !important;
+		}
+
+		&.title
+		{
+			width: 20% !important;
+		}
 		
 		ul
 		{
@@ -109,7 +120,7 @@ table
 				}
 			}
 
-			&.remove, &.decline
+			&.remove, &.reject
 			{
 				background: var(--lightRed);
 				border-color: var(--white);
@@ -216,11 +227,13 @@ table
 		}
 	}
 
+	th.title
+	{
+		white-space: nowrap;
+	}
+
 	td.numbered
 	{
-		text-align: center !important;
-		white-space: nowrap;
-
 		&::before
 		{
 			content: counter(rowNumber);
@@ -231,49 +244,5 @@ table
 	td.not-found
 	{
 		text-align: center !important;
-	}
-}
-
-.bottom-actions
-{
-	color: var(--grey2);
-	flex-direction: row;
-	justify-content: space-between;
-	margin-top: 30px;
-	width: 100%;
-
-	.buttons
-	{
-		flex-direction: row;
-		gap: 6px;
-		width: max-content;
-
-		.button
-		{
-			background: var(--white);
-			border-color: var(--grey3);
-			border-radius: 8px;
-			font-weight: 500;
-			padding: 10px;
-			width: max-content;
-
-			&:disabled
-			{
-				background: var(--grey3);
-			}
-
-			&:not(:disabled):hover, &.active
-			{
-				background: var(--lightBlue);
-				border-color: var(--lightBlue);
-				color: var(--white);
-			}
-
-			&.page
-			{
-				padding-left: 15px;
-				padding-right: 15px;
-			}
-		}
 	}
 }
