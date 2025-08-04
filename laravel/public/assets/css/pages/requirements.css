@@ -26,6 +26,14 @@
 							margin-left: 40px;
 						}
 					}
+
+					a
+					{
+						display: unset;
+						overflow-wrap: break-word;
+						white-space: normal;
+						text-align: justify;
+					}
 				}
 
 				.link
