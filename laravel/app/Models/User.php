@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -28,6 +29,13 @@ class User extends Authenticatable
 		"useridnumber",
 		"userrole",
 		"password"
+	];
+
+	// List of attributes to encrypt
+	protected $encrypted =
+	[
+		"username",
+		"userrole"
 	];
 
 	/**
@@ -62,5 +70,35 @@ class User extends Authenticatable
 		[
 			"password" => "hashed"
 		];
+	}
+
+	// Encrypt values before saving
+	public function setAttribute($key, $value)
+	{
+		if (in_array($key, $this->encrypted) && $value !== null)
+			$value = Crypt::encryptString($value);
+
+		return parent::setAttribute($key, $value);
+	}
+	
+	// Decrypt values when accessing
+	public function getAttribute($key)
+	{
+		$value = parent::getAttribute($key);
+
+		if (in_array($key, $this->encrypted) && $value !== null)
+		{
+			try
+			{
+				return Crypt::decryptString($value);
+			}
+			catch (\Exception $e)
+			{
+				// optionally log: corrupted or already-decrypted value
+				return $value;
+			}
+		}
+
+		return $value;
 	}
 }
