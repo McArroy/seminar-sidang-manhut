@@ -17,7 +17,13 @@ use Carbon\Carbon;
 
 class PageController extends Controller
 {
+	private string $userRole;
 	private array $semesterList = [];
+
+	public function __construct()
+	{
+		$this->userRole = Auth::user()->userrole;
+	}
 
 	private function GetAllSemesterList(Collection $data) : array
 	{
@@ -53,9 +59,6 @@ class PageController extends Controller
 
 	public function Dashboard()
 	{
-		if (!Auth::check() || Auth::user()->userrole !== "student")
-			return redirect("/");
-
 		$dataSeminar = app()->make(SeminarController::class)->Index()->map(function($item)
 		{
 			$item->submission_type = "Seminar";
@@ -70,23 +73,199 @@ class PageController extends Controller
 
 		$dataSubmissions = $dataSeminar->merge($dataThesisdefense)->sortByDesc("created_at")->values();
 
-		return view("student.dashboard", compact("dataSubmissions"));
+		if ($this->userRole === "admin")
+			return view("admin.dashboard", compact("dataSubmissions"));
+		else if ($this->userRole === "student")
+			return view("student.dashboard", compact("dataSubmissions"));
+	}
+
+	private function Users(Request $request, string $findAs = "students")
+	{
+		if ($findAs === "students")
+			$dataUsers = app()->make(UserController::class)->GetStudents()->sortByDesc("created_at")->values();
+		else if ($findAs === "lecturers")
+			$dataUsers = app()->make(UserController::class)->GetLecturers()->sortByDesc("created_at")->values();
+
+		// filters
+		$search = mb_strtolower(trim($request->query("search")));
+
+		if ($search)
+		{
+			$dataUsers = $dataUsers->filter(function($item) use ($search)
+			{
+				$fields =
+				[
+					$item->username ?? "",
+					$item->useridnumber ?? "",
+					$item->userrole ?? ""
+				];
+
+				foreach ($fields as $field)
+				{
+					if (!is_string($field))
+						continue;
+
+					if (str_contains(mb_strtolower(trim($field)), $search))
+						return true;
+				}
+
+				return false;
+			})->values();
+		}
+
+		$page = (int)$request->query("page", 1);
+		$perPage = 8;
+		$total = $dataUsers->count();
+		$results = $dataUsers->slice(($page - 1) * $perPage, $perPage)->values();
+
+		$dataUsers = new LengthAwarePaginator($results, $total, $perPage, $page,
+		[
+			"path" => $request->url(),
+			"query" => $request->query()
+		]);
+
+		return $dataUsers;
+	}
+
+	public function Students(Request $request)
+	{
+		$dataUsers = $this->Users($request, "students");
+
+		if ($this->userRole === "admin")
+			return view("admin.students", compact("dataUsers"));
+	}
+
+	public function Lecturers(Request $request)
+	{
+		$dataUsers = $this->Users($request, "lecturers");
+
+		if ($this->userRole === "admin")
+			return view("admin.lecturers", compact("dataUsers"));
+	}
+
+	public function Seminars(Request $request)
+	{
+		$dataSeminars = app()->make(SeminarController::class)->Index()->filter(function($item)
+		{
+			return $item->status === null || $item->status === "";
+		})->map(function($item)
+		{
+			$item->username = UserController::GetUsername($item->useridnumber);
+			return $item;
+		})->sortByDesc("created_at")->values();
+
+		// filters
+		$search = mb_strtolower(trim($request->query("search")));
+
+		if ($search)
+		{
+			$dataSeminars = $dataSeminars->filter(function($item) use ($search)
+			{
+				$fields =
+				[
+					$item->useridnumber ?? "",
+					UserController::GetUsername($item->useridnumber) ?? "",
+					$item->title ?? ""
+				];
+
+				foreach ($fields as $field)
+				{
+					if (!is_string($field))
+						continue;
+
+					if (str_contains(mb_strtolower(trim($field)), $search))
+						return true;
+				}
+
+				return false;
+			})->values();
+		}
+
+		$page = (int)$request->query("page", 1);
+		$perPage = 8;
+		$total = $dataSeminars->count();
+		$results = $dataSeminars->slice(($page - 1) * $perPage, $perPage)->values();
+
+		$dataSeminars = new LengthAwarePaginator($results, $total, $perPage, $page,
+		[
+			"path" => $request->url(),
+			"query" => $request->query()
+		]);
+
+		return view("admin.seminars", compact("dataSeminars"));
+	}
+
+	public function Thesisdefenses(Request $request)
+	{
+		$dataThesisdefenses = app()->make(ThesisdefenseController::class)->Index()->filter(function($item)
+		{
+			return $item->status === null || $item->status === "";
+		})->map(function($item)
+		{
+			$item->username = UserController::GetUsername($item->useridnumber);
+			return $item;
+		})->sortByDesc("created_at")->values();
+
+		// filters
+		$search = mb_strtolower(trim($request->query("search")));
+
+		if ($search)
+		{
+			$dataThesisdefenses = $dataThesisdefenses->filter(function($item) use ($search)
+			{
+				$fields =
+				[
+					$item->useridnumber ?? "",
+					UserController::GetUsername($item->useridnumber) ?? "",
+					$item->title ?? ""
+				];
+
+				foreach ($fields as $field)
+				{
+					if (!is_string($field))
+						continue;
+
+					if (str_contains(mb_strtolower(trim($field)), $search))
+						return true;
+				}
+
+				return false;
+			})->values();
+		}
+
+		$page = (int)$request->query("page", 1);
+		$perPage = 8;
+		$total = $dataThesisdefenses->count();
+		$results = $dataThesisdefenses->slice(($page - 1) * $perPage, $perPage)->values();
+
+		$dataThesisdefenses = new LengthAwarePaginator($results, $total, $perPage, $page,
+		[
+			"path" => $request->url(),
+			"query" => $request->query()
+		]);
+
+		return view("admin.thesisdefenses", compact("dataThesisdefenses"));
 	}
 
 	public function Schedule(Request $request)
 	{
-		if (!Auth::check())
-			return redirect("/");
-
-		$dataSeminar = app()->make(SeminarController::class)->GetAll()->map(function($item)
+		$dataSeminar = app()->make(SeminarController::class)->GetAll()->filter(function($item)
+		{
+			return $item->status === 1;
+		})->map(function($item)
 		{
 			$item->submission_type = "Seminar";
+			$item->username = UserController::GetUsername($item->useridnumber);
 			return $item;
 		});
 
-		$dataThesisdefense = app()->make(ThesisdefenseController::class)->GetAll()->map(function($item)
+		$dataThesisdefense = app()->make(ThesisdefenseController::class)->GetAll()->filter(function($item)
+		{
+			return $item->status === 1;
+		})->map(function($item)
 		{
 			$item->submission_type = "Sidang Akhir";
+			$item->username = UserController::GetUsername($item->useridnumber);
 			return $item;
 		});
 
@@ -172,6 +351,6 @@ class PageController extends Controller
 			"query" => $request->query()
 		]);
 
-		return view("student.schedule", ["dataSubmissions" => $dataSubmissions, "semesterList" => $this->semesterList]);
+		return view("schedule", ["dataSubmissions" => $dataSubmissions, "semesterList" => $this->semesterList]);
 	}
 }
