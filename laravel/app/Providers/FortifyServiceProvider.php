@@ -57,10 +57,10 @@ class FortifyServiceProvider extends ServiceProvider
 			{
 				public function toResponse($request)
 				{
-					if (Auth::user()->userrole === "admin")
-						return redirect()->intended(route("admin.dashboard"));
-				
-					return redirect()->intended(route("student.dashboard"));
+					session()->flash("toast_success", "Selamat Datang, " . Auth::user()->username);
+
+					if (Auth::user()->userrole === "admin" || Auth::user()->userrole === "student")
+						return redirect()->intended(route(Auth::user()->userrole . ".dashboard"));
 				}
 			};
 		});
