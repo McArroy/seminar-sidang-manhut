@@ -4,7 +4,7 @@
 	@endsection
 
 	<x-slot name="title">Login</x-slot>
-
+	
 	<div class="left">
 		<img src="/assets/img/ipb-logo.png" alt="ipb-logo">
 		<div class="text">
@@ -17,11 +17,12 @@
 	<div class="right">
 		<form action="{{ route('login') }}" method="POST">
 			@csrf
+			@method("POST")
 
 			<x-input-wrapper id="useridnumber" label="ID Pengguna" type="text" placeholder="Masukkan ID Pengguna" required>
 				<iconify-icon icon="solar:user-bold" width="24"></iconify-icon>
 			</x-input-wrapper>
-			<x-input-wrapper id="password" label="Kata Sandi" type="password" placeholder="Masukkan Kata Sandi" required>
+			<x-input-wrapper class="password" id="password" label="Kata Sandi" type="password" placeholder="Masukkan Kata Sandi" required>
 				<iconify-icon icon="carbon:password" width="24"></iconify-icon>
 				<iconify-icon icon="basil:eye-outline" class="show-hide-password" width="24" onclick="TogglePassword($(this))"></iconify-icon>
 			</x-input-wrapper>
