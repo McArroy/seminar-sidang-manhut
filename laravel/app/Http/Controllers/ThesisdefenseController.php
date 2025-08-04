@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class ThesisdefenseController extends Controller
 {
+	private string $userId;
+	private string $userRole;
+
+	public function __construct()
+	{
+		$this->userId = Auth::user()->useridnumber;
+		$this->userRole = Auth::user()->userrole;
+	}
+
 	public function GetAll()
 	{
 		return Thesisdefense::all();
@@ -16,24 +25,25 @@ class ThesisdefenseController extends Controller
 
 	public function Index()
 	{
-		if (Auth::user()->userrole === "student")
+		if ($this->userRole === "admin")
 		{
-			$userId = Auth::user()->useridnumber;
+			$datathesisdefense = $this->GetAll();
+		}
+		else if ($this->userRole === "student")
+		{
+			$userId = $this->userId;
 
 			$datathesisdefense = $this->GetAll()->filter(function($thesisdefense) use ($userId)
 			{
 				return $thesisdefense->useridnumber === $userId;
 			});
-
-			return $datathesisdefense;
 		}
+
+		return $datathesisdefense;
 	}
 
 	public function Created(Request $request)
 	{
-		if (!Auth::check() || Auth::user()->userrole !== "student")
-			return redirect("/");
-
 		$data = session()->pull("validated_data_letter", []);
 
 		return view("student.registrationletter", ["data" => $data]);
@@ -41,9 +51,6 @@ class ThesisdefenseController extends Controller
 
 	public function RePreview(Request $request)
 	{
-		if (!Auth::check() || Auth::user()->userrole !== "student")
-			return redirect("/");
-
 		$data = $request->all();
 
 		session(["validated_data_letter" => $data]);
@@ -53,9 +60,6 @@ class ThesisdefenseController extends Controller
 
 	public function Store(Request $request)
 	{
-		if (!Auth::check() || Auth::user()->userrole !== "student")
-			return redirect("/");
-
 		$validated = $request->validate(
 		[
 			"useridnumber" => "required|string|max:33",
@@ -81,32 +85,16 @@ class ThesisdefenseController extends Controller
 		return redirect()->route("student.registrationletter", ["type" => "thesisdefense"])->with("toast_success", "Sidang Akhir Berhasil Dibuat");
 	}
 
-	public function Update(Request $request, Thesisdefense $thesisdefense)
-	{
-		$request->validate(
-		[
-			"title" => "required|string|max:255",
-			"content" => "required|string"
-		]);
-
-		$thesisdefense->update($request->only("title", "content"));
-
-		return redirect()->route("posts.index")->with("toast_success", "Post updated.");
-	}
-
 	public function UpdateLink(Request $request)
 	{
-		if (!Auth::check() || Auth::user()->userrole !== "student")
-			return redirect("/");
-
 		$validated = $request->validate(
 		[
 			"link" => "required|string|max:1000"
 		]);
 
-		$userId = Auth::user()->useridnumber;
+		$userId = $this->userId;
 
-		$thesisdefenses = Thesisdefense::all()->filter(function($thesisdefense) use ($userId)
+		$thesisdefenses = $this->GetAll()->filter(function($thesisdefense) use ($userId)
 		{
 			return $thesisdefense->useridnumber === $userId;
 		});
@@ -117,21 +105,73 @@ class ThesisdefenseController extends Controller
 		})->sortBy("created_at")->first();
 
 		if (!$thesisdefenseToUpdate)
-			return redirect()->back()->with("toast_info", "Semua Sidang Akhir Anda Sudah Lengkap");
+			return redirect()->back()->with("toast_info", "Semua Data Sidang Akhir Anda Sudah Lengkap");
 
 		$thesisdefenseToUpdate->update(
 		[
-			"link" => $validated["link"],
+			"link" => $validated["link"]
 		]);
 
 		return redirect()->route("student.dashboard")->with("toast_success", "Link Dokumen Sidang Akhir Berhasil Ditambahkan");
+	}
+
+	private function UpdateStatus(Request $request, Thesisdefense $thesisdefense)
+	{
+		$validated = $request->validate(
+		[
+			"status" => "required|integer|in:0,1"
+		]);
+
+		$thesisdefense->update(
+		[
+			"status" => $validated["status"]
+		]);
+
+		return redirect()->route("admin.thesisdefenses")->with("toast_success", "Pengajuan Sidang Akhir Berhasil " . $request->text);
+	}
+
+	public function Accept(Request $request, Thesisdefense $thesisdefense)
+	{
+		$request->merge(
+		[
+			"status" => 1,
+			"text" => "Diverifikasi"
+		]);
+
+		return $this->UpdateStatus($request, $thesisdefense);
+	}
+
+	public function Comment(Request $request, Thesisdefense $thesisdefense)
+	{
+		$validated = $request->validate(
+		[
+			"comment" => "required|string|max:1000"
+		]);
+
+		$thesisdefense->update(
+		[
+			"comment" => $validated["comment"]
+		]);
+
+		return redirect()->route("admin.thesisdefenses")->with("toast_success", "Pesan Revisi Berhasil Tersimpan");
+	}
+
+	public function Reject(Request $request, Thesisdefense $thesisdefense)
+	{
+		$request->merge(
+		[
+			"status" => 0,
+			"text" => "Ditolak"
+		]);
+
+		return $this->UpdateStatus($request, $thesisdefense);
 	}
 
 	public function Destroy(Thesisdefense $thesisdefense)
 	{
 		$thesisdefense->delete();
 
-		if (Auth::user()->userrole === "student")
-			return redirect()->route("student.dashboard")->with("toast_success", "Sidang Akhir Berhasil Dihapus");
+		if ($this->userRole === "student")
+			return redirect()->route("student.dashboard")->with("toast_success", "Data Sidang Akhir Berhasil Dihapus");
 	}
 }
