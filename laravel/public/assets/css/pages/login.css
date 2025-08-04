@@ -91,7 +91,7 @@ body
 			{
 				position: relative;
 
-				&:nth-child(3)
+				&.password
 				{
 					margin-top: 12px;
 				}
