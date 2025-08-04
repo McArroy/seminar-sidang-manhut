@@ -2,6 +2,48 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.8.04 [ Last update: 08/04/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ COMMONS ]**
+- Fixed typo
+- Moved inline jQuery script(s) into separated function(s)
+
+**[ DATABASE ]**
+- Fixed some type of column in User database
+
+**[ UI/UX ]**
+- Added CSS elements
+- Added navigation-buttons element
+- Added admin-students page
+- Added admin-lecturers page
+- Added admin-seminars page
+- Added admin-thesisdefenses page
+- Added some functions in PageController controller
+- Added some functions in SeminarController controller
+- Added some functions in ThesisdefenseController controller
+- Added some functions in UserController controller
+- Fixed inconsistency margin-top in login-page
+- Fixed tag `<a>` not shown properly
+- Fixed admin navigation-sidebar
+- Fixed some bugs
+- Removed unused codes
+- Moved schedule page into commons folder
+
+**[ LARAVEL ]**
+- Added encrypted data in User model
+- Added user-role middleware
+- Added middleware class for each user-role
+- Added some routes
+- Fixed codes logic
+- Fixed code indentation and standardization
+- Fixed redirected page into desired dashboard instead of default laravel after logged-in
+- Removed unused files
+- Removed unused codes
+
+</details>
+
 #### UPDATE Version 1.25.7.31 [ Last update: 07/31/2025 ]
 <details>
 <summary>Click to expand</summary>
