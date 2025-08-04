@@ -74,7 +74,7 @@ function DialogMessageToast($Type = 0, $DialogMessageText = "Warning!", $Duratio
 		<toast class="${$Class}">
 			<lottie-player src="${$IconAnimation}" class="icon" background="transparent" speed="1" autoplay></lottie-player>
 			<h1 class="message">${$DialogMessageText}</h1>
-			<iconify-icon icon='carbon:close-filled' class='button' width='21' onclick=\"DialogMessageToastClose($(this).closest('toast'));\"></iconify-icon>
+			<iconify-icon icon="carbon:close-filled" class="button" width="21" onclick=\"DialogMessageToastClose($(this).closest('toast'));\"></iconify-icon>
 			<div class="progress"></div>
 		</toast>
 	`);
@@ -123,7 +123,7 @@ function DialogMessageToastClose($Toast)
 	}, 400);
 }
 
-function DialogInputData($Type = 0, $Forms = ["", "", "POST"], ...$Elements)
+function DialogInputData($Type = 0, $Forms = ["", "", "POST", "POST"], ...$Elements)
 {
 	let $Icon;
 	let $InnerContent;
@@ -134,18 +134,18 @@ function DialogInputData($Type = 0, $Forms = ["", "", "POST"], ...$Elements)
 		$Icon = "heroicons:user-group-solid";
 		$InnerContent =
 		`
-			<div class='input-wrapper'>
-				<label for='number'>${$Type === 0 ? 'NIM' : 'NIP'}</label>
-				<input type='text' id='number' name='number' placeholder='Masukkan ${$Type === 0 ? 'NIM Mahasiswa' : 'NIP Dosen'}' value='${$Elements[1] || ''}' required>
+			<div class="input-wrapper">
+				<label for="useridnumber">${$Type === 0 ? "NIM" : "NIP"}</label>
+				<input type="text" id="useridnumber" name="useridnumber" placeholder="Masukkan ${$Type === 0 ? 'NIM Mahasiswa' : 'NIP Dosen'}" value="${$Elements[1] || ''}" required>
 			</div>
-			<div class='input-wrapper'>
-				<label for='username'>Nama</label>
-				<input type='text' id='username' name='username' placeholder='Masukkan Nama ${$Type === 0 ? 'Mahasiswa' : 'Dosen'}' value='${$Elements[2] || ''}' required>
+			<div class="input-wrapper">
+				<label for="username">Nama</label>
+				<input type="text" id="username" name="username" placeholder="Masukkan Nama ${$Type === 0 ? 'Mahasiswa' : 'Dosen'}" value="${$Elements[2] || ''}" required>
 			</div>
-			<div class='input-wrapper password'>
-				<label for='password'>Kata Sandi</label>
-				<input id='password' name='password' type='password' placeholder='*******' required>
-				<iconify-icon icon='basil:eye-outline' class='show-hide-password' width='24' onclick='TogglePassword($(this))'></iconify-icon>
+			<div class="input-wrapper password">
+				<label for="password">Kata Sandi</label>
+				<input id="password" name="password" type="password" placeholder="*******" ${$Forms[3] === "EDIT" ? "" : "required"}>
+				<iconify-icon icon="basil:eye-outline" class="show-hide-password" width="24" onclick="TogglePassword($(this))"></iconify-icon>
 			</div>
 		`;
 	}
@@ -154,9 +154,9 @@ function DialogInputData($Type = 0, $Forms = ["", "", "POST"], ...$Elements)
 		$Icon = "basil:document-outline";
 		$InnerContent =
 		`
-			<div class='input-wrapper'>
-				<label for='comment'>Komentar</label>
-				<textarea/ type='text' id='comment' name='comment' placeholder='Masukkan saran revisi Anda' required></textarea>
+			<div class="input-wrapper">
+				<label for="comment">Komentar</label>
+				<textarea type="text" id="comment" name="comment" placeholder="Masukkan saran revisi Anda" required></textarea>
 			</div>
 		`;
 	}
@@ -165,48 +165,48 @@ function DialogInputData($Type = 0, $Forms = ["", "", "POST"], ...$Elements)
 		$Icon = "heroicons:user-group-solid";
 		$InnerContent =
 		`
-			<div class='input-wrapper'>
-				<label for='number_letter'>Nomor Surat</label>
-				<input type='text' id='number_letter' name='number_letter' placeholder='Masukkan Nomor Surat' required>
+			<div class="input-wrapper">
+				<label for="number_letter">Nomor Surat</label>
+				<input type="text" id="number_letter" name="number_letter" placeholder="Masukkan Nomor Surat" required>
 			</div>
-			<div class='input-wrapper'>
-				<label for='moderator'>Moderator</label>
-				<select name='moderator' id='moderator' required>
-					<option value='' disabled selected hidden>Pilih Dosen Moderator</option>
-					<option value='Dosen 1 - 11X1234567890'>Dosen Moderator 1</option>
-					<option value='Dosen 2 - 12X1234567890'>Dosen Moderator 2</option>
-					<option value='Dosen 3 - 13X1234567890'>Dosen Moderator 3</option>
+			<div class="input-wrapper">
+				<label for="moderator">Moderator</label>
+				<select name="moderator" id="moderator" required>
+					<option value="" disabled selected hidden>Pilih Dosen Moderator</option>
+					<option value="Dosen 1 - 11X1234567890">Dosen Moderator 1</option>
+					<option value="Dosen 2 - 12X1234567890">Dosen Moderator 2</option>
+					<option value="Dosen 3 - 13X1234567890">Dosen Moderator 3</option>
 				</select>
 			</div>
-			<div class='input-wrapper'>
-				<label for='date'>Tanggal Pembuatan</label>
-				<input type='date' id='date' name='date' required>
+			<div class="input-wrapper">
+				<label for="date">Tanggal Pembuatan</label>
+				<input type="date" id="date" name="date" required>
 			</div>
 		`;
 
 		if ($Type === 4)
 			$InnerContent +=
 			`
-				<div class='input-wrapper'>
-					<label for='supervisory_committee'>Ketua Komisi Pembimbing</label>
-					<select name='supervisory_committee' id='supervisory_committee' required>
-						<option value='' disabled selected hidden>Pilih Ketua Komisi Pembimbing</option>
-						<option value='Dosen 1 - 11X1234567890'>Ketua Komisi Pembimbing 1</option>
-						<option value='Dosen 2 - 12X1234567890'>Ketua Komisi Pembimbing 2</option>
-						<option value='Dosen 3 - 13X1234567890'>Ketua Komisi Pembimbing 3</option>
+				<div class="input-wrapper">
+					<label for="supervisory_committee">Ketua Komisi Pembimbing</label>
+					<select name="supervisory_committee" id="supervisory_committee" required>
+						<option value="" disabled selected hidden>Pilih Ketua Komisi Pembimbing</option>
+						<option value="Dosen 1 - 11X1234567890">Ketua Komisi Pembimbing 1</option>
+						<option value="Dosen 2 - 12X1234567890">Ketua Komisi Pembimbing 2</option>
+						<option value="Dosen 3 - 13X1234567890">Ketua Komisi Pembimbing 3</option>
 					</select>
 				</div>
-				<div class='input-wrapper'>
-					<label for='external_examiner'>Penguji Luar Komisi</label>
-					<input type='text' id='external_examiner' name='external_examiner' placeholder='Masukkan Nama Penguji Luar Komisi' required>
+				<div class="input-wrapper">
+					<label for="external_examiner">Penguji Luar Komisi</label>
+					<input type="text" id="external_examiner" name="external_examiner" placeholder="Masukkan Nama Penguji Luar Komisi" required>
 				</div>
-				<div class='input-wrapper'>
-					<label for='chairman_session'>Ketua Sidang</label>
-					<select name='chairman_session' id='chairman_session' required>
-						<option value='' disabled selected hidden>Pilih Ketua Sidang</option>
-						<option value='Dosen 1 - 11X1234567890'>Ketua Sidang 1</option>
-						<option value='Dosen 2 - 12X1234567890'>Ketua Sidang 2</option>
-						<option value='Dosen 3 - 13X1234567890'>Ketua Sidang 3</option>
+				<div class="input-wrapper">
+					<label for="chairman_session">Ketua Sidang</label>
+					<select name="chairman_session" id="chairman_session" required>
+						<option value="" disabled selected hidden>Pilih Ketua Sidang</option>
+						<option value="Dosen 1 - 11X1234567890">Ketua Sidang 1</option>
+						<option value="Dosen 2 - 12X1234567890">Ketua Sidang 2</option>
+						<option value="Dosen 3 - 13X1234567890">Ketua Sidang 3</option>
 					</select>
 				</div>
 			`;
@@ -214,16 +214,19 @@ function DialogInputData($Type = 0, $Forms = ["", "", "POST"], ...$Elements)
 
 	const $Content =
 	`
-		<form action='${$Forms[1]}' method='${$Forms[2]}' onsubmit=\"${$SubmitCallback}\">
-			<div class='top'>
-				<img src='/resource/img/background-banner.png' alt='background-banner'>
-				<div class='text'><iconify-icon icon='${$Icon}' width='24'></iconify-icon>${$Elements[0]}</div>
+		<form action="${$Forms[1]}" method="${$Forms[2]}" onsubmit=\"${$SubmitCallback}\">
+			<input type="hidden" name="_token" value=\"${$('meta[name="csrf-token"]').attr('content')}\">
+			<input type="hidden" name="_method" value="${$Forms[2]}">
+
+			<div class="top">
+				<img src="/assets/img/background-banner.png" alt="background-banner">
+				<div class="text"><iconify-icon icon="${$Icon}" width="24"></iconify-icon>${$Elements[0]}</div>
 			</div>
-			<div class='content'>
+			<div class="content">
 				${$InnerContent}
-				<div class='buttons'>
-					<button class='button confirmation-close' onclick=\"RemoveElement(this.closest('dialog'));\">Batal</button>
-					<button class='button confirmation-ok active'>Simpan</button>
+				<div class="buttons">
+					<button class="button confirmation-close" onclick=\"RemoveElement(this.closest('dialog'));\">Batal</button>
+					<button class="button confirmation-ok active">Simpan</button>
 				</div>
 			</div>
 		</form>
@@ -234,7 +237,7 @@ function DialogInputData($Type = 0, $Forms = ["", "", "POST"], ...$Elements)
 
 function CreateDialog($Content, $Class = "")
 {
-	const $Dialog = $(`<dialog class='${$Class}'></dialog>`).html($Content);
+	const $Dialog = $(`<dialog class="${$Class}"></dialog>`).html($Content);
 	const $FirstChild = $("body").children().first();
 
 	if ($FirstChild.length > 0)
