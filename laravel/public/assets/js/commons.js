@@ -43,3 +43,97 @@ $(document).on("input", "textarea", function()
 {
 	AutoResizeTextarea($(this));
 });
+
+$(document).on("submit", "form#form-logout", function(event)
+{
+	return FormConfirmation(event, ["Anda Yakin Akan Mengakhiri Sesi?", "Sesi Anda Akan Berakhir Dan Silahkan Memulai Sesi Baru"], ["Batal", "Keluar"]);
+});
+
+$(document).on("submit", "form#form-delete", function(event)
+{
+	return FormConfirmation(event, ["Anda Yakin Akan Menghapus Data Ini?", "Pastikan Data Yang Anda Pilih Benar"], ["Batal", "Hapus"]);
+});
+
+$(document).on("submit", "form#form-letter", function(event)
+{
+	if (IsGoogleDriveUrl($("#link").val().trim()))
+	{
+		return FormConfirmation(event, ["Anda Yakin Akan Menyimpan Data Ini?", "Pastikan Data Yang Dimasukkan Benar"], ["Batal", "Simpan"]);
+	}
+	else
+	{
+		DialogMessage(0, ["Terjadi Kesalahan!", "Pastikan Link Yang Anda Masukkan Adalah Link GoogleDrive"], ["Kembali"]);
+
+		return event.preventDefault();
+	}
+});
+
+$(document).on("submit", "form#form-verification", function(event)
+{
+	return FormConfirmation(event, ["Apakah Anda Yakin Verifikasi Data Ini?", "Pastikan Data Yang Anda Pilih Benar"], ["Batal", "Verifikasi"]);
+});
+
+$(document).on("submit", "form#form-rejection", function(event)
+{
+	return FormConfirmation(event, ["Apakah Anda Yakin Tolak Data Ini?", "Pastikan Data Yang Anda Pilih Benar. Data Yang Ditolak Akan Hilang"], ["Batal", "Tolak"]);
+});
+
+$(document).on("click", "button#revision-seminar", function()
+{
+	return DialogInputData(2, ["seminar", $(this).attr("data-link"), "POST"], ["Revisi Dokumen"]);
+});
+
+$(document).on("click", "button#revision-thesisdefense", function()
+{
+	return DialogInputData(2, ["thesisdefense", $(this).attr("data-link"), "POST"], ["Revisi Dokumen"]);
+});
+
+$(document).on("input", "input#search", function()
+{
+	return UpdateQueryParam("search", this.value, ["page"]);
+});
+
+$(document).on("change", "select#semester", function()
+{
+	return UpdateQueryParam("semester", this.value, ["page"]);
+});
+
+$(document).on("change", "select#type", function()
+{
+	return UpdateQueryParam("type", this.value);
+});
+
+$(document).on("click", "button.navigator-button", function()
+{
+	return UpdateQueryParam("page", $(this).attr("data-link"));
+});
+
+$(document).on("click", "button#add-student", function()
+{
+	return DialogInputData(0, ["student", $(this).attr("data-link"), "POST"], ["Tambah Data Mahasiswa"]);
+});
+
+$(document).on("click", "button#folder-link", function()
+{
+	return DialogMessage(0, ["Dokumen Tidak Tersedia", "Silakan Kirim Dokumen Berupa Link Google Drive Di Menu Persyaratan " + $(this).attr("data-text")], ["Kembali"]);
+});
+
+$(document).on("click", "button#folder-link-admin", function()
+{
+	return DialogMessage(0, ["Dokumen Tidak Tersedia", "Mahasiswa Belum Mengirim Dokumen Berupa Link Google Drive Di Menu Persyaratan " + $(this).attr("data-text")], ["Kembali"]);
+});
+
+$(document).on("click", "button#edit-student", function()
+{
+	return DialogInputData(0, ["student", $(this).attr("data-link"), "POST", "EDIT"], "Ubah Data Mahasiswa", $(this).closest("tr").find("td.number").text().trim(), $(this).closest("tr").find("td.name").text().trim());
+});
+
+$(document).on("click", "button#add-lecturer", function()
+{
+	return DialogInputData(1, ["lecturer", $(this).attr("data-link"), "POST"], ["Tambah Data Dosen"]);
+});
+
+$(document).on("click", "button#edit-lecturer", function()
+{
+	return DialogInputData(1, ["lecturer", $(this).attr("data-link"), "POST", "EDIT"], "Ubah Data Dosen", $(this).closest("tr").find("td.number").text().trim(), $(this).closest("tr").find("td.name").text().trim());
+});
