@@ -73,8 +73,30 @@ class PageController extends Controller
 
 		$dataSubmissions = $dataSeminar->merge($dataThesisdefense)->sortByDesc("created_at")->values();
 
+		$monthlyCounts = $dataSubmissions->groupBy(function($item)
+		{
+			return Carbon::parse($item->date)->format("F");
+		})->map(function($group)
+		{
+			return $group->count();
+		});
+
+		$months =
+		[
+			"January", "February", "March", "April", "May", "June",
+			"July", "August", "September", "October", "November", "December"
+		];
+
+		$dataMonthLabels = $months;
+		$dataMonthly = [];
+
+		foreach ($months as $month)
+		{
+			$dataMonthly[] = $monthlyCounts->get($month, 0);
+		}
+
 		if ($this->userRole === "admin")
-			return view("admin.dashboard", compact("dataSubmissions"));
+			return view("admin.dashboard", ["dataSeminar" => $dataSeminar, "dataThesisdefense" => $dataThesisdefense, "dataSubmissions" => $dataSubmissions, "dataMonthLabels" => $dataMonthLabels, "dataMonthly" => $dataMonthly]);
 		else if ($this->userRole === "student")
 			return view("student.dashboard", compact("dataSubmissions"));
 	}
