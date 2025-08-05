@@ -2,6 +2,18 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.8.05 [ Last update: 08/05/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ UI/UX ]**
+- Added admin dashboard page
+
+**[ LARAVEL ]**
+- Updated PageController controller for admin dahsboard page
+
+</details>
+
 #### UPDATE Version 1.25.8.04 [ Last update: 08/04/2025 ]
 <details>
 <summary>Click to expand</summary>
