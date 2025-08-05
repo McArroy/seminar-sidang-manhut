@@ -10,7 +10,7 @@ These changelogs are basically just a summary list of changes that are very impo
 - Added admin dashboard page
 
 **[ LARAVEL ]**
-- Updated PageController controller for admin dahsboard page
+- Updated PageController controller for admin dashboard page
 
 </details>
 
