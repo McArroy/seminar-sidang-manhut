@@ -27,13 +27,13 @@ class SeminarController extends Controller
 	{
 		if ($this->userRole === "admin")
 		{
-			$dataseminar = $this->GetAll();
+			$dataseminar = self::GetAll();
 		}
 		else if ($this->userRole === "student")
 		{
 			$userId = $this->userId;
 
-			$dataseminar = $this->GetAll()->filter(function($seminar) use ($userId)
+			$dataseminar = self::GetAll()->filter(function($seminar) use ($userId)
 			{
 				return $seminar->useridnumber === $userId;
 			});
@@ -77,6 +77,9 @@ class SeminarController extends Controller
 		]);
 
 		$validated["seminarid"] = (string)Str::uuid();
+		$validated["useridnumber"] = strtolower($validated["useridnumber"]);
+		$validated["supervisor1"] = strtolower($validated["supervisor1"]);
+		$validated["supervisor2"] = strtolower($validated["supervisor2"]);
 
 		Seminar::create($validated);
 
@@ -119,7 +122,7 @@ class SeminarController extends Controller
 
 		$userId = $this->userId;
 
-		$seminars = $this->GetAll()->filter(function($seminar) use ($userId)
+		$seminars = self::GetAll()->filter(function($seminar) use ($userId)
 		{
 			return $seminar->useridnumber === $userId;
 		});

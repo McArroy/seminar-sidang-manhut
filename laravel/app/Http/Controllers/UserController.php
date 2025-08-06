@@ -151,7 +151,7 @@ class UserController extends Controller
 
 	public function GetLecturers()
 	{
-		return $this->GetAll()->filter(function($user)
+		return self::GetAll()->filter(function($user)
 		{
 			return $user->userrole === "lecturer";
 		});

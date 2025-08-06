@@ -27,13 +27,13 @@ class ThesisdefenseController extends Controller
 	{
 		if ($this->userRole === "admin")
 		{
-			$datathesisdefense = $this->GetAll();
+			$datathesisdefense = self::GetAll();
 		}
 		else if ($this->userRole === "student")
 		{
 			$userId = $this->userId;
 
-			$datathesisdefense = $this->GetAll()->filter(function($thesisdefense) use ($userId)
+			$datathesisdefense = self::GetAll()->filter(function($thesisdefense) use ($userId)
 			{
 				return $thesisdefense->useridnumber === $userId;
 			});
@@ -77,6 +77,9 @@ class ThesisdefenseController extends Controller
 		]);
 
 		$validated["thesisdefenseid"] = (string)Str::uuid();
+		$validated["useridnumber"] = strtolower($validated["useridnumber"]);
+		$validated["supervisor1"] = strtolower($validated["supervisor1"]);
+		$validated["supervisor2"] = strtolower($validated["supervisor2"]);
 
 		Thesisdefense::create($validated);
 
@@ -119,7 +122,7 @@ class ThesisdefenseController extends Controller
 
 		$userId = $this->userId;
 
-		$thesisdefenses = $this->GetAll()->filter(function($thesisdefense) use ($userId)
+		$thesisdefenses = self::GetAll()->filter(function($thesisdefense) use ($userId)
 		{
 			return $thesisdefense->useridnumber === $userId;
 		});
