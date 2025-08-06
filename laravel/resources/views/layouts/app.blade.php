@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\SeminarController;
+use App\Http\Controllers\ThesisdefenseController;
+
 date_default_timezone_set("Asia/Jakarta");
 
 $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
@@ -59,6 +63,143 @@ $PageName = "";
 				<p>Mohon Tunggu Sebentar ...</p>
 			</div>
 		</loading>
+
+		@if (request()->has("addstudent") || request()->has("editstudent") || request()->has("addlecturer") || request()->has("editlecturer") || request()->has("seminarcomment") || request()->has("thesisdefensecomment") || request()->has("announcementform"))
+		@php
+			if (request()->has("addstudent") || request()->has("editstudent"))
+			{
+				$path = route("admin.students.add");
+				$icon = "heroicons:user-group-solid";
+				$title = "Tambah Data Mahasiswa";
+				$type = [0, "post"];
+				$elements = ["NIM", "NIM Mahasiswa", "Nama", "Nama Mahasiswa", "Kata Sandi"];
+
+				if (request()->has("editstudent"))
+				{
+					$path = route("admin.students.update", [request("editstudent")]);
+					$title = "Ubah Data Mahasiswa";
+					$type = [0, "edit"];
+					$values =
+					[
+						strtoupper(UserController::GetUseridnumberById(request('editstudent'))),
+						UserController::GetUsernameById(request('editstudent'))
+					];
+				}
+			}
+			else if (request()->has("addlecturer") || request()->has("editlecturer"))
+			{
+				$path = route("admin.lecturers.add");
+				$icon = "heroicons:user-group-solid";
+				$title = "Tambah Data Dosen";
+				$type = [1, "post"];
+				$elements = ["NIP", "NIP Dosen", "Nama", "Nama Dosen", "Kata Sandi"];
+
+				if (request()->has("editlecturer"))
+				{
+					$path = route("admin.lecturers.update", [request("editlecturer")]);
+					$title = "Ubah Data Dosen";
+					$type = [1, "edit"];
+					$values =
+					[
+						strtoupper(UserController::GetUseridnumberById(request('editlecturer'))),
+						UserController::GetUsernameById(request('editlecturer'))
+					];
+				}
+			}
+			else if (request()->has("seminarcomment") || request()->has("thesisdefensecomment"))
+			{
+				$icon = "basil:document-outline";
+				$title = "Revisi Dokumen";
+				$type = [2, "post"];
+				$elements = ["Komentar", "Masukkan Saran Revisi Anda"];
+
+				if (request()->has("seminarcomment"))
+				{
+					$path = route("admin.seminars.revision", [request("seminarcomment")]);
+					$values =
+					[
+						SeminarController::GetCommentById(request('seminarcomment'))
+					];
+				}
+				else if (request()->has("thesisdefensecomment"))
+				{
+					$path = route("admin.thesisdefenses.revision", [request("thesisdefensecomment")]);
+					$values =
+					[
+						ThesisdefenseController::GetCommentById(request('thesisdefensecomment'))
+					];
+				}
+			}
+			else if (request()->has("announcementform"))
+			{
+				$path = route("admin.announcements.add", [request("announcementform")]);
+				$icon = "heroicons:user-group-solid";
+				$title = "Pengumuman Seminar";
+				$type = [3, "post"];
+				$elements = ["Nomor Surat", "Moderator", "Kata Sandi"];
+			}
+		@endphp
+
+		<dialog class="input-data">
+			<form action="{{ $path }}" method="POST">
+				@csrf
+				@method("POST")
+
+				<div class="top">
+					<img src="/assets/img/background-banner.png" alt="background-banner">
+					<div class="text">
+						<iconify-icon icon="{{ $icon }}" width="24"></iconify-icon>
+						{{ $title }}
+					</div>
+				</div>
+				<div class="content">
+					@if ($type[0] === 0 || $type[0] === 1)
+					<x-input-wrapper id="useridnumber" type="text" label="{{ $elements[0] }}" placeholder="Masukkan {{ $elements[1] }}" value="{{ $values[0] ?? '' }}" required />
+					<x-input-wrapper id="username" type="text" label="{{ $elements[2] }}" placeholder="Masukkan {{ $elements[3] }}" value="{{ $values[1] ?? '' }}" required />
+					<x-input-wrapper class="password" id="password" type="password" label="{{ $elements[4] }}" placeholder="********" required="{{ $type[1] !== 'edit' }}">
+						<iconify-icon icon="basil:eye-outline" class="show-hide-password" width="24" onclick="TogglePassword($(this))"></iconify-icon>
+					</x-input-wrapper>
+					@elseif ($type[0] === 2)
+					<x-input-wrapper id="comment" type="textarea" label="{{ $elements[0] }}" placeholder="Masukkan {{ $elements[1] }}" value="{{ $values[0] ?? '' }}" required />
+					@elseif ($type[0] === 3)
+					@php
+						$dataLecturers = app()->make(UserController::class)->GetLecturers();
+					@endphp
+					<x-input-wrapper id="number_letter" type="text" label="Nomor Surat" placeholder="Masukkan Nomor Surat" required />
+					<x-input-wrapper id="moderator" label="Moderator" type="select" placeholder="Pilih Dosen Moderator" required>
+						@foreach ($dataLecturers as $lecturer)
+							<option value="{{ strtoupper($lecturer->useridnumber) }}">{{ $lecturer->username }}</option>
+						@endforeach
+					</x-input-wrapper>
+					<x-input-wrapper id="date_letter" type="date" label="Tanggal Pembuatan" required />
+					<x-input-wrapper id="supervisory_committee" label="Ketua Komisi Pembimbing" type="select" placeholder="Pilih Ketua Komisi Pembimbing" required>
+						@foreach ($dataLecturers as $lecturer)
+							<option value="{{ strtoupper($lecturer->useridnumber) }}">{{ $lecturer->username }}</option>
+						@endforeach
+					</x-input-wrapper>
+					<x-input-wrapper id="external_examiner" label="Penguji Luar Komisi" type="select" placeholder="Pilih Penguji Luar Komisi" required>
+						@foreach ($dataLecturers as $lecturer)
+							<option value="{{ strtoupper($lecturer->useridnumber) }}">{{ $lecturer->username }}</option>
+						@endforeach
+					</x-input-wrapper>
+					<x-input-wrapper id="chairman_session" label="Ketua Sidang" type="select" placeholder="Pilih Ketua Sidang" required>
+						@foreach ($dataLecturers as $lecturer)
+							<option value="{{ strtoupper($lecturer->useridnumber) }}">{{ $lecturer->username }}</option>
+						@endforeach
+					</x-input-wrapper>
+					@endif
+					<div class="buttons">
+						<x-button class="confirmation-close">Batal</x-button>
+						<x-button class="confirmation-ok active">Simpan</x-button>
+					</div>
+				</div>
+			</form>
+		</dialog>
+
+		<script>
+			$("dialog.input-data")[0].showModal();
+		</script>
+		@endif
 
 		@auth
 		<navbar class="top">

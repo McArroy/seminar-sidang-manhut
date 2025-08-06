@@ -80,12 +80,12 @@ $(document).on("submit", "form#form-rejection", function(event)
 
 $(document).on("click", "button#revision-seminar", function()
 {
-	return DialogInputData(2, ["seminar", $(this).attr("data-link"), "POST"], ["Revisi Dokumen"]);
+	return UpdateQueryParam("seminarcomment", $(this).attr("data-link"));
 });
 
 $(document).on("click", "button#revision-thesisdefense", function()
 {
-	return DialogInputData(2, ["thesisdefense", $(this).attr("data-link"), "POST"], ["Revisi Dokumen"]);
+	return UpdateQueryParam("thesisdefensecomment", $(this).attr("data-link"));
 });
 
 $(document).on("input", "input#search", function()
@@ -108,11 +108,6 @@ $(document).on("click", "button.navigator-button", function()
 	return UpdateQueryParam("page", $(this).attr("data-link"));
 });
 
-$(document).on("click", "button#add-student", function()
-{
-	return DialogInputData(0, ["student", $(this).attr("data-link"), "POST"], ["Tambah Data Mahasiswa"]);
-});
-
 $(document).on("click", "button#folder-link", function()
 {
 	return DialogMessage(0, ["Dokumen Tidak Tersedia", "Silakan Kirim Dokumen Berupa Link Google Drive Di Menu Persyaratan " + $(this).attr("data-text")], ["Kembali"]);
@@ -123,17 +118,27 @@ $(document).on("click", "button#folder-link-admin", function()
 	return DialogMessage(0, ["Dokumen Tidak Tersedia", "Mahasiswa Belum Mengirim Dokumen Berupa Link Google Drive Di Menu Persyaratan " + $(this).attr("data-text")], ["Kembali"]);
 });
 
+$(document).on("click", "button#add-student", function()
+{
+	return UpdateQueryParam("addstudent", "");
+});
+
 $(document).on("click", "button#edit-student", function()
 {
-	return DialogInputData(0, ["student", $(this).attr("data-link"), "POST", "EDIT"], "Ubah Data Mahasiswa", $(this).closest("tr").find("td.number").text().trim(), $(this).closest("tr").find("td.name").text().trim());
+	return UpdateQueryParam("editstudent", $(this).attr("data-link"));
 });
 
 $(document).on("click", "button#add-lecturer", function()
 {
-	return DialogInputData(1, ["lecturer", $(this).attr("data-link"), "POST"], ["Tambah Data Dosen"]);
+	return UpdateQueryParam("addlecturer", "");
 });
 
 $(document).on("click", "button#edit-lecturer", function()
 {
-	return DialogInputData(1, ["lecturer", $(this).attr("data-link"), "POST", "EDIT"], "Ubah Data Dosen", $(this).closest("tr").find("td.number").text().trim(), $(this).closest("tr").find("td.name").text().trim());
+	return UpdateQueryParam("editlecturer", $(this).attr("data-link"));
+});
+
+$(document).on("click", "dialog.input-data .button.confirmation-close", function()
+{
+	window.location.href = window.location.pathname;
 });
