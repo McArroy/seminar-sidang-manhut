@@ -26,15 +26,16 @@ class UserController extends Controller
 			"password" => "required|string|max:127"
 		]);
 
-		$exists = $this->GetAll()->contains(function($u) use ($validated)
+		$exists = self::GetAll()->contains(function($u) use ($validated)
 			{
 				return $u->useridnumber === $validated["useridnumber"];
 			});
 
 		if ($exists)
-			return redirect()->back()->with("toast_info", "NIM/NIP Sudah Digunakan. Gagal Menambahkan Data " . $request["text"]);
+			return redirect()->route("admin." . $request["from"])->with("toast_info", "NIM/NIP Sudah Digunakan. Gagal Menambahkan Data " . $request["text"]);
 
 		$validated["userid"] = (string)Str::uuid();
+		$validated["useridnumber"] = strtolower($validated["useridnumber"]);
 		$validated["userrole"] = $request["userrole"];
 		$validated["password"] = Hash::make($validated["password"]);
 
@@ -52,20 +53,24 @@ class UserController extends Controller
 			"password" => "nullable|string|max:127"
 		]);
 
+		$validated["useridnumber"] = strtolower($validated["useridnumber"]);
+
 		$exists = $this->GetAll()->filter(function($u) use ($validated, $user)
 			{
 				return $u->useridnumber === $validated["useridnumber"] && $u->userid !== $user->userid;
 			})->isNotEmpty();
 
 		if ($exists)
-			return redirect()->back()->with("toast_info", "NIM/NIP Sudah Digunakan. Gagal Mengubah Data " . $request["text"]);
+			return redirect()->route("admin." . $request["from"])->with("toast_info", "NIM/NIP Sudah Digunakan. Gagal Mengubah Data " . $request["text"]);
 
 		$user->update(
 		[
 			"useridnumber" => $validated["useridnumber"],
-			"username" => $validated["username"],
-			"password" => Hash::make($validated["password"])
+			"username" => $validated["username"]
 		]);
+
+		if (!empty($validated["password"]))
+			$user->update(["password" => Hash::make($validated["password"])]);
 
 		return redirect()->route("admin." . $request["from"])->with("toast_success", "Data " . $request["text"] . " Berhasil Diubah");
 	}
@@ -78,14 +83,14 @@ class UserController extends Controller
 			return redirect()->route("admin." . $request["from"])->with("toast_success", "Data " . $request["text"] . " Berhasil Dihapus");
 	}
 
-	public function GetAll()
+	public static function GetAll()
 	{
 		return User::all();
 	}
 
-	public static function GetUsername(string $useridnumber)
+	public static function GetUsername(String $useridnumber)
 	{
-		$user = User::all()->filter(function($user) use ($useridnumber)
+		$user = self::GetAll()->filter(function($user) use ($useridnumber)
 		{
 			return $user->useridnumber === $useridnumber;
 		})->first();
@@ -93,9 +98,29 @@ class UserController extends Controller
 		return $user ? $user->username : null;
 	}
 
+	public static function GetUsernameById(String $userid)
+	{
+		$user = self::GetAll()->filter(function($user) use ($userid)
+		{
+			return $user->userid === $userid;
+		})->first();
+
+		return $user ? $user->username : null;
+	}
+
+	public static function GetUseridnumberById(String $userid)
+	{
+		$user = self::GetAll()->filter(function($user) use ($userid)
+		{
+			return $user->userid === $userid;
+		})->first();
+
+		return $user ? $user->useridnumber : null;
+	}
+
 	public function GetStudents()
 	{
-		return $this->GetAll()->filter(function($user)
+		return self::GetAll()->filter(function($user)
 		{
 			return $user->userrole === "student";
 		});
