@@ -87,7 +87,7 @@ else
 						<tr>
 							<td class='label'>NIM</td>
 							<td class='colon'>:</td>
-							<td class='value'>{{ $data['useridnumber'] }}</td>
+							<td class='value'>{{ strtoupper($data['useridnumber']) }}</td>
 						</tr>
 						<tr>
 							<td class='label'>Semester</td>
@@ -126,7 +126,7 @@ else
 						<tr>
 							<td class='label'>Nama / NRP</td>
 							<td class='colon'>:</td>
-							<td class='value'>{{ UserController::GetUsername($data['useridnumber']) . ' / ' . $data['useridnumber'] }}</td>
+							<td class='value'>{{ UserController::GetUsername($data['useridnumber']) . ' / ' . strtoupper($data['useridnumber']) }}</td>
 						</tr>
 						<tr>
 							<td class='label'>Program Studi</td>
@@ -166,13 +166,13 @@ else
 									'Diketahui oleh:<br>Dosen Pembimbing,' :
 									'<br><br>Ketua Komisi Pembimbing,' }}
 								<div style='margin-top: 87px;'>
-									1. <span style='border-bottom: 1px solid black; display: inline-block; width: 200px;'>{{ explode('-', $data['supervisor1'])[0] }}</span><br>
-									&nbsp;NIP&nbsp;&nbsp;{{ explode('-', $data['supervisor1'])[1] }}
+									1. <span style='border-bottom: 1px solid black; display: inline-block; width: 200px;'>{{ UserController::GetUsername($data['supervisor1']) }}</span><br>
+									&nbsp;NIP&nbsp;&nbsp;{{ strtoupper($data['supervisor1']) }}
 								</div>
 								@if (!$IsThesisDefense)
 								<div style='margin-top: 87px;'>
-									2. <span style='border-bottom: 1px solid black; display: inline-block; width: 200px;'>{{ explode('-', $data['supervisor2'])[0] }}</span><br>
-									&nbsp;NIP&nbsp;&nbsp;{{ explode('-', $data['supervisor2'])[1] }}
+									2. <span style='border-bottom: 1px solid black; display: inline-block; width: 200px;'>{{ UserController::GetUsername($data['supervisor2']) }}</span><br>
+									&nbsp;NIP&nbsp;&nbsp;{{ strtoupper($data['supervisor2']) }}
 								</div>
 								@endif
 							</td>
@@ -192,8 +192,8 @@ else
 									<div style='margin-top: 35px;'>
 										{{ $IsThesisDefense ? '<br>Anggota Komisi Pembimbing' : 'Komisi AJMP dan Kemahasiswaan' }}
 										<div style='margin-top: 90px;'>
-											<span style='border-bottom: 1px solid black; display: inline-block; width: 200px;'>{{ (isset($IsThesisDefense) ? explode('-', $data['supervisor2'])[0] : '') }}</span><br>
-											&nbsp;NIP&nbsp;&nbsp;{{ $IsThesisDefense ? explode('-', $data['supervisor2'])[1] : '' }}
+											<span style='border-bottom: 1px solid black; display: inline-block; width: 200px;'>{{ (isset($IsThesisDefense) ? UserController::GetUsername($data['supervisor2']) : '') }}</span><br>
+											&nbsp;NIP&nbsp;&nbsp;{{ strtoupper($data['supervisor2']) }}
 										</div>
 									</div>
 								</div>

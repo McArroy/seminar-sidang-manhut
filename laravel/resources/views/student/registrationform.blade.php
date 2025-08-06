@@ -1,9 +1,13 @@
 @php
+	use App\Http\Controllers\UserController;
+
 	if (!in_array($_GET["type"] ?? null, ["seminar", "thesisdefense"]))
 	{
 		header("Location: " . url()->current() . "?type=seminar");
 		exit;
 	}
+
+	$dataLecturers = app()->make(UserController::class)->GetLecturers();
 @endphp
 
 <x-app-layout>
@@ -33,7 +37,7 @@
 
 		<div class="input">
 			<x-input-wrapper id="username" label="Nama" type="text" value="{{ Auth::user()->username }}" readonly/>
-			<x-input-wrapper id="useridnumber" label="NIM" type="text" value="{{ Auth::user()->useridnumber }}" readonly/>
+			<x-input-wrapper id="useridnumber" label="NIM" type="text" value="{{ strtoupper(Auth::user()->useridnumber) }}" readonly/>
 		</div>
 
 		@if (isset($IsThesisDefense))
@@ -51,20 +55,18 @@
 		@endif
 
 		<div class="input">
-			<x-input-wrapper id="supervisor1" label="Dosen Pembimbing 1" type="select" placeholder="Pilih Dosen Pembimbing 1" :options="
-			[
-				'Dosen 1 - 01X1234567890' => 'Dosen Pembimbing 1',
-				'Dosen 2 - 02X1234567890' => 'Dosen Pembimbing 2',
-				'Dosen 3 - 03X1234567890' => 'Dosen Pembimbing 3'
-			]" required/>
+			<x-input-wrapper id="supervisor1" label="Dosen Pembimbing 1" type="select" placeholder="Pilih Dosen Pembimbing 1" required>
+				@foreach ($dataLecturers as $lecturer)
+					<option value="{{ strtoupper($lecturer->useridnumber) }}">{{ $lecturer->username }}</option>
+				@endforeach
+			</x-input-wrapper>
 		</div>
 		<div class="input">
-			<x-input-wrapper id="supervisor2" label="Dosen Pembimbing 2" type="select" placeholder="Pilih Dosen Pembimbing 2" :options="
-			[
-				'Dosen 1 - 11X1234567890' => 'Dosen Pembimbing 1',
-				'Dosen 2 - 12X1234567890' => 'Dosen Pembimbing 2',
-				'Dosen 3 - 13X1234567890' => 'Dosen Pembimbing 3'
-			]" required/>
+			<x-input-wrapper id="supervisor2" label="Dosen Pembimbing 2" type="select" placeholder="Pilih Dosen Pembimbing 2" required>
+				@foreach ($dataLecturers as $lecturer)
+					<option value="{{ strtoupper($lecturer->useridnumber) }}">{{ $lecturer->username }}</option>
+				@endforeach
+			</x-input-wrapper>
 		</div>
 		<div class="input">
 			<x-input-wrapper id="date" label="Tanggal {{ (isset($IsThesisDefense) ? 'Sidang' : 'Seminar') }}" type="date" required/>
