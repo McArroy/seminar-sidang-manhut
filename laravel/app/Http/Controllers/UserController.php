@@ -26,10 +26,7 @@ class UserController extends Controller
 			"password" => "required|string|max:127"
 		]);
 
-		$exists = self::GetAll()->contains(function($u) use ($validated)
-			{
-				return $u->useridnumber === $validated["useridnumber"];
-			});
+		$exists = User::where("useridnumber", strtolower($validated["useridnumber"]))->exists();
 
 		if ($exists)
 			return redirect()->route("admin." . $request["from"])->with("toast_info", "NIM/NIP Sudah Digunakan. Gagal Menambahkan Data " . $request["text"]);
@@ -55,10 +52,9 @@ class UserController extends Controller
 
 		$validated["useridnumber"] = strtolower($validated["useridnumber"]);
 
-		$exists = $this->GetAll()->filter(function($u) use ($validated, $user)
-			{
-				return $u->useridnumber === $validated["useridnumber"] && $u->userid !== $user->userid;
-			})->isNotEmpty();
+		$exists = User::where("useridnumber", $validated["useridnumber"])
+			->where("userid", "!=", $user->userid)
+			->exists();
 
 		if ($exists)
 			return redirect()->route("admin." . $request["from"])->with("toast_info", "NIM/NIP Sudah Digunakan. Gagal Mengubah Data " . $request["text"]);
@@ -88,34 +84,25 @@ class UserController extends Controller
 		return User::all();
 	}
 
-	public static function GetUsername(String $useridnumber)
+	public static function GetUsername(string $useridnumber)
 	{
-		$user = self::GetAll()->filter(function($user) use ($useridnumber)
-		{
-			return $user->useridnumber === $useridnumber;
-		})->first();
+		$user = User::where("useridnumber", $useridnumber)->first();
 
 		return $user ? $user->username : null;
 	}
 
-	public static function GetUsernameById(String $userid)
+	public static function GetUsernameById(string $userid) : ?string
 	{
-		$user = self::GetAll()->filter(function($user) use ($userid)
-		{
-			return $user->userid === $userid;
-		})->first();
+		$user = User::find($userid);
 
-		return $user ? $user->username : null;
+		return $user?->username;
 	}
 
-	public static function GetUseridnumberById(String $userid)
+	public static function GetUseridnumberById(string $userid) : ?string
 	{
-		$user = self::GetAll()->filter(function($user) use ($userid)
-		{
-			return $user->userid === $userid;
-		})->first();
+		$user = User::find($userid);
 
-		return $user ? $user->useridnumber : null;
+		return $user?->useridnumber;
 	}
 
 	public function GetStudents()
