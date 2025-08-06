@@ -65,6 +65,19 @@ Route::middleware(
 
 		Route::post("/thesisdefenses/reject/{thesisdefense}", [ThesisdefenseController::class, "Reject"])->name("thesisdefenses.reject");
 
+		Route::get("/announcements", function()
+		{
+			return view("admin.announcements");
+		})->name("announcements");
+
+		Route::post("/announcements", function(Request $request)
+		{
+			if ($request->query("type") === "seminar")
+				return app()->make(SeminarController::class)->UpdateLink($request);
+			else
+				return app()->make(ThesisdefenseController::class)->UpdateLink($request);
+		})->name("announcements.add");
+
 		Route::get("/schedule", [PageController::class, "Schedule"])->name("schedule");
 	});
 });
