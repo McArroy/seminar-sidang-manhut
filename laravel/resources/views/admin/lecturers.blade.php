@@ -13,7 +13,7 @@
 	
 	<div class="top">
 		<x-input-wrapper class="search type-2" id="search" type="text" placeholder="Cari Data" value="{{ $InputSearch }}" autofocus />
-		<x-button class="add" id="add-lecturer" icon="material-symbols:add-rounded" iconwidth="auto" data-link="{{ route('admin.lecturers.add') }}">Tambah Data</x-button>
+		<x-button class="add" id="add-lecturer" icon="material-symbols:add-rounded" iconwidth="auto">Tambah Data</x-button>
 	</div>
 	<div class="middle">
 		<table class="type-2">
@@ -29,10 +29,10 @@
 				@forelse ($dataUsers as $index => $item)
 				<tr>
 					<td class="numbered"></td>
-					<td class="number">{{ $item->useridnumber }}</td>
+					<td class="number">{{ strtoupper($item->useridnumber) }}</td>
 					<td class="name">{{ $item->username }}</td>
 					<td class="button-actions">
-						<x-button class="edit" id="edit-lecturer" data-link="{{ route('admin.lecturers.update', [$item->userid]) }}">Ubah</x-button>
+						<x-button class="edit" id="edit-lecturer" data-link="{{ $item->userid }}">Ubah</x-button>
 						<form id="form-delete" action="{{ route('admin.lecturers.delete', [$item->userid]) }}" method="POST">
 							@csrf
 							@method("DELETE")

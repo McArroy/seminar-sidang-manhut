@@ -31,7 +31,7 @@
 				@forelse ($dataSeminars as $index => $item)
 				<tr>
 					<td class="numbered"></td>
-					<td class="number">{{ $item->useridnumber }}</td>
+					<td class="number">{{ strtoupper($item->useridnumber) }}</td>
 					<td class="name">{!! $item->username ?? "<i>Data Mahasiswa<br>Tidak Ditemukan</i>" !!}</td>
 					<td class="title">{{ $item->title }}</td>
 					<td class="link">
@@ -55,7 +55,7 @@
 							
 							<x-button class="verification">Verifikasi</x-button>
 						</form>
-						<x-button class="revision" id="revision-seminar" data-link="{{ route('admin.seminars.revision', $item->seminarid) }}">Revisi</x-button>
+						<x-button class="revision" id="revision-seminar" data-link="{{ $item->seminarid }}">Revisi</x-button>
 						<form id="form-rejection" action="{{ route('admin.seminars.reject', $item->seminarid) }}" method="POST">
 							@csrf
 							@method("POST")
