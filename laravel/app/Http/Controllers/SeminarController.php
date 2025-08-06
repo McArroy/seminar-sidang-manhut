@@ -18,7 +18,7 @@ class SeminarController extends Controller
 		$this->userRole = Auth::user()->userrole;
 	}
 
-	public function GetAll()
+	public static function GetAll()
 	{
 		return Seminar::all();
 	}
@@ -85,9 +85,34 @@ class SeminarController extends Controller
 		return redirect()->route("student.registrationletter", ["type" => "seminar"])->with("toast_success", "Seminar Berhasil Dibuat");
 	}
 
+	private function Update(Array $data, Seminar $seminar)
+	{
+		if (isset($data["status"]))
+		{
+			$seminar->update(["status" => $data["status"]]);
+
+			if ($data["status"] === 1)
+				$seminar->update(["comment" => ""]);
+			
+			return redirect()->route("admin.seminars")->with("toast_success", "Pengajuan Seminar Berhasil " . ($data["text"] ?? ""));
+		}
+		else if (isset($data["comment"]))
+		{
+			$seminar->update(["comment" => $data["comment"]]);
+
+			return redirect()->route("admin.seminars")->with("toast_success", "Pesan Revisi Berhasil Tersimpan");
+		}
+		else if (isset($data["link"]))
+		{
+			$seminar->update(["link" => $data["link"]]);
+
+			return redirect()->route("student.dashboard")->with("toast_success", "Link Dokumen Seminar Berhasil Ditambahkan");
+		}
+	}
+
 	public function UpdateLink(Request $request)
 	{
-		$validated = $request->validate(
+		$data = $request->validate(
 		[
 			"link" => "required|string|max:1000"
 		]);
@@ -107,64 +132,49 @@ class SeminarController extends Controller
 		if (!$seminarToUpdate)
 			return redirect()->back()->with("toast_info", "Semua Data Seminar Anda Sudah Lengkap");
 
-		$seminarToUpdate->update(
-		[
-			"link" => $validated["link"]
-		]);
-
-		return redirect()->route("student.dashboard")->with("toast_success", "Link Dokumen Seminar Berhasil Ditambahkan");
+		return $this->Update($data, $seminarToUpdate);
 	}
 
-	private function UpdateStatus(Request $request, Seminar $seminar)
+	public static function GetCommentById(String $seminarid)
 	{
-		$validated = $request->validate(
-		[
-			"status" => "required|integer|in:0,1"
-		]);
+		$seminar = self::GetAll()->filter(function($seminar) use ($seminarid)
+		{
+			return $seminar->seminarid === $seminarid;
+		})->first();
 
-		$seminar->update(
-		[
-			"status" => $validated["status"]
-		]);
-
-		return redirect()->route("admin.seminars")->with("toast_success", "Pengajuan Seminar Berhasil " . $request->text);
+		return $seminar ? $seminar->comment : null;
 	}
 
 	public function Accept(Request $request, Seminar $seminar)
 	{
-		$request->merge(
+		$data = $request->merge(
 		[
 			"status" => 1,
 			"text" => "Diverifikasi"
-		]);
+		])->all();
 
-		return $this->UpdateStatus($request, $seminar);
+		return $this->Update($data, $seminar);
 	}
 
 	public function Comment(Request $request, Seminar $seminar)
 	{
-		$validated = $request->validate(
+		$data = $request->validate(
 		[
 			"comment" => "required|string|max:1000"
 		]);
 
-		$seminar->update(
-		[
-			"comment" => $validated["comment"]
-		]);
-
-		return redirect()->route("admin.seminars")->with("toast_success", "Pesan Revisi Berhasil Tersimpan");
+		return $this->Update($data, $seminar);
 	}
 
 	public function Reject(Request $request, Seminar $seminar)
 	{
-		$request->merge(
+		$data = $request->merge(
 		[
 			"status" => 0,
 			"text" => "Ditolak"
-		]);
+		])->all();
 
-		return $this->UpdateStatus($request, $seminar);
+		return $this->Update($data, $seminar);
 	}
 
 	public function Destroy(Seminar $seminar)
