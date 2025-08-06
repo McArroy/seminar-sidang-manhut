@@ -36,7 +36,7 @@
 				<td class="comment">{{ $item->comment }}</td>
 				<td class="link">
 					@if (!empty($item->link))
-					<x-button href="{{ $item->link }}" class="folder active" icon="fluent:folder-open-20-filled" iconwidth="30"></x-button>
+					<x-button href="{{ $item->link }}" target="_blank" class="folder active" icon="fluent:folder-open-20-filled" iconwidth="30"></x-button>
 					@else
 					<x-button class="folder" id="folder-link" icon="fluent:folder-open-20-filled" iconwidth="30" data-text="{{ ucfirst($item->submission_type) }}"></x-button>
 					@endif
