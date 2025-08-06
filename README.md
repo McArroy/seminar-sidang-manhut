@@ -2,6 +2,32 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.8.06 [ Last update: 08/06/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ COMMONS ]**
+- Fixed dialog input-data is now called via server instead plain-text using jQuery
+- Fixed some bugs
+- Removed unused codes
+
+**[ UI/UX ]**
+- Fixed useridnumber not displayed uppercase via server-side
+- Fixed some bugs
+
+**[ LARAVEL ]**
+- Added some functions in SeminarController controller
+- Added some functions in ThesisdefenseController controller
+- Added some functions in UserController controller
+- Added some routes
+- Fixed memory overflow on some functions in UserController controller
+- Fixed seminar's comment not deleted if status is accepted
+- Fixed thesis defense's comment not deleted if status is accepted
+- Fixed lecturers are now get the data from database instead predefined text
+- Fixed some bugs
+
+</details>
+
 #### UPDATE Version 1.25.8.05 [ Last update: 08/05/2025 ]
 <details>
 <summary>Click to expand</summary>
