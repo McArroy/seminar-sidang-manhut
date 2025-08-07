@@ -97,7 +97,7 @@ class ThesisdefenseController extends Controller
 			if ($data["status"] === 1)
 				$thesisdefense->update(["comment" => ""]);
 			
-			return redirect()->route("admin.seminars")->with("toast_success", "Pengajuan Seminar Berhasil " . ($data["text"] ?? ""));
+			return redirect()->route("admin.thesisdefenses")->with("toast_success", "Pengajuan Seminar Berhasil " . ($data["text"] ?? ""));
 		}
 		else if (isset($data["comment"]))
 		{
