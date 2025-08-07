@@ -1,6 +1,4 @@
 @php
-	use App\Http\Controllers\DateIndoFormatterController;
-
 	$dataSeminar = $dataSeminar->filter(function($item){ return $item->status !== 0; })->count();
 	$dataThesisdefense = $dataThesisdefense->filter(function($item){ return $item->status !== 0; })->count();
 	$dataWaiting = $dataSubmissions->filter(function($item){ return ($item->status === null || $item->status === "") && ($item->comment === null || $item->comment === ""); })->count();
