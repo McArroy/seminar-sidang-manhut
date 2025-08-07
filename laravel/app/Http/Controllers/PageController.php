@@ -62,12 +62,14 @@ class PageController extends Controller
 		$dataSeminar = app()->make(SeminarController::class)->Index()->map(function($item)
 		{
 			$item->submission_type = "Seminar";
+			$item->created_at_parsed = DateIndoFormatterController::Simple($item->created_at);
 			return $item;
 		});
 
 		$dataThesisdefense = app()->make(ThesisdefenseController::class)->Index()->map(function($item)
 		{
 			$item->submission_type = "Sidang Akhir";
+			$item->created_at_parsed = DateIndoFormatterController::Simple($item->created_at);
 			return $item;
 		});
 
@@ -278,6 +280,9 @@ class PageController extends Controller
 		{
 			$item->submission_type = "Seminar";
 			$item->username = UserController::GetUsername($item->useridnumber);
+			$item->supervisor1 = UserController::GetUsername($item->supervisor1);
+			$item->supervisor2 = UserController::GetUsername($item->supervisor2);
+			$item->date_parsed = DateIndoFormatterController::Full($item->date, 1);
 			return $item;
 		});
 
@@ -288,6 +293,9 @@ class PageController extends Controller
 		{
 			$item->submission_type = "Sidang Akhir";
 			$item->username = UserController::GetUsername($item->useridnumber);
+			$item->supervisor1 = UserController::GetUsername($item->supervisor1);
+			$item->supervisor2 = UserController::GetUsername($item->supervisor2);
+			$item->date_parsed = DateIndoFormatterController::Full($item->date, 1);
 			return $item;
 		});
 
@@ -342,8 +350,10 @@ class PageController extends Controller
 					$item->title ?? "",
 					$item->useridnumber ?? "",
 					UserController::GetUsername($item->useridnumber) ?? "",
-					explode("-", $item->supervisor1 ?? "")[0],
-					explode("-", $item->supervisor2 ?? "")[0],
+					$item->supervisor1 ?? "",
+					UserController::GetUsername($item->supervisor1) ?? "",
+					$item->supervisor2 ?? "",
+					UserController::GetUsername($item->supervisor2) ?? "",
 					$item->place ?? "",
 					$item->time ?? "",
 					DateIndoFormatterController::Full($item->date, 1) ?? ""

@@ -1,6 +1,4 @@
 @php
-	use App\Http\Controllers\DateIndoFormatterController;
-	use App\Http\Controllers\UserController;
 	use Carbon\Carbon;
 
 	$SelectedSemester = $_GET["semester"] ?? "";
@@ -80,8 +78,8 @@
 					<td class="name">{!! $item->username ?? "<i>Data Mahasiswa Tidak Ditemukan</i>" !!}</td>
 					<td>
 						<ul>
-							<li>{!! explode("-", $item->supervisor1)[0] ?? "<i>Data Dosen Tidak Ditemukan</i>" !!}</li>
-							<li>{!! explode("-", $item->supervisor2)[0] ?? "<i>Data Dosen Tidak Ditemukan</i>" !!}</li>
+							<li>{!! $item->supervisor1 ?? "<i>Data Dosen Tidak Ditemukan</i>" !!}</li>
+							<li>{!! $item->supervisor2 ?? "<i>Data Dosen Tidak Ditemukan</i>" !!}</li>
 						</ul>
 					</td>
 					<td>
@@ -93,7 +91,7 @@
 					<td class="schedule">
 						<ul>
 							<li>{{ $item->place }}</li>
-							<li>{{ DateIndoFormatterController::Full($item->date, 1) }}</li>
+							<li>{{ $item->date_parsed }}</li>
 							<li>{{ $item->time }}</li>
 						</ul>
 					</td>

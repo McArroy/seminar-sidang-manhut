@@ -32,7 +32,7 @@
 			<tr>
 				<td class="numbered"></td>
 				<td class="type">{{ ucfirst($item->submission_type) }}</td>
-				<td class="date">{{ DateIndoFormatterController::Simple($item->created_at) }}</td>
+				<td class="date">{{ $item->created_at_parsed }}</td>
 				<td class="comment">{{ $item->comment }}</td>
 				<td class="link">
 					@if (!empty($item->link))
