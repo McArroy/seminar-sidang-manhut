@@ -7,11 +7,28 @@ These changelogs are basically just a summary list of changes that are very impo
 <summary>Click to expand</summary>
 
 **[ COMMONS ]**
+
+**[ UI/UX ]**
+
+**[ LARAVEL ]**
+- Fixed data parsed on classes rather than on each pages
+- Fixed when thesis defense updated admin not redirected into thesis defense's page but seminar's page instead
+- Fixed some bugs
+- Remove unused codes
+
+</details>
+
+#### UPDATE Version 1.25.8.06 [ Last update: 08/06/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ COMMONS ]**
 - Fixed dialog input-data is now called via server instead plain-text using jQuery
 - Fixed some bugs
 - Removed unused codes
 
 **[ UI/UX ]**
+- Fixed GoogleDrive folder not opened in a new tab
 - Fixed useridnumber not displayed uppercase via server-side
 - Fixed some bugs
 
