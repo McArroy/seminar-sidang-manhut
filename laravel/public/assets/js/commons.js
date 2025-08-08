@@ -138,7 +138,19 @@ $(document).on("click", "button#edit-lecturer", function()
 	return UpdateQueryParam("editlecturer", $(this).attr("data-link"));
 });
 
+$(document).on("click", "button#add-form-letter", function()
+{
+	return UpdateQueryParam("announcementform", $(this).attr("data-link"));
+});
+
 $(document).on("click", "dialog.input-data .button.confirmation-close", function()
 {
-	window.location.href = window.location.pathname;
+	const url = new URL(window.location.href);
+	const type = url.searchParams.get("type");
+	let newUrl = window.location.pathname;
+
+	if (type)
+		newUrl += "?type=" + encodeURIComponent(type);
+
+	window.location.href = newUrl;
 });
