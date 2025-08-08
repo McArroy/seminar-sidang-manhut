@@ -93,6 +93,7 @@ table
 			li
 			{
 				align-items: center;
+				text-align: left;
 				width: 100%;
 
 				&::before
