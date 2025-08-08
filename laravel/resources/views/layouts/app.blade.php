@@ -8,8 +8,6 @@ date_default_timezone_set("Asia/Jakarta");
 
 $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 
-$PageName = "";
-
 ?>
 
 <!DOCTYPE html>
@@ -132,11 +130,21 @@ $PageName = "";
 			}
 			else if (request()->has("announcementform"))
 			{
-				$path = route("admin.announcements.add", [request("announcementform")]);
 				$icon = "heroicons:user-group-solid";
-				$title = "Pengumuman Seminar";
-				$type = [3, "post"];
 				$elements = ["Nomor Surat", "Moderator", "Kata Sandi"];
+
+				if (request()->query("type") === "seminar")
+				{
+					$path = route("admin.announcements.seminar.add", [request("announcementform")]);
+					$type = [3, "post"];
+					$title = "Pengumuman Seminar";
+				}
+				else if (request()->query("type") === "thesisdefense")
+				{
+					$path = route("admin.announcements.thesisdefense.add", [request("announcementform")]);
+					$type = [4, "post"];
+					$title = "Undangan Sidang Akhir";
+				}
 			}
 		@endphp
 
@@ -161,7 +169,7 @@ $PageName = "";
 					</x-input-wrapper>
 					@elseif ($type[0] === 2)
 					<x-input-wrapper id="comment" type="textarea" label="{{ $elements[0] }}" placeholder="Masukkan {{ $elements[1] }}" value="{{ $values[0] ?? '' }}" required />
-					@elseif ($type[0] === 3)
+					@elseif ($type[0] === 3 || $type[0] === 4)
 					@php
 						$dataLecturers = app()->make(UserController::class)->GetLecturers();
 					@endphp
@@ -172,6 +180,9 @@ $PageName = "";
 						@endforeach
 					</x-input-wrapper>
 					<x-input-wrapper id="date_letter" type="date" label="Tanggal Pembuatan" required />
+					@endif
+
+					@if ($type[0] === 4)
 					<x-input-wrapper id="supervisory_committee" label="Ketua Komisi Pembimbing" type="select" placeholder="Pilih Ketua Komisi Pembimbing" required>
 						@foreach ($dataLecturers as $lecturer)
 							<option value="{{ strtoupper($lecturer->useridnumber) }}">{{ $lecturer->username }}</option>
@@ -248,9 +259,17 @@ $PageName = "";
 					<iconify-icon icon="fluent:form-28-regular" width="21"></iconify-icon>
 					Seminar
 				</x-nav-link>
+				<x-nav-link href="{{ route('admin.announcements', ['type' => 'seminar']) }}" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'seminar'">
+					<iconify-icon icon="hugeicons:folder-upload" width="21"></iconify-icon>
+					Pengumuman Seminar
+				</x-nav-link>
 				<x-nav-link href="{{ route('admin.thesisdefenses') }}" :active="request()->routeIs('admin.thesisdefenses')">
 					<iconify-icon icon="hugeicons:folder-upload" width="21"></iconify-icon>
 					Sidang Akhir
+				</x-nav-link>
+				<x-nav-link href="{{ route('admin.announcements', ['type' => 'thesisdefense']) }}" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'thesisdefense'">
+					<iconify-icon icon="hugeicons:folder-upload" width="21"></iconify-icon>
+					Undangan Sidang
 				</x-nav-link>
 
 				@elseif (Auth::user()->userrole === "student")
