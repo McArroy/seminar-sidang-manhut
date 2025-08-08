@@ -7,6 +7,29 @@ These changelogs are basically just a summary list of changes that are very impo
 <summary>Click to expand</summary>
 
 **[ COMMONS ]**
+- Fixed when closing dialog-input not to resetting query type
+
+**[ UI/UX ]**
+- Added announcements page
+- Added menu for announcements
+- Fixed padding-top on side-navigationbar
+- Fixed arrow button-list on side-navigationbar not on the right of the parent button
+- Fixed text alignment on the tables
+- Fixed dialog announcements form
+- Fixed students table
+
+**[ LARAVEL ]**
+- Added some functions in PageController controller
+- Added some routes
+- Fixed error when trying to search in schedule page because of get usernames of null
+
+</details>
+
+#### UPDATE Version 1.25.8.06 [ Last update: 08/06/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ COMMONS ]**
 
 **[ UI/UX ]**
 
