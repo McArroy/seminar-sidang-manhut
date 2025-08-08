@@ -271,6 +271,70 @@ class PageController extends Controller
 		return view("admin.thesisdefenses", compact("dataThesisdefenses"));
 	}
 
+	public function Announcements(Request $request)
+	{
+		if ($request->query("type") === "seminar")
+		{
+			$dataSubmissions = app()->make(SeminarController::class)->Index()->filter(function($item)
+			{
+				return $item->status === 1;
+			});
+		}
+		else if ($request->query("type") === "thesisdefense")
+		{
+			$dataSubmissions = app()->make(ThesisdefenseController::class)->Index()->filter(function($item)
+			{
+				return $item->status === 1;
+			});
+		}
+
+		$dataSubmissions->map(function($item)
+		{
+			$item->username = UserController::GetUsername($item->useridnumber);
+			return $item;
+		})->sortByDesc("created_at")->values();
+
+		// filters
+		$search = mb_strtolower(trim($request->query("search")));
+
+		if ($search)
+		{
+			$dataSubmissions = $dataSubmissions->filter(function($item) use ($search)
+			{
+				$fields =
+				[
+					$item->useridnumber ?? "",
+					UserController::GetUsername($item->useridnumber) ?? "",
+					$item->title ?? ""
+				];
+
+				foreach ($fields as $field)
+				{
+					if (!is_string($field))
+						continue;
+
+					if (str_contains(mb_strtolower(trim($field)), $search))
+						return true;
+				}
+
+				return false;
+			})->values();
+		}
+
+		$page = (int)$request->query("page", 1);
+		$perPage = 8;
+		$total = $dataSubmissions->count();
+		$results = $dataSubmissions->slice(($page - 1) * $perPage, $perPage)->values();
+
+		$dataSubmissions = new LengthAwarePaginator($results, $total, $perPage, $page,
+		[
+			"path" => $request->url(),
+			"query" => $request->query()
+		]);
+
+		return view("admin.announcements", compact("dataSubmissions"));
+	}
+
 	public function Schedule(Request $request)
 	{
 		$dataSeminar = app()->make(SeminarController::class)->GetAll()->filter(function($item)
@@ -351,9 +415,7 @@ class PageController extends Controller
 					$item->useridnumber ?? "",
 					UserController::GetUsername($item->useridnumber) ?? "",
 					$item->supervisor1 ?? "",
-					UserController::GetUsername($item->supervisor1) ?? "",
 					$item->supervisor2 ?? "",
-					UserController::GetUsername($item->supervisor2) ?? "",
 					$item->place ?? "",
 					$item->time ?? "",
 					DateIndoFormatterController::Full($item->date, 1) ?? ""
