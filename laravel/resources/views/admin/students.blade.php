@@ -20,9 +20,9 @@
 			<thead>
 				<tr>
 					<th class="numbered">No</th>
-					<th>NIM</th>
-					<th>Nama</th>
-					<th>Aksi</th>
+					<th class="number">NIM</th>
+					<th class="name">Nama</th>
+					<th class="actions">Aksi</th>
 				</tr>
 			</thead>
 			<tbody>
