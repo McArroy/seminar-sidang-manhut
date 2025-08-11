@@ -74,4 +74,21 @@
 	</div>
 
 	<x-navigator-buttons :data="$dataSeminars" />
+	
+	<script>
+		$(document).on("click", "button#revision-seminar", function()
+		{
+			const $seminarId = $(this).data("link");
+
+			$.get(`{{ url('/admin/seminars/comment') }}/${$seminarId}`, function(response)
+			{
+				const $seminarComment = response.comment ?? "";
+
+				return DialogInputData("{{ route('admin.seminars.revision', ':id') }}".replace(":id", $seminarId), "basil:document-outline", "Revisi Dokumen", "POST",
+				`
+					<x-input-wrapper id="comment" type="textarea" label="Komentar" placeholder="Masukkan Saran Revisi Anda" value="${$seminarComment}" required />
+				`);
+			});
+		});
+	</script>
 </x-app-layout>

@@ -60,4 +60,54 @@
 	</div>
 
 	<x-navigator-buttons :data="$dataSubmissions" />
+	
+	<script>
+		$(document).on("click", "button#add-form-letter", function()
+		{
+			const $id = $(this).data("link");
+			const $optionsHtml =
+			`
+			{!!
+				collect($dataLecturers)->map(function($lecturer)
+				{
+					return '<option value="' . strtoupper($lecturer->useridnumber) . '">' . e($lecturer->username) . '</option>';
+				})->implode('')
+			!!}`;
+			let $innerContent =
+			`
+				<x-input-wrapper id="number_letter" type="text" label="Nomor Surat" placeholder="Masukkan Nomor Surat" required />
+				<x-input-wrapper id="moderator" label="Moderator" type="select" placeholder="Pilih Dosen Moderator" required>
+					${$optionsHtml}
+				</x-input-wrapper>
+				<x-input-wrapper id="date_letter" type="date" label="Tanggal Pembuatan" required />
+			`;
+
+			@php
+				$type = request()->query("type");
+				$path = $type === "thesisdefense"
+					? route("admin.announcements.thesisdefense.add", ":id")
+					: route("admin.announcements.seminar.add", ":id");
+				$title = $type === "thesisdefense"
+					? "Undangan Sidang Akhir"
+					: "Pengumuman Seminar";
+			@endphp
+
+			@if ($type === "thesisdefense")
+				$innerContent +=
+				`
+					<x-input-wrapper id="supervisory_committee" label="Ketua Komisi Pembimbing" type="select" placeholder="Pilih Ketua Komisi Pembimbing" required>
+						${$optionsHtml}
+					</x-input-wrapper>
+					<x-input-wrapper id="external_examiner" label="Penguji Luar Komisi" type="select" placeholder="Pilih Penguji Luar Komisi" required>
+						${$optionsHtml}
+					</x-input-wrapper>
+					<x-input-wrapper id="chairman_session" label="Ketua Sidang" type="select" placeholder="Pilih Ketua Sidang" required>
+						${$optionsHtml}
+					</x-input-wrapper>
+				`;
+			@endif
+
+			return DialogInputData("{{ $path }}".replace(":id", $id), "heroicons:user-group-solid", {!! json_encode($title) !!}, "POST", $innerContent);
+		});
+	</script>
 </x-app-layout>

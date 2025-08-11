@@ -51,4 +51,33 @@
 	</div>
 
 	<x-navigator-buttons :data="$dataUsers" />
+	
+	<script>
+		$(document).on("click", "button#add-student", function()
+		{
+			return DialogInputData("{{ route('admin.students.add') }}", "heroicons:user-group-solid", "Tambah Data Mahasiswa", "POST",
+			`
+				<x-input-wrapper id="useridnumber" type="text" label="NIM" placeholder="Masukkan NIM Mahasiswa" required />
+				<x-input-wrapper id="username" type="text" label="Nama" placeholder="Masukkan Nama Mahasiswa" required />
+				<x-input-wrapper class="password" id="password" type="password" label="Kata Sandi" placeholder="********" required>
+					<iconify-icon icon="basil:eye-outline" class="show-hide-password" width="24" onclick="TogglePassword($(this))"></iconify-icon>
+				</x-input-wrapper>
+			`);
+		});
+
+		$(document).on("click", "button#edit-student", function()
+		{
+			const $userIdNumber = $(this).closest("tr").find("td.number").text().trim();
+			const $userName = $(this).closest("tr").find("td.name").text().trim();
+
+			return DialogInputData("{{ route('admin.students.update', ':id') }}".replace(":id", $(this).data("link")), "heroicons:user-group-solid", "Ubah Data Mahasiswa", "POST",
+			`
+				<x-input-wrapper id="useridnumber" type="text" label="NIM" placeholder="Masukkan NIM Mahasiswa" value="${$userIdNumber}" required />
+				<x-input-wrapper id="username" type="text" label="Nama" placeholder="Masukkan Nama Mahasiswa" value="${$userName}" required />
+				<x-input-wrapper class="password" id="password" type="password" label="Kata Sandi" placeholder="********">
+					<iconify-icon icon="basil:eye-outline" class="show-hide-password" width="24" onclick="TogglePassword($(this))"></iconify-icon>
+				</x-input-wrapper>
+			`);
+		});
+	</script>
 </x-app-layout>
