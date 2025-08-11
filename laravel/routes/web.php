@@ -51,6 +51,8 @@ Route::middleware(
 
 		Route::get("/seminars", [PageController::class, "Seminars"])->name("seminars");
 
+		Route::get("/seminars/comment/{seminarid}", [SeminarController::class, "GetCommentById"])->name("seminars.comment");
+
 		Route::post("/seminars/accept/{seminar}", [SeminarController::class, "Accept"])->name("seminars.accept");
 
 		Route::post("/seminars/revision/{seminar}", [SeminarController::class, "Comment"])->name("seminars.revision");
@@ -58,6 +60,8 @@ Route::middleware(
 		Route::post("/seminars/reject/{seminar}", [SeminarController::class, "Reject"])->name("seminars.reject");
 
 		Route::get("/thesisdefenses", [PageController::class, "Thesisdefenses"])->name("thesisdefenses");
+
+		Route::get("/thesisdefenses/comment/{thesisdefenseid}", [ThesisdefenseController::class, "GetCommentById"])->name("thesisdefenses.comment");
 
 		Route::post("/thesisdefenses/accept/{thesisdefense}", [ThesisdefenseController::class, "Accept"])->name("thesisdefenses.accept");
 
