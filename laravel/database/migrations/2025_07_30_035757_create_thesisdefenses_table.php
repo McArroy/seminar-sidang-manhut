@@ -19,10 +19,10 @@ return new class extends Migration
 			$table->text("address");
 			$table->text("supervisor1");
 			$table->text("supervisor2");
-			$table->text("date");
-			$table->text("time");
+			$table->date("date");
+			$table->string("time");
 			$table->text("place");
-			$table->text("title");
+			$table->string("title");
 			$table->text("link")->nullable();
 			$table->text("comment")->nullable();
 			$table->tinyInteger("status")->nullable();
