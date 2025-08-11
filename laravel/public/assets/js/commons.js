@@ -78,16 +78,6 @@ $(document).on("submit", "form#form-rejection", function(event)
 	return FormConfirmation(event, ["Apakah Anda Yakin Tolak Data Ini?", "Pastikan Data Yang Anda Pilih Benar. Data Yang Ditolak Akan Hilang"], ["Batal", "Tolak"]);
 });
 
-$(document).on("click", "button#revision-seminar", function()
-{
-	return UpdateQueryParam("seminarcomment", $(this).attr("data-link"));
-});
-
-$(document).on("click", "button#revision-thesisdefense", function()
-{
-	return UpdateQueryParam("thesisdefensecomment", $(this).attr("data-link"));
-});
-
 $(document).on("input", "input#search", function()
 {
 	return UpdateQueryParam("search", this.value, ["page"]);
@@ -118,39 +108,7 @@ $(document).on("click", "button#folder-link-admin", function()
 	return DialogMessage(0, ["Dokumen Tidak Tersedia", "Mahasiswa Belum Mengirim Dokumen Berupa Link Google Drive Di Menu Persyaratan " + $(this).attr("data-text")], ["Kembali"]);
 });
 
-$(document).on("click", "button#add-student", function()
-{
-	return UpdateQueryParam("addstudent", "");
-});
-
-$(document).on("click", "button#edit-student", function()
-{
-	return UpdateQueryParam("editstudent", $(this).attr("data-link"));
-});
-
-$(document).on("click", "button#add-lecturer", function()
-{
-	return UpdateQueryParam("addlecturer", "");
-});
-
-$(document).on("click", "button#edit-lecturer", function()
-{
-	return UpdateQueryParam("editlecturer", $(this).attr("data-link"));
-});
-
-$(document).on("click", "button#add-form-letter", function()
-{
-	return UpdateQueryParam("announcementform", $(this).attr("data-link"));
-});
-
 $(document).on("click", "dialog.input-data .button.confirmation-close", function()
 {
-	const url = new URL(window.location.href);
-	const type = url.searchParams.get("type");
-	let newUrl = window.location.pathname;
-
-	if (type)
-		newUrl += "?type=" + encodeURIComponent(type);
-
-	window.location.href = newUrl;
+	$(this).closest("dialog.input-data").remove();
 });
