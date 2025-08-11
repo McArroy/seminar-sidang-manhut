@@ -20,9 +20,9 @@
 			<thead>
 				<tr>
 					<th class="numbered">No</th>
-					<th>NIP</th>
-					<th>Nama</th>
-					<th>Aksi</th>
+					<th class="number">NIP</th>
+					<th class="name">Nama</th>
+					<th class="actions">Aksi</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -51,4 +51,33 @@
 	</div>
 
 	<x-navigator-buttons :data="$dataUsers" />
+	
+	<script>
+		$(document).on("click", "button#add-lecturer", function()
+		{
+			return DialogInputData("{{ route('admin.lecturers.add') }}", "fontisto:person", "Tambah Data Dosen", "POST",
+			`
+				<x-input-wrapper id="useridnumber" type="text" label="NIP" placeholder="Masukkan NIP Dosen" required />
+				<x-input-wrapper id="username" type="text" label="Nama" placeholder="Masukkan Nama Dosen" required />
+				<x-input-wrapper class="password" id="password" type="password" label="Kata Sandi" placeholder="********" required>
+					<iconify-icon icon="basil:eye-outline" class="show-hide-password" width="24" onclick="TogglePassword($(this))"></iconify-icon>
+				</x-input-wrapper>
+			`);
+		});
+
+		$(document).on("click", "button#edit-lecturer", function()
+		{
+			const $userIdNumber = $(this).closest("tr").find("td.number").text().trim();
+			const $userName = $(this).closest("tr").find("td.name").text().trim();
+
+			return DialogInputData("{{ route('admin.lecturers.update', ':id') }}".replace(":id", $(this).data("link")), "fontisto:person", "Ubah Data Dosen", "POST",
+			`
+				<x-input-wrapper id="useridnumber" type="text" label="NIP" placeholder="Masukkan NIP Dosen" value="${$userIdNumber}" required />
+				<x-input-wrapper id="username" type="text" label="Nama" placeholder="Masukkan Nama Dosen" value="${$userName}" required />
+				<x-input-wrapper class="password" id="password" type="password" label="Kata Sandi" placeholder="********">
+					<iconify-icon icon="basil:eye-outline" class="show-hide-password" width="24" onclick="TogglePassword($(this))"></iconify-icon>
+				</x-input-wrapper>
+			`);
+		});
+	</script>
 </x-app-layout>
