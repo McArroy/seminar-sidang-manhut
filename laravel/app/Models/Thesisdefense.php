@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\DeterministicEncryption;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 
 class Thesisdefense extends Model
 {
+	use DeterministicEncryption;
+
 	protected $primaryKey = "thesisdefenseid";
 	public $incrementing = false;
 	protected $keyType = "string";
@@ -31,14 +34,21 @@ class Thesisdefense extends Model
 	// List of attributes to encrypt
 	protected $encrypted =
 	[
-		"useridnumber",
-		"semester",
 		"address",
+		"place"
+	];
+
+	// List of attributes to encrypt deterministic
+	protected $encryptDeterministic1 =
+	[
+		"useridnumber",
 		"supervisor1",
-		"supervisor2",
-		"date",
-		"time",
-		"place",
+		"supervisor2"
+	];
+
+	protected $encryptDeterministic2 =
+	[
+		"semester",
 		"title",
 		"link",
 		"comment"
@@ -47,7 +57,11 @@ class Thesisdefense extends Model
 	// Encrypt values before saving
 	public function setAttribute($key, $value)
 	{
-		if (in_array($key, $this->encrypted) && $value !== null)
+		if (in_array($key, $this->encryptDeterministic1) && $value !== null)
+			$value = $this->encryptDeterministic(trim($value));
+		else if (in_array($key, $this->encryptDeterministic2) && $value !== null)
+			$value = $this->encryptDeterministic(trim($value));
+		else if (in_array($key, $this->encrypted) && $value !== null)
 			$value = Crypt::encryptString($value);
 
 		return parent::setAttribute($key, $value);
@@ -58,7 +72,19 @@ class Thesisdefense extends Model
 	{
 		$value = parent::getAttribute($key);
 
-		if (in_array($key, $this->encrypted) && $value !== null)
+		if ((in_array($key, $this->encryptDeterministic1) || in_array($key, $this->encryptDeterministic2)) && $value !== null)
+		{
+			try
+			{
+				return $this->decryptDeterministic($value);
+			}
+			catch (\Exception $e)
+			{
+				// optionally log: corrupted or already-decrypted value
+				return $value;
+			}
+		}
+		else if (in_array($key, $this->encrypted) && $value !== null)
 		{
 			try
 			{
