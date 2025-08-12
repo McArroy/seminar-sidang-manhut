@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\DeterministicEncryption;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,6 +14,7 @@ class User extends Authenticatable
 {
 	use HasApiTokens;
 	use Notifiable;
+	use DeterministicEncryption;
 
 	protected $primaryKey = "userid";
 	public $incrementing = false;
@@ -34,7 +36,6 @@ class User extends Authenticatable
 	// List of attributes to encrypt
 	protected $encrypted =
 	[
-		"username",
 		"userrole"
 	];
 
@@ -75,7 +76,11 @@ class User extends Authenticatable
 	// Encrypt values before saving
 	public function setAttribute($key, $value)
 	{
-		if (in_array($key, $this->encrypted) && $value !== null)
+		if ($key === "useridnumber" && $value !== null)
+			$value = $this->encryptDeterministic(strtolower(trim($value)));
+		else if ($key === "username" && $value !== null)
+			$value = $this->encryptDeterministic(trim($value));
+		else if (in_array($key, $this->encrypted) && $value !== null)
 			$value = Crypt::encryptString($value);
 
 		return parent::setAttribute($key, $value);
@@ -86,7 +91,11 @@ class User extends Authenticatable
 	{
 		$value = parent::getAttribute($key);
 
-		if (in_array($key, $this->encrypted) && $value !== null)
+		if (($key === "useridnumber" || $key === "username") && $value !== null)
+		{
+			return $this->decryptDeterministic($value);
+		}
+		else if (in_array($key, $this->encrypted) && $value !== null)
 		{
 			try
 			{
