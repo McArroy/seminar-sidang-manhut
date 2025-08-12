@@ -77,9 +77,9 @@ class SeminarController extends Controller
 		]);
 
 		$validated["seminarid"] = (string)Str::uuid();
-		$validated["useridnumber"] = strtolower($validated["useridnumber"]);
-		$validated["supervisor1"] = strtolower($validated["supervisor1"]);
-		$validated["supervisor2"] = strtolower($validated["supervisor2"]);
+		$validated["useridnumber"] = strtolower(trim($this->userId));
+		$validated["supervisor1"] = strtolower(trim($validated["supervisor1"]));
+		$validated["supervisor2"] = strtolower(trim($validated["supervisor2"]));
 
 		Seminar::create($validated);
 
@@ -88,7 +88,7 @@ class SeminarController extends Controller
 		return redirect()->route("student.registrationletter", ["type" => "seminar"])->with("toast_success", "Seminar Berhasil Dibuat");
 	}
 
-	private function Update(Array $data, Seminar $seminar)
+	private function Update(array $data, Seminar $seminar)
 	{
 		if (isset($data["status"]))
 		{
@@ -138,14 +138,11 @@ class SeminarController extends Controller
 		return $this->Update($data, $seminarToUpdate);
 	}
 
-	public static function GetCommentById(String $seminarid)
+	public static function GetCommentById(string $seminarid)
 	{
-		$seminar = self::GetAll()->filter(function($seminar) use ($seminarid)
-		{
-			return $seminar->seminarid === $seminarid;
-		})->first();
+		$comment = Seminar::findOrFail($seminarid)->comment;
 
-		return $seminar ? $seminar->comment : null;
+		return response()->json(["comment" => $comment]);
 	}
 
 	public function Accept(Request $request, Seminar $seminar)
