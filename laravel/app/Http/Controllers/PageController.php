@@ -25,6 +25,20 @@ class PageController extends Controller
 		$this->userRole = Auth::user()->userrole;
 	}
 
+	private function PagePaginator(Request $request, Collection $data) : LengthAwarePaginator
+	{
+		$page = (int)$request->query("page", 1);
+		$perPage = 8;
+		$total = $data->count();
+		$results = $data->slice(($page - 1) * $perPage, $perPage)->values();
+
+		return $data = new LengthAwarePaginator($results, $total, $perPage, $page,
+		[
+			"path" => $request->url(),
+			"query" => $request->query()
+		]);
+	}
+
 	private function GetAllSemesterList(Collection $data) : array
 	{
 		$semesters = [];
@@ -136,17 +150,8 @@ class PageController extends Controller
 				return false;
 			})->values();
 		}
-
-		$page = (int)$request->query("page", 1);
-		$perPage = 8;
-		$total = $dataUsers->count();
-		$results = $dataUsers->slice(($page - 1) * $perPage, $perPage)->values();
-
-		$dataUsers = new LengthAwarePaginator($results, $total, $perPage, $page,
-		[
-			"path" => $request->url(),
-			"query" => $request->query()
-		]);
+		
+		$dataUsers = $this->PagePaginator($request, $dataUsers);
 
 		return $dataUsers;
 	}
@@ -204,17 +209,8 @@ class PageController extends Controller
 				return false;
 			})->values();
 		}
-
-		$page = (int)$request->query("page", 1);
-		$perPage = 8;
-		$total = $dataSeminars->count();
-		$results = $dataSeminars->slice(($page - 1) * $perPage, $perPage)->values();
-
-		$dataSeminars = new LengthAwarePaginator($results, $total, $perPage, $page,
-		[
-			"path" => $request->url(),
-			"query" => $request->query()
-		]);
+		
+		$dataSeminars = $this->PagePaginator($request, $dataSeminars);
 
 		return view("admin.seminars", compact("dataSeminars"));
 	}
@@ -257,16 +253,7 @@ class PageController extends Controller
 			})->values();
 		}
 
-		$page = (int)$request->query("page", 1);
-		$perPage = 8;
-		$total = $dataThesisdefenses->count();
-		$results = $dataThesisdefenses->slice(($page - 1) * $perPage, $perPage)->values();
-
-		$dataThesisdefenses = new LengthAwarePaginator($results, $total, $perPage, $page,
-		[
-			"path" => $request->url(),
-			"query" => $request->query()
-		]);
+		$dataThesisdefenses = $this->PagePaginator($request, $dataThesisdefenses);
 
 		return view("admin.thesisdefenses", compact("dataThesisdefenses"));
 	}
@@ -321,16 +308,7 @@ class PageController extends Controller
 			})->values();
 		}
 
-		$page = (int)$request->query("page", 1);
-		$perPage = 8;
-		$total = $dataSubmissions->count();
-		$results = $dataSubmissions->slice(($page - 1) * $perPage, $perPage)->values();
-
-		$dataSubmissions = new LengthAwarePaginator($results, $total, $perPage, $page,
-		[
-			"path" => $request->url(),
-			"query" => $request->query()
-		]);
+		$dataSubmissions = $this->PagePaginator($request, $dataSubmissions);
 
 		return view("admin.announcements", ["dataSubmissions" => $dataSubmissions, "dataLecturers" => app()->make(UserController::class)->GetLecturers()]);
 	}
@@ -434,16 +412,7 @@ class PageController extends Controller
 			})->values();
 		}
 
-		$page = (int)$request->query("page", 1);
-		$perPage = 8;
-		$total = $dataSubmissions->count();
-		$results = $dataSubmissions->slice(($page - 1) * $perPage, $perPage)->values();
-
-		$dataSubmissions = new LengthAwarePaginator($results, $total, $perPage, $page,
-		[
-			"path" => $request->url(),
-			"query" => $request->query()
-		]);
+		$dataSubmissions = $this->PagePaginator($request, $dataSubmissions);
 
 		return view("schedule", ["dataSubmissions" => $dataSubmissions, "semesterList" => $this->semesterList]);
 	}
