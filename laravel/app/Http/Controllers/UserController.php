@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Traits\DeterministicEncryption;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+	use DeterministicEncryption;
+
 	private string $userRole;
 
 	public function __construct()
@@ -26,7 +29,9 @@ class UserController extends Controller
 			"password" => "required|string|max:127"
 		]);
 
-		$exists = User::where("useridnumber", strtolower($validated["useridnumber"]))->exists();
+		$validated["useridnumber"] = strtolower(trim($validated["useridnumber"]));
+
+		$exists = User::where("useridnumber", $this->encryptDeterministic($validated["useridnumber"]))->exists();
 
 		if ($exists)
 			return redirect()->route("admin." . $request["from"])->with("toast_info", "NIM/NIP Sudah Digunakan. Gagal Menambahkan Data " . $request["text"]);
@@ -50,9 +55,9 @@ class UserController extends Controller
 			"password" => "nullable|string|max:127"
 		]);
 
-		$validated["useridnumber"] = strtolower($validated["useridnumber"]);
+		$validated["useridnumber"] = strtolower(trim($validated["useridnumber"]));
 
-		$exists = User::where("useridnumber", $validated["useridnumber"])
+		$exists = User::where("useridnumber", $this->encryptDeterministic($validated["useridnumber"]))
 			->where("userid", "!=", $user->userid)
 			->exists();
 
@@ -86,7 +91,7 @@ class UserController extends Controller
 
 	public static function GetUsername(string $useridnumber)
 	{
-		$user = User::where("useridnumber", $useridnumber)->first();
+		$user = User::where("useridnumber", DeterministicEncryption::encryptDeterministic(strtolower(trim($useridnumber))))->first();
 
 		return $user ? $user->username : null;
 	}
