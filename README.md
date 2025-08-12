@@ -2,7 +2,21 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
-#### UPDATE Version 1.25.8.06 [ Last update: 08/11/2025 ]
+#### UPDATE Version 1.25.8.12 [ Last update: 08/12/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ DATABASE ]**
+
+**[ COMMONS ]**
+
+**[ UI/UX ]**
+
+**[ LARAVEL ]**
+
+</details>
+
+#### UPDATE Version 1.25.8.11 [ Last update: 08/11/2025 ]
 <details>
 <summary>Click to expand</summary>
 
