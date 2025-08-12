@@ -1,15 +1,3 @@
-@php
-	use App\Http\Controllers\UserController;
-
-	if (!in_array($_GET["type"] ?? null, ["seminar", "thesisdefense"]))
-	{
-		header("Location: " . url()->current() . "?type=seminar");
-		exit;
-	}
-
-	$dataLecturers = app()->make(UserController::class)->GetLecturers();
-@endphp
-
 <x-app-layout>
 	@section("css")
 		<link rel="stylesheet" href="/assets/css/pages/registrationform.css?v=1.0">

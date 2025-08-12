@@ -1,11 +1,3 @@
-@php
-	if (!in_array($_GET["type"] ?? null, ["seminar", "thesisdefense"]))
-	{
-		header("Location: " . url()->current() . "?type=seminar");
-		exit;
-	}
-@endphp
-
 <x-app-layout>
 	@section("css")
 		<link rel="stylesheet" href="/assets/css/pages/registrationform.css?v=1.0">
@@ -33,7 +25,7 @@
 	@endif
 
 	<div class="letter">
-		<p>Upload persyaratan seminar proposal pada Google Drive pribadi dan buat hak akses folder menjadi public (agar bisa diakses).</p>
+		<p>Upload persyaratan seminar proposal pada Google Drive pribadi dan buat hak akses folder menjadi publik (agar bisa diakses).</p>
 		@if ($IsThesisDefense)
 		<p>Persyaratan sidang akhir berupa:</p>
 		<p><span>1. FORMULIR PENDAFTARAN SIDANG AKHIR SARJANA</span> yang sudah ditandatangani Komisi Pembimbing</p>
@@ -41,7 +33,7 @@
 		<p><span>3. ABSTRAK RINGKASAN SKRIPSI VERSI INGGRIS DAN INDONESIA</span> yang telah ditandantangani Komisi Pembimbing</p>
 		<p><span>4. BUKU KONSULTASI</span> yang sudah diisi dengan lengkap</p>
 		<p><span>5. DRAFT SKRIPSI</span> yang telah memenuhi syarat ujian akhir dan telah ditandatangani oleh Dosen Komisi Pembimbing</p>
-		<p><span>6. E-flyer / Poster</span>yang sudah disesuaikan dengan data mahasiswa sidang. Template: <a href="https://www.canva.com/design/DAGtShzH230/HiBie5iuQAikznZkRKJEzw/edit?utm_content=DAGtShzH230&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank">Template E-flyer</a></p>
+		<p><span>6. E-flyer / Poster</span> yang sudah disesuaikan dengan data mahasiswa sidang. Template: <a href="https://www.canva.com/design/DAGtShzH230/HiBie5iuQAikznZkRKJEzw/edit?utm_content=DAGtShzH230&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank">Template E-flyer</a></p>
 		@else
 		<p>Persyaratan seminar proposal berupa:</p>
 		<p><span>1. FORMULIR PENDAFTARAN SEMINAR</span> yang sudah ditandatangani Dosen Pembimbing dan Komisi AJMP dan Kemahasiswaan</p>
@@ -60,7 +52,7 @@
 		@csrf
 		@method("POST")
 
-		<p>Masukan Link Google Drive pada inputan di bawah dengan format yang sesuai.</p>
+		<p>Masukan Link Google Drive pada kolom di bawah ini dengan format yang sesuai.</p>
 		<p>Contoh format: <span>https://drive.google.com/drive/folders/link_sharing</span></p>
 		<div class="input">
 			<x-input-wrapper id="link" type="url" placeholder="Masukkan link di sini" required/>
