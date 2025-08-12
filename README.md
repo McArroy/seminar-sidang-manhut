@@ -6,13 +6,22 @@ These changelogs are basically just a summary list of changes that are very impo
 <details>
 <summary>Click to expand</summary>
 
-**[ DATABASE ]**
-
 **[ COMMONS ]**
+- Fixed when selected type not reset the page query
+- Fixed dialog closed when hit "Enter" key
+- Fixed dialog must close when clicked the outside of the dialog
+- Removed unused codes
 
 **[ UI/UX ]**
+- Added animation for the input element when loading
+- Fixed input-wrapper element
 
 **[ LARAVEL ]**
+- Fixed request query "type" logic
+- Fixed when open the dialog comment got a bit of delay
+- Fixed page-pagination by adding separated function in PageController controller
+- Removed unused files
+- Removed unused codes
 
 </details>
 
@@ -20,12 +29,12 @@ These changelogs are basically just a summary list of changes that are very impo
 <details>
 <summary>Click to expand</summary>
 
-**[ DATABASE ]**
-- Fixed unnecessary columns to be encrypted both on seminar and thesis defense table
-
 **[ COMMONS ]**
 - Added function DialogInputData on blade file instead saparated JavaScript file
 - Removed unused codes
+
+**[ DATABASE ]**
+- Fixed unnecessary columns to be encrypted both on seminar and thesis defense table
 
 **[ UI/UX ]**
 - Fixed lecturers table
