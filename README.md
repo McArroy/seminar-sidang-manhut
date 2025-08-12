@@ -7,12 +7,27 @@ These changelogs are basically just a summary list of changes that are very impo
 <summary>Click to expand</summary>
 
 **[ DATABASE ]**
+- Fixed unnecessary columns to be encrypted both on seminar and thesis defense table
 
 **[ COMMONS ]**
+- Added function DialogInputData on blade file instead saparated JavaScript file
+- Removed unused codes
 
 **[ UI/UX ]**
+- Fixed lecturers table
 
 **[ LARAVEL ]**
+- Added DeterministicEncryption traits for better performance-encryption rather than default built-in encryption
+`This allows to make data being stored in database encrypted but still easy to use again and make performance better`
+- Added new routes to get comments on specific id
+- Added Deterministic encryption in UserContoller controller for some data
+- Fixed authentication warning status on login page
+- Fixed data sent into announcements page
+- Fixed data username not sent into schedule page
+- Fixed some codes in SeminarController controller
+- Fixed some codes in ThesisdefenseController controller
+- Fixed data-input is called via client-side (again) instead of server-side to improve experience
+- Removed unused codes
 
 </details>
 
@@ -42,10 +57,6 @@ These changelogs are basically just a summary list of changes that are very impo
 #### UPDATE Version 1.25.8.06 [ Last update: 08/06/2025 ]
 <details>
 <summary>Click to expand</summary>
-
-**[ COMMONS ]**
-
-**[ UI/UX ]**
 
 **[ LARAVEL ]**
 - Fixed data parsed on classes rather than on each pages
