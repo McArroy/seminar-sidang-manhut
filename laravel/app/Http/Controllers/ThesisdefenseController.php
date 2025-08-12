@@ -77,9 +77,9 @@ class ThesisdefenseController extends Controller
 		]);
 
 		$validated["thesisdefenseid"] = (string)Str::uuid();
-		$validated["useridnumber"] = strtolower($validated["useridnumber"]);
-		$validated["supervisor1"] = strtolower($validated["supervisor1"]);
-		$validated["supervisor2"] = strtolower($validated["supervisor2"]);
+		$validated["useridnumber"] = strtolower(trim($this->userId));
+		$validated["supervisor1"] = strtolower(trim($validated["supervisor1"]));
+		$validated["supervisor2"] = strtolower(trim($validated["supervisor2"]));
 
 		Thesisdefense::create($validated);
 
@@ -88,7 +88,7 @@ class ThesisdefenseController extends Controller
 		return redirect()->route("student.registrationletter", ["type" => "thesisdefense"])->with("toast_success", "Sidang Akhir Berhasil Dibuat");
 	}
 
-	private function Update(Array $data, Thesisdefense $thesisdefense)
+	private function Update(array $data, Thesisdefense $thesisdefense)
 	{
 		if (isset($data["status"]))
 		{
@@ -138,14 +138,11 @@ class ThesisdefenseController extends Controller
 		return $this->Update($data, $thesisdefenseToUpdate);
 	}
 
-	public static function GetCommentById(String $thesisdefenseid)
+	public static function GetCommentById(string $thesisdefenseid)
 	{
-		$thesisdefense = self::GetAll()->filter(function($thesisdefense) use ($thesisdefenseid)
-		{
-			return $thesisdefense->thesisdefenseid === $thesisdefenseid;
-		})->first();
+		$comment = Thesisdefense::findOrFail($thesisdefenseid)->comment;
 
-		return $thesisdefense ? $thesisdefense->comment : null;
+		return response()->json(["comment" => $comment]);
 	}
 
 	public function Accept(Request $request, Thesisdefense $thesisdefense)
