@@ -14,10 +14,8 @@ Route::get("/", function()
 	if (!Auth::check() || !Auth::user()->userrole)
 		return redirect("/login");
 
-	if (Auth::user()->userrole === "admin")
-		return redirect()->route("admin.dashboard");
-	else if (Auth::user()->userrole === "student")
-		return redirect()->route("admin.dashboard");
+	if (Auth::user()->userrole === "admin" || Auth::user()->userrole === "student")
+		return redirect()->route(Auth::user()->userrole . ".dashboard");
 });
 
 // admin
@@ -71,7 +69,7 @@ Route::middleware(
 
 		Route::get("/announcements", function(Request $request)
 		{
-			if (!in_array($_GET["type"] ?? null, ["seminar", "thesisdefense"]))
+			if (!in_array($request->query("type") ?? null, ["seminar", "thesisdefense"]))
 			{
 				header("Location: " . url()->current() . "?type=seminar");
 				exit;
@@ -105,18 +103,38 @@ Route::middleware(
 
 		Route::delete("/dashboard/delete/thesisdefense/{thesisdefense}", [ThesisdefenseController::class, "Destroy"])->name("thesisdefense.delete");
 
-		Route::get("/flow", function()
+		Route::get("/flow", function(Request $request)
 		{
+			if (!in_array($request->query("type") ?? null, ["seminar", "thesisdefense"]))
+			{
+				header("Location: " . url()->current() . "?type=seminar");
+				exit;
+			}
+
 			return view("student.flow");
 		})->name("flow");
 
-		Route::get("/registrationform", function()
+		Route::get("/registrationform", function(Request $request)
 		{
-			return view("student.registrationform");
+			if (!in_array($request->query("type") ?? null, ["seminar", "thesisdefense"]))
+			{
+				header("Location: " . url()->current() . "?type=seminar");
+				exit;
+			}
+
+			$dataLecturers = app()->make(UserController::class)->GetLecturers();
+
+			return view("student.registrationform", compact("dataLecturers"));
 		})->name("registrationform");
 
 		Route::post("/registrationform", function(Request $request)
 		{
+			if (!in_array($request->query("type") ?? null, ["seminar", "thesisdefense"]))
+			{
+				header("Location: " . url()->current() . "?type=seminar");
+				exit;
+			}
+
 			if ($request->query("type") === "seminar")
 				return app()->make(SeminarController::class)->Store($request);
 			else
@@ -125,6 +143,12 @@ Route::middleware(
 
 		Route::get("/registrationform/letter", function(Request $request)
 		{
+			if (!in_array($request->query("type") ?? null, ["seminar", "thesisdefense"]))
+			{
+				header("Location: " . url()->current() . "?type=seminar");
+				exit;
+			}
+
 			if ($request->query("type") === "seminar")
 				return app()->make(SeminarController::class)->Created($request);
 			else
@@ -133,19 +157,37 @@ Route::middleware(
 
 		Route::get("/registrationform/letter/preview", function(Request $request)
 		{
+			if (!in_array($request->query("type") ?? null, ["seminar", "thesisdefense"]))
+			{
+				header("Location: " . url()->current() . "?type=seminar");
+				exit;
+			}
+
 			if ($request->query("type") === "seminar")
 				return app()->make(SeminarController::class)->RePreview($request);
 			else
 				return app()->make(ThesisdefenseController::class)->RePreview($request);
 		})->name("registrationletterrepreview");
 
-		Route::get("/requirements", function()
+		Route::get("/requirements", function(Request $request)
 		{
+			if (!in_array($request->query("type") ?? null, ["seminar", "thesisdefense"]))
+			{
+				header("Location: " . url()->current() . "?type=seminar");
+				exit;
+			}
+
 			return view("student.requirements");
 		})->name("requirements");
 
 		Route::post("/requirements", function(Request $request)
 		{
+			if (!in_array($request->query("type") ?? null, ["seminar", "thesisdefense"]))
+			{
+				header("Location: " . url()->current() . "?type=seminar");
+				exit;
+			}
+
 			if ($request->query("type") === "seminar")
 				return app()->make(SeminarController::class)->UpdateLink($request);
 			else
