@@ -1,7 +1,3 @@
-@php
-	use App\Http\Controllers\DateIndoFormatterController;
-@endphp
-
 <x-app-layout>
 	@section("css")
 		<link rel="stylesheet" href="/assets/css/pages/dashboard.css?v=1.0">
