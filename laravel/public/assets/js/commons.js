@@ -30,15 +30,6 @@ $(document).ready(function()
 	});
 });
 
-$(document).on("keydown", function(e)
-{
-	if (e.key === "Escape")
-		RemoveDialog();
-
-	if (e.key === "Enter")
-		e.stopPropagation();
-});
-
 $(document).on("input", "textarea", function()
 {
 	AutoResizeTextarea($(this));
@@ -90,7 +81,7 @@ $(document).on("change", "select#semester", function()
 
 $(document).on("change", "select#type", function()
 {
-	return UpdateQueryParam("type", this.value);
+	return UpdateQueryParam("type", this.value, ["page"]);
 });
 
 $(document).on("click", "button.navigator-button", function()
@@ -108,7 +99,22 @@ $(document).on("click", "button#folder-link-admin", function()
 	return DialogMessage(0, ["Dokumen Tidak Tersedia", "Mahasiswa Belum Mengirim Dokumen Berupa Link Google Drive Di Menu Persyaratan " + $(this).attr("data-text")], ["Kembali"]);
 });
 
+$(document).on("keydown", "dialog form", function(event)
+{
+	if (event.key === "Escape")
+		RemoveDialog();
+
+	if (event.key === "Enter")
+		event.preventDefault();
+});
+
 $(document).on("click", "dialog.input-data .button.confirmation-close", function()
 {
-	$(this).closest("dialog.input-data").remove();
+	RemoveDialog();
+});
+
+$(document).on("click", "dialog", function(event)
+{
+	if (event.target === this)
+		RemoveDialog();
 });
