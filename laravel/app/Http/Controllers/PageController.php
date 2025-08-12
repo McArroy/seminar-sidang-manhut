@@ -332,7 +332,7 @@ class PageController extends Controller
 			"query" => $request->query()
 		]);
 
-		return view("admin.announcements", compact("dataSubmissions"));
+		return view("admin.announcements", ["dataSubmissions" => $dataSubmissions, "dataLecturers" => app()->make(UserController::class)->GetLecturers()]);
 	}
 
 	public function Schedule(Request $request)
@@ -413,7 +413,7 @@ class PageController extends Controller
 					$item->submission_type ?? "",
 					$item->title ?? "",
 					$item->useridnumber ?? "",
-					UserController::GetUsername($item->useridnumber) ?? "",
+					$item->username ?? "",
 					$item->supervisor1 ?? "",
 					$item->supervisor2 ?? "",
 					$item->place ?? "",
