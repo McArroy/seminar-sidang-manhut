@@ -80,14 +80,14 @@
 		{
 			const $thesisdefenseId = $(this).data("link");
 
+			DialogInputData("{{ route('admin.thesisdefenses.revision', ':id') }}".replace(":id", $thesisdefenseId), "basil:document-outline", "Revisi Dokumen", "POST",
+			`<x-input-wrapper id="comment" type="textarea" label="Komentar" placeholder="Memuat Komentar..." loading />`);
+
 			$.get(`{{ url('/admin/thesisdefenses/comment') }}/${$thesisdefenseId}`, function(response)
 			{
 				const $thesisdefenseComment = response.comment ?? "";
 
-				return DialogInputData("{{ route('admin.thesisdefenses.revision', ':id') }}".replace(":id", $thesisdefenseId), "basil:document-outline", "Revisi Dokumen", "POST",
-				`
-					<x-input-wrapper id="comment" type="textarea" label="Komentar" placeholder="Masukkan Saran Revisi Anda" value="${$thesisdefenseComment}" required />
-				`);
+				$("dialog.input-data .input-wrapper").replaceWith(`<x-input-wrapper id="comment" type="textarea" label="Komentar" placeholder="Masukkan Saran Revisi Anda" value="${$thesisdefenseComment}" required />`);
 			});
 		});
 	</script>
