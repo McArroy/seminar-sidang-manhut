@@ -1,4 +1,4 @@
-@props(["href" => "javascript:void(0);", "active"])
+@props(["href" => "javascript:void(0);", "target" => "_self", "icon" => null, "iconclass" => "", "iconwidth" => "", "active"])
 
 @php
 $href = ($active ?? false)
@@ -14,6 +14,14 @@ $classes = ($active ?? false)
 	: "button";
 @endphp
 
-<a {{ $attributes->merge(["href" => $href, "class" => $classes]) }}>
-	{{ $slot }}
+<a {{ $attributes->merge(["href" => $href, "target" => $target, "class" => $classes]) }}>
+	@if ($icon)
+	<iconify-icon icon="{{ $icon }}" class="{{ $iconclass }}" width="{{ $iconwidth }}"></iconify-icon>
+	@endif
+
+	<div class="text">{{ $slot }}</div>
+
+	@if ($IsButtonList)
+	<iconify-icon class="arrow" icon="weui:arrow-filled" width="12"></iconify-icon>
+	@endif
 </a>
