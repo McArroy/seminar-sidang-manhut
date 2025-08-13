@@ -14,6 +14,8 @@ These changelogs are basically just a summary list of changes that are very impo
 - Fixed page queries in PageController controller by validated first
 - Fixed queries logic in SeminarController controller
 - Fixed queries logic in ThesisdefenseController controller
+- Fixed queries logic in UserController controller
+- Removed unused codes
 
 </details>
 
