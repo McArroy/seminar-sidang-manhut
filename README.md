@@ -2,6 +2,19 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.8.13 [ Last update: 08/13/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ COMMONS ]**
+
+**[ UI/UX ]**
+
+**[ LARAVEL ]**
+- Fixed page queries in PageController controller by validated first
+
+</details>
+
 #### UPDATE Version 1.25.8.12 [ Last update: 08/12/2025 ]
 <details>
 <summary>Click to expand</summary>
