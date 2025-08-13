@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Thesisdefense;
+use App\Traits\DeterministicEncryption;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
 class ThesisdefenseController extends Controller
 {
+	use DeterministicEncryption;
+
 	private string $userId;
 	private string $userRole;
 
@@ -18,16 +21,16 @@ class ThesisdefenseController extends Controller
 		$this->userRole = Auth::user()->userrole;
 	}
 
-	public static function GetAll()
+	public static function GetAll(array $columns = ["*"])
 	{
-		return Thesisdefense::all();
+		return Thesisdefense::select($columns)->get();
 	}
 
 	public function Index()
 	{
 		if ($this->userRole === "admin")
 		{
-			$datathesisdefense = self::GetAll();
+			$datathesisdefense = self::GetAll(["thesisdefenseid", "useridnumber", "date", "title", "link", "status", "comment", "created_at"]);
 		}
 		else if ($this->userRole === "student")
 		{
@@ -120,17 +123,9 @@ class ThesisdefenseController extends Controller
 			"link" => "required|string|max:1000"
 		]);
 
-		$userId = $this->userId;
+		$userId = $this->encryptDeterministic($this->userId);
 
-		$thesisdefenses = self::GetAll()->filter(function($thesisdefense) use ($userId)
-		{
-			return $thesisdefense->useridnumber === $userId;
-		});
-
-		$thesisdefenseToUpdate = $thesisdefenses->filter(function($s)
-		{
-			return empty($s->link);
-		})->sortBy("created_at")->first();
+		$thesisdefenseToUpdate = Thesisdefense::where("useridnumber", $userId)->whereNull("link")->orderBy("created_at")->first();
 
 		if (!$thesisdefenseToUpdate)
 			return redirect()->back()->with("toast_info", "Semua Data Sidang Akhir Anda Sudah Lengkap");

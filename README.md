@@ -12,6 +12,8 @@ These changelogs are basically just a summary list of changes that are very impo
 
 **[ LARAVEL ]**
 - Fixed page queries in PageController controller by validated first
+- Fixed queries logic in SeminarController controller
+- Fixed queries logic in ThesisdefenseController controller
 
 </details>
 
