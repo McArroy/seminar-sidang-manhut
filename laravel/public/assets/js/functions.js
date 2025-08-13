@@ -58,6 +58,7 @@ function TogglePassword($Icon)
 function ToggleNavbar()
 {
 	$("navbar.side").toggleClass("active");
+	localStorage.setItem("sidebarClosed", !$("navbar.side").hasClass("active"));
 }
 
 function ToggleButtonList($ButtonList)

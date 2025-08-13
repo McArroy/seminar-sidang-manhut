@@ -63,8 +63,8 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 			<div class="left">
 				<x-ipb-logo/>
 				<div class="text">
-					<h1>Sistem Pendaftaran Seminar</h1>
-					<h1>Departemen Manajemen Hutan</h1>
+					<h1>{{ config("app.name") }}</h1>
+					<h1>Sistem Akademik Manajemen Hutan</h1>
 				</div>
 				<iconify-icon icon="material-symbols:menu-rounded" width="30" onclick="ToggleNavbar();"></iconify-icon>
 			</div>
@@ -83,9 +83,8 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 
 		<div class="content-container">
 			@auth
-			<navbar class="side @yield('activate-navbar')">
-				<x-nav-link href="{{ route(Auth::user()->userrole . '.dashboard') }}" :active="request()->routeIs(Auth::user()->userrole . '.dashboard')">
-					<iconify-icon icon="material-symbols:dashboard-outline" width="21"></iconify-icon>
+			<navbar class="side">
+				<x-nav-link href="{{ route(Auth::user()->userrole . '.dashboard') }}" icon="material-symbols:dashboard-outline" iconwidth="21" :active="request()->routeIs(Auth::user()->userrole . '.dashboard')">
 					Dashboard
 				</x-nav-link>
 
@@ -93,79 +92,63 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 
 				@if (Auth::user()->userrole === "admin")
 
-				<x-nav-link href="{{ route('admin.students') }}" :active="request()->routeIs('admin.students')">
-					<iconify-icon icon="heroicons:user-group-solid" width="21"></iconify-icon>
+				<x-nav-link href="{{ route('admin.students') }}" icon="heroicons:user-group-solid" iconwidth="21" :active="request()->routeIs('admin.students')">
 					Data Mahasiswa
 				</x-nav-link>
-				<x-nav-link href="{{ route('admin.lecturers') }}" :active="request()->routeIs('admin.lecturers')">
-					<iconify-icon icon="fontisto:person" width="15"></iconify-icon>
+				<x-nav-link href="{{ route('admin.lecturers') }}" icon="fontisto:person" iconwidth="15" :active="request()->routeIs('admin.lecturers')">
 					Data Dosen
 				</x-nav-link>
-				<x-nav-link href="{{ route('admin.seminars') }}" :active="request()->routeIs('admin.seminars')">
-					<iconify-icon icon="fluent:form-28-regular" width="21"></iconify-icon>
+				<x-nav-link href="{{ route('admin.seminars') }}" icon="fluent:form-28-regular" iconwidth="21" :active="request()->routeIs('admin.seminars')">
 					Seminar
 				</x-nav-link>
-				<x-nav-link href="{{ route('admin.announcements', ['type' => 'seminar']) }}" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'seminar'">
-					<iconify-icon icon="hugeicons:folder-upload" width="21"></iconify-icon>
+				<x-nav-link href="{{ route('admin.announcements', ['type' => 'seminar']) }}" icon="hugeicons:folder-upload" iconwidth="21" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'seminar'">
 					Pengumuman Seminar
 				</x-nav-link>
-				<x-nav-link href="{{ route('admin.thesisdefenses') }}" :active="request()->routeIs('admin.thesisdefenses')">
-					<iconify-icon icon="hugeicons:folder-upload" width="21"></iconify-icon>
+				<x-nav-link href="{{ route('admin.thesisdefenses') }}" icon="streamline-flex:presentation" iconwidth="21" :active="request()->routeIs('admin.thesisdefenses')">
 					Sidang Akhir
 				</x-nav-link>
-				<x-nav-link href="{{ route('admin.announcements', ['type' => 'thesisdefense']) }}" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'thesisdefense'">
-					<iconify-icon icon="hugeicons:folder-upload" width="21"></iconify-icon>
+				<x-nav-link href="{{ route('admin.announcements', ['type' => 'thesisdefense']) }}" icon="hugeicons:folder-upload" iconwidth="21" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'thesisdefense'">
 					Undangan Sidang
 				</x-nav-link>
 
 				@elseif (Auth::user()->userrole === "student")
 
-				<x-nav-link href="{{ route('student.flow', ['type' => 'seminar']) }}" class="button-list" :active="request()->routeIs('student.flow') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationform') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationletter') && request()->query('type') === 'seminar' || request()->routeIs('student.requirements') && request()->query('type') === 'seminar'" onclick="ToggleButtonList($(this))">
-					<iconify-icon icon="fluent:form-28-regular" width="21"></iconify-icon>
+				<x-nav-link href="{{ route('student.flow', ['type' => 'seminar']) }}" class="button-list" icon="fluent:form-28-regular" iconwidth="21" :active="request()->routeIs('student.flow') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationform') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationletter') && request()->query('type') === 'seminar' || request()->routeIs('student.requirements') && request()->query('type') === 'seminar'" onclick="ToggleButtonList($(this))">
 					Daftar Seminar
-					<iconify-icon icon="weui:arrow-filled" width="12"></iconify-icon>
 				</x-nav-link>
 				<x-nav-link-dropdown :active="request()->routeIs('student.flow') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationform') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationletter') && request()->query('type') === 'seminar' || request()->routeIs('student.requirements') && request()->query('type') === 'seminar'">
-					<x-nav-link href="{{ route('student.registrationform', ['type' => 'seminar']) }}" :active="request()->routeIs('student.registrationform') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationletter') && request()->query('type') === 'seminar'">
-						<iconify-icon icon="basil:document-outline" width="21"></iconify-icon>
+					<x-nav-link href="{{ route('student.registrationform', ['type' => 'seminar']) }}" icon="basil:document-outline" iconwidth="21" :active="request()->routeIs('student.registrationform') && request()->query('type') === 'seminar' || request()->routeIs('student.registrationletter') && request()->query('type') === 'seminar'">
 						Form Pendaftaran
 					</x-nav-link>
-					<x-nav-link href="{{ route('student.requirements', ['type' => 'seminar']) }}" :active="request()->routeIs('student.requirements') && request()->query('type') === 'seminar'">
-						<iconify-icon icon="hugeicons:folder-upload" width="21"></iconify-icon>
+					<x-nav-link href="{{ route('student.requirements', ['type' => 'seminar']) }}" icon="hugeicons:folder-upload" iconwidth="21" :active="request()->routeIs('student.requirements') && request()->query('type') === 'seminar'">
 						Persyaratan Seminar
 					</x-nav-link>
 				</x-nav-link-dropdown>
 
-				<x-nav-link href="{{ route('student.flow', ['type' => 'thesisdefense']) }}" class="button-list" :active="request()->routeIs('student.flow') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.registrationform') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.registrationletter') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.requirements') && request()->query('type') === 'thesisdefense'" onclick="ToggleButtonList($(this))">
-					<iconify-icon icon="streamline-flex:presentation" width="21"></iconify-icon>
+				<x-nav-link href="{{ route('student.flow', ['type' => 'thesisdefense']) }}" class="button-list" icon="streamline-flex:presentation" iconwidth="21" :active="request()->routeIs('student.flow') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.registrationform') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.registrationletter') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.requirements') && request()->query('type') === 'thesisdefense'" onclick="ToggleButtonList($(this))">
 					Daftar Sidang Akhir
-					<iconify-icon icon="weui:arrow-filled" width="12"></iconify-icon>
 				</x-nav-link>
 				<x-nav-link-dropdown :active="request()->routeIs('student.flow') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.registrationform') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.registrationletter') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.requirements') && request()->query('type') === 'thesisdefense'">
-					<x-nav-link href="{{ route('student.registrationform', ['type' => 'thesisdefense']) }}" :active="request()->routeIs('student.registrationform') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.registrationletter') && request()->query('type') === 'thesisdefense'">
-						<iconify-icon icon="basil:document-outline" width="21"></iconify-icon>
+					<x-nav-link href="{{ route('student.registrationform', ['type' => 'thesisdefense']) }}" icon="basil:document-outline" iconwidth="21" :active="request()->routeIs('student.registrationform') && request()->query('type') === 'thesisdefense' || request()->routeIs('student.registrationletter') && request()->query('type') === 'thesisdefense'">
 						Form Pendaftaran
 					</x-nav-link>
-					<x-nav-link href="{{ route('student.requirements', ['type' => 'thesisdefense']) }}" :active="request()->routeIs('student.requirements') && request()->query('type') === 'thesisdefense'">
-						<iconify-icon icon="hugeicons:folder-upload" width="21"></iconify-icon>
+					<x-nav-link href="{{ route('student.requirements', ['type' => 'thesisdefense']) }}" icon="hugeicons:folder-upload" iconwidth="21" :active="request()->routeIs('student.requirements') && request()->query('type') === 'thesisdefense'">
 						Persyaratan Sidang
 					</x-nav-link>
 				</x-nav-link-dropdown>
 				
 				@endif
 
-				<x-nav-link href="{{ route(Auth::user()->userrole . '.schedule') }}" :active="request()->routeIs(Auth::user()->userrole . '.schedule')">
-					<iconify-icon icon="material-symbols-light:calendar-clock-outline-sharp" width="21"></iconify-icon>
+				<x-nav-link href="{{ route(Auth::user()->userrole . '.schedule') }}" icon="material-symbols-light:calendar-clock-outline-sharp" iconwidth="21" :active="request()->routeIs(Auth::user()->userrole . '.schedule')">
 					Jadwal
 				</x-nav-link>
 
 				<form id="form-logout" action="{{ route('logout') }}" method="POST">
 					@csrf
 
-					<button href="javascript:void(0);" class="button button-logout">
-						<iconify-icon icon="material-symbols:logout-rounded" width="21"></iconify-icon>
+					<x-button href="javascript:void(0);" icon="material-symbols:logout-rounded" iconwidth="21" class="button button-logout">
 						Keluar
-					</button>
+					</x-button>
 				</form>
 			</navbar>
 

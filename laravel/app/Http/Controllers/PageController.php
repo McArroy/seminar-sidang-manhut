@@ -135,7 +135,12 @@ class PageController extends Controller
 			$dataUsers = app()->make(UserController::class)->GetLecturers()->sortByDesc("created_at")->values();
 
 		// filters
-		$search = mb_strtolower(trim($request->query("search")));
+		$searchValidated = request()->validate(
+		[
+			"search" => "nullable|string|max:255"
+		]);
+
+		$search = isset($searchValidated["search"]) ? mb_strtolower(trim($searchValidated["search"])) : null;
 
 		if ($search)
 		{
@@ -194,7 +199,12 @@ class PageController extends Controller
 		})->sortByDesc("created_at")->values();
 
 		// filters
-		$search = mb_strtolower(trim($request->query("search")));
+		$searchValidated = request()->validate(
+		[
+			"search" => "nullable|string|max:255"
+		]);
+
+		$search = isset($searchValidated["search"]) ? mb_strtolower(trim($searchValidated["search"])) : null;
 
 		if ($search)
 		{
@@ -237,7 +247,12 @@ class PageController extends Controller
 		})->sortByDesc("created_at")->values();
 
 		// filters
-		$search = mb_strtolower(trim($request->query("search")));
+		$searchValidated = request()->validate(
+		[
+			"search" => "nullable|string|max:255"
+		]);
+
+		$search = isset($searchValidated["search"]) ? mb_strtolower(trim($searchValidated["search"])) : null;
 
 		if ($search)
 		{
@@ -292,7 +307,12 @@ class PageController extends Controller
 		})->sortByDesc("created_at")->values();
 
 		// filters
-		$search = mb_strtolower(trim($request->query("search")));
+		$searchValidated = request()->validate(
+		[
+			"search" => "nullable|string|max:255"
+		]);
+
+		$search = isset($searchValidated["search"]) ? mb_strtolower(trim($searchValidated["search"])) : null;
 
 		if ($search)
 		{
@@ -354,9 +374,16 @@ class PageController extends Controller
 		$allData = $dataSeminar->merge($dataThesisdefense)->sortByDesc("created_at")->values();
 
 		// filters
-		$search = mb_strtolower(trim($request->query("search")));
-		$type = $request->query("type");
-		$semester = mb_strtolower(trim($request->query("semester")));
+		$validated = request()->validate(
+		[
+			"search" => "nullable|string|max:255",
+			"type" => "nullable|string|max:129",
+			"semester" => "nullable|string|max:255"
+		]);
+
+		$search = isset($validated["search"]) ? mb_strtolower(trim($validated["search"])) : null;
+		$type = isset($validated["type"]) ? mb_strtolower(trim($validated["type"])) : null;
+		$semester = isset($validated["semester"]) ? mb_strtolower(trim($validated["semester"])) : null;
 		$this->GetAllSemesterList($allData);
 
 		if ($type)

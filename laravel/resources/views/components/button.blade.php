@@ -10,5 +10,5 @@ $onclick = $href ? "window.open('{$href}', '{$target}')" : null;
 	<iconify-icon icon="{{ $icon }}" class="{{ $iconclass }}" width="{{ $iconwidth }}"></iconify-icon>
 	@endif
 
-	{{ $slot }}
+	<div class="text">{{ $slot }}</div>
 </button>

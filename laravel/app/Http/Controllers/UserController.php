@@ -84,35 +84,22 @@ class UserController extends Controller
 			return redirect()->route("admin." . $request["from"])->with("toast_success", "Data " . $request["text"] . " Berhasil Dihapus");
 	}
 
-	public static function GetAll()
+	public static function GetAll(array $columns = ["*"])
 	{
-		return User::all();
+		return User::select($columns)->get();
 	}
 
-	public static function GetUsername(string $useridnumber)
+	public static function GetUsername(?string $useridnumber)
 	{
-		$user = User::where("useridnumber", DeterministicEncryption::encryptDeterministic(strtolower(trim($useridnumber))))->first();
+		if (empty($useridnumber))
+			return null;
 
-		return $user ? $user->username : null;
-	}
-
-	public static function GetUsernameById(string $userid) : ?string
-	{
-		$user = User::find($userid);
-
-		return $user?->username;
-	}
-
-	public static function GetUseridnumberById(string $userid) : ?string
-	{
-		$user = User::find($userid);
-
-		return $user?->useridnumber;
+		return User::where("useridnumber", DeterministicEncryption::encryptDeterministic(strtolower(trim($useridnumber))))->value("username");
 	}
 
 	public function GetStudents()
 	{
-		return self::GetAll()->filter(function($user)
+		return self::GetAll(["userid", "useridnumber", "username", "userrole", "created_at"])->filter(function($user)
 		{
 			return $user->userrole === "student";
 		});
@@ -156,7 +143,7 @@ class UserController extends Controller
 
 	public function GetLecturers()
 	{
-		return self::GetAll()->filter(function($user)
+		return self::GetAll(["userid", "useridnumber", "username", "userrole", "created_at"])->filter(function($user)
 		{
 			return $user->userrole === "lecturer";
 		});

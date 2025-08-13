@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Seminar;
+use App\Traits\DeterministicEncryption;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
 class SeminarController extends Controller
 {
+	use DeterministicEncryption;
+	
 	private string $userId;
 	private string $userRole;
 
@@ -18,16 +21,16 @@ class SeminarController extends Controller
 		$this->userRole = Auth::user()->userrole;
 	}
 
-	public static function GetAll()
+	public static function GetAll(array $columns = ["*"])
 	{
-		return Seminar::all();
+		return Seminar::select($columns)->get();
 	}
 
 	public function Index()
 	{
 		if ($this->userRole === "admin")
 		{
-			$dataseminar = self::GetAll();
+			$dataseminar = self::GetAll(["seminarid", "useridnumber", "date", "title", "link", "status", "comment", "created_at"]);
 		}
 		else if ($this->userRole === "student")
 		{
@@ -120,17 +123,9 @@ class SeminarController extends Controller
 			"link" => "required|string|max:1000"
 		]);
 
-		$userId = $this->userId;
+		$userId = $this->encryptDeterministic($this->userId);
 
-		$seminars = self::GetAll()->filter(function($seminar) use ($userId)
-		{
-			return $seminar->useridnumber === $userId;
-		});
-
-		$seminarToUpdate = $seminars->filter(function($s)
-		{
-			return empty($s->link);
-		})->sortBy("created_at")->first();
+		$seminarToUpdate = Seminar::where("useridnumber", $userId)->whereNull("link")->orderBy("created_at")->first();
 
 		if (!$seminarToUpdate)
 			return redirect()->back()->with("toast_info", "Semua Data Seminar Anda Sudah Lengkap");
