@@ -4,8 +4,6 @@
 		<link rel="stylesheet" href="/assets/css/pages/requirements.css?v=1.0">
 	@endsection
 
-	@section("activate-navbar", "active")
-
 	<x-slot name="icon">hugeicons:folder-upload</x-slot>
 
 	@if ($_GET["type"] === "seminar")

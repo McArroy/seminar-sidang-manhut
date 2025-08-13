@@ -11,8 +11,6 @@
 		<link rel="stylesheet" href="/assets/css/pages/registrationform.css?v=1.0">
 	@endsection
 
-	@section("activate-navbar", "active")
-
 	<x-slot name="title">Form Pendaftaran</x-slot>
 	<x-slot name="icon">basil:document-outline</x-slot>
 

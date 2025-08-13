@@ -3,8 +3,6 @@
 		<link rel="stylesheet" href="/assets/css/pages/seminarflow.css?v=1.0">
 	@endsection
 
-	@section("activate-navbar", "active")
-
 	@if ($_GET["type"] === "seminar")
 
 	<x-slot name="title">Daftar Seminar</x-slot>
