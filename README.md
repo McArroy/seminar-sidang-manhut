@@ -7,8 +7,13 @@ These changelogs are basically just a summary list of changes that are very impo
 <summary>Click to expand</summary>
 
 **[ COMMONS ]**
+- Added side-navigationbar latest state using jQuery code instead manually server-side
 
 **[ UI/UX ]**
+- Fixed some layouts and elements
+- Updated CSS elements
+- Updated button element as needed
+- Updated nav-link element as needed
 
 **[ LARAVEL ]**
 - Fixed page queries in PageController controller by validated first
