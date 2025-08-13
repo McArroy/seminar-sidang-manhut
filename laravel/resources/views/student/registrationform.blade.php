@@ -104,12 +104,11 @@
 			])" required/>
 		</div>
 		<div class="input">
-			<x-input-wrapper id="place" label="Tempat/Ruangan" type="select" placeholder="Pilih Ruang Sidang {{ (isset($IsThesisDefense) ? 'Foresta' : 'Matoa') }}" :options="
-			[
-				'Ruang 1' => 'Ruang Sidang 1',
-				'Ruang 2' => 'Ruang Sidang 2',
-				'Ruang 3' => 'Ruang Sidang 3'
-			]" required/>
+			<x-input-wrapper id="place" label="Tempat/Ruangan" type="select" placeholder="Pilih Ruang Sidang" required>
+				@foreach ($dataRooms as $room)
+					<option value="{{ $room->name }}">{{ $room->name }}</option>
+				@endforeach
+			</x-input-wrapper>
 		</div>
 		<div class="input">
 			<x-input-wrapper id="title" label="Judul Skripsi" type="textarea" placeholder="Masukkan Judul Skripsi" required/>
