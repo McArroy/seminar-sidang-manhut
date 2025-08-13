@@ -12,6 +12,7 @@ use App\Http\Controllers\DateIndoFormatterController;
 use App\Http\Controllers\SeminarController;
 use App\Http\Controllers\ThesisdefenseController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoomController;
 
 use Carbon\Carbon;
 
@@ -25,7 +26,7 @@ class PageController extends Controller
 		$this->userRole = Auth::user()->userrole;
 	}
 
-	private function PagePaginator(Request $request, Collection $data) : LengthAwarePaginator
+    public function PagePaginator(Request $request, Collection $data) : LengthAwarePaginator
 	{
 		$page = (int)$request->query("page", 1);
 		$perPage = 8;
@@ -37,6 +38,15 @@ class PageController extends Controller
 			"path" => $request->url(),
 			"query" => $request->query()
 		]);
+	}
+
+	public function Rooms(Request $request)
+	{
+		$rooms = app()->make(RoomController::class)->Index($request);
+		$rooms = $this->PagePaginator($request, collect($rooms));
+
+		if ($this->userRole === "admin")
+			return view("admin.rooms", ["dataRooms" => $rooms]);
 	}
 
 	private function GetAllSemesterList(Collection $data) : array
