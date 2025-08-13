@@ -15,8 +15,13 @@ $(window).on("pageshow", function(event)
 		DeactivateLoadingAnimation();
 });
 
-$(document).ready(function()
+$(function()
 {
+	var navbarSideClosed = localStorage.getItem("sidebarClosed") === "true";
+
+	if (!navbarSideClosed)
+		$("navbar.side").addClass("active");
+	
 	$("[autofocus]").each(function()
 	{
 		var $Input = $(this);
