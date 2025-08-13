@@ -101,7 +101,10 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 				<x-nav-link href="{{ route('admin.seminars') }}" icon="fluent:form-28-regular" iconwidth="21" :active="request()->routeIs('admin.seminars')">
 					Seminar
 				</x-nav-link>
-				<x-nav-link href="{{ route('admin.announcements', ['type' => 'seminar']) }}" icon="hugeicons:folder-upload" iconwidth="21" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'seminar'">
+				<x-nav-link href="{{ route('admin.rooms') }}" icon="mdi:door" iconwidth="21" :active="request()->routeIs('admin.rooms')">
+					Data Ruangan
+				</x-nav-link>
+				<x-nav-link href="{{ route('admin.announcements', ['type' => 'seminar']) }}"  icon="hugeicons:folder-upload" iconwidth="21" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'seminar'">
 					Pengumuman Seminar
 				</x-nav-link>
 				<x-nav-link href="{{ route('admin.thesisdefenses') }}" icon="streamline-flex:presentation" iconwidth="21" :active="request()->routeIs('admin.thesisdefenses')">
