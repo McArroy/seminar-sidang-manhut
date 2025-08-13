@@ -8,6 +8,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\SeminarController;
 use App\Http\Controllers\ThesisdefenseController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoomController;
 
 Route::get("/", function()
 {
@@ -83,6 +84,15 @@ Route::middleware(
 		Route::post("/announcements/{thesisdefense}", [ThesisdefenseController::class, "UpdateLink"])->name("announcements.thesisdefense.add");
 
 		Route::get("/schedule", [PageController::class, "Schedule"])->name("schedule");
+
+		// rooms
+		Route::get("/rooms", [PageController::class, "Rooms"])->name("rooms");
+
+		Route::post("/rooms", [RoomController::class, "Store"])->name("rooms.add");
+
+		Route::post("/rooms/update/{room}", [RoomController::class, "Update"])->name("rooms.update");
+
+		Route::delete("/rooms/delete/{room}", [RoomController::class, "Destroy"])->name("rooms.delete");
 	});
 });
 
@@ -123,8 +133,9 @@ Route::middleware(
 			}
 
 			$dataLecturers = app()->make(UserController::class)->GetLecturers();
+			$dataRooms = app()->make(\App\Http\Controllers\RoomController::class)->Index($request);
 
-			return view("student.registrationform", compact("dataLecturers"));
+			return view("student.registrationform", compact("dataLecturers", "dataRooms"));
 		})->name("registrationform");
 
 		Route::post("/registrationform", function(Request $request)
