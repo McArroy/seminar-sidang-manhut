@@ -49,7 +49,10 @@ class ThesisdefenseController extends Controller
 	{
 		$data = session()->pull("validated_data_letter", []);
 
-		return view("student.registrationletter", ["data" => $data]);
+		if (empty($data))
+			return redirect()->route("student.dashboard");
+
+		return view("student.registrationletter", compact("data"));
 	}
 
 	public function RePreview(Request $request)
