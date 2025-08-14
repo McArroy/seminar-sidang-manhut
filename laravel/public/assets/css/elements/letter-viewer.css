@@ -62,7 +62,7 @@
 	iframe
 	{
 		background: var(--grey4);
-		height: 50dvh;
+		height: max-content;
 		margin-top: 20px;
 		padding: 0 30px;
 		width: 100%;
