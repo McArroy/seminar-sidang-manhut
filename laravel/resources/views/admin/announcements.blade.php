@@ -22,7 +22,7 @@
 	@endif
 
 	<div class="top">
-		<x-input-wrapper class="search type-2" id="search" type="text" placeholder="Cari Data" value="{{ $InputSearch }}" autofocus />
+		<x-input-wrapper class="search type-2" id="search" type="text" placeholder="Cari Data {{ request()->query('type') === 'seminar' ? 'Seminar' : 'Sidang Akhir' }}" value="{{ $InputSearch }}" autofocus />
 	</div>
 	<div class="middle">
 		<table class="type-2">

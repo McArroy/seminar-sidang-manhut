@@ -12,7 +12,7 @@
 	<x-slot name="pagetitle">Data Mahasiswa</x-slot>
 	
 	<div class="top">
-		<x-input-wrapper class="search type-2" id="search" type="text" placeholder="Cari Data" value="{{ $InputSearch }}" autofocus />
+		<x-input-wrapper class="search type-2" id="search" type="text" placeholder="Cari Data Mahasiswa" value="{{ $InputSearch }}" autofocus />
 		<x-button class="add" id="add-student" icon="material-symbols:add-rounded" iconwidth="auto">Tambah Data</x-button>
 	</div>
 	<div class="middle">

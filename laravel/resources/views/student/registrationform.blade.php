@@ -106,7 +106,7 @@
 		<div class="input">
 			<x-input-wrapper id="place" label="Tempat/Ruangan" type="select" placeholder="Pilih Ruang Sidang" required>
 				@foreach ($dataRooms as $room)
-					<option value="{{ $room->name }}">{{ $room->name }}</option>
+					<option value="{{ $room->roomid }}">{{ $room->roomname }}</option>
 				@endforeach
 			</x-input-wrapper>
 		</div>

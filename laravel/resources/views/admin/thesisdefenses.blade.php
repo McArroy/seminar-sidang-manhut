@@ -12,7 +12,7 @@
 	<x-slot name="pagetitle">Sidang Akhir</x-slot>
 	
 	<div class="top">
-		<x-input-wrapper class="search type-2" id="search" type="text" placeholder="Cari Data" value="{{ $InputSearch }}" autofocus />
+		<x-input-wrapper class="search type-2" id="search" type="text" placeholder="Cari Data Seminar" value="{{ $InputSearch }}" autofocus />
 	</div>
 	<div class="middle">
 		<table class="type-2">

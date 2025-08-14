@@ -12,7 +12,7 @@
 	<x-slot name="pagetitle">Data Dosen</x-slot>
 	
 	<div class="top">
-		<x-input-wrapper class="search type-2" id="search" type="text" placeholder="Cari Data" value="{{ $InputSearch }}" autofocus />
+		<x-input-wrapper class="search type-2" id="search" type="text" placeholder="Cari Data Dosen" value="{{ $InputSearch }}" autofocus />
 		<x-button class="add" id="add-lecturer" icon="material-symbols:add-rounded" iconwidth="auto">Tambah Data</x-button>
 	</div>
 	<div class="middle">
