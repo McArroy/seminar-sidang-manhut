@@ -3,6 +3,7 @@
 @php
 use App\Http\Controllers\DateIndoFormatterController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoomController;
 
 if ($id)
 	$id = "pdf-source-" . $id;
@@ -115,7 +116,7 @@ else
 						<tr>
 							<td class='label'>Tempat / Ruangan</td>
 							<td class='colon'>:</td>
-							<td class='value'>{{ $data['place'] }}</td>
+							<td class='value'>{{ RoomController::GetRoomname($data['place']) }}</td>
 						</tr>
 						<tr>
 							<td class='label'>Judul Skripsi</td>
@@ -149,7 +150,7 @@ else
 						<tr>
 							<td class='label'>Tempat / Ruangan</td>
 							<td class='colon'>:</td>
-							<td class='value'>{{ $data['place'] }}</td>
+							<td class='value'>{{ RoomController::GetRoomname($data['place']) }}</td>
 						</tr>
 						<tr>
 							<td class='label'>Judul Skripsi</td>
