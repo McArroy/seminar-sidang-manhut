@@ -9,18 +9,33 @@ These changelogs are basically just a summary list of changes that are very impo
 **[ COMMONS ]**
 - Added side-navigationbar latest state using jQuery code instead manually server-side
 
+**[ DATABASE ]**
+- Added Room database
+- Fixed some codes
+
 **[ UI/UX ]**
+- Added side-navigationbar room menu
+- Fixed some codes
 - Fixed some layouts and elements
+- Fixed letter element for dynamic get room's name
 - Updated CSS elements
 - Updated button element as needed
 - Updated nav-link element as needed
 
 **[ LARAVEL ]**
+- Added RoomController controller
+- Added Room model
+- Added some functions in PageController controller
+- Added rooms' routes
+- Fixed typo
+- Fixed rooms are now get the data from database instead predefined text
 - Fixed page queries in PageController controller by validated first
+- Fixed queries logic in RoomController controller
 - Fixed queries logic in SeminarController controller
 - Fixed queries logic in ThesisdefenseController controller
 - Fixed queries logic in UserController controller
 - Removed unused codes
+- Removed unused files
 
 </details>
 
