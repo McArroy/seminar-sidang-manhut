@@ -19,22 +19,38 @@ else
 			<meta name='viewport' content='width=device-width, initial-scale=1.0'>
 			<title>Berkas Pendaftaran {{ $IsThesisDefense ? 'Sidang Akhir' : 'Seminar' . ' - ' . UserController::GetUsername($data['useridnumber']) }}></title>
 			<style>
-				@page {
-					size: A4;
+				@page
+				{
 					margin: 0;
+					size: A4;
 				}
-				html, body {
-					width: 210mm;
-					height: 297mm;
+
+				html
+				{
+					align-items: center;
+					display: flex;
+					height: auto;
+					justify-content: center;
+					width: 100%;
+				}
+
+				html, body
+				{
 					margin: 0;
 					padding: 0;
 				}
-				body {
-					position: relative;
+
+				body
+				{
 					font-family: 'Calibri';
 					font-size: 11pt;
+					height: 297mm;
+					position: relative;
+					width: 210mm;
 				}
-				.letterhead {
+
+				.letterhead
+				{
 					height: 100%;
 					left: 0;
 					position: absolute;
@@ -42,31 +58,49 @@ else
 					width: 100%;
 					z-index: -1;
 				}
-				.wrapper {
-					width: 100%;
-					height: 100%;
-					position: relative;
-					padding: 45mm 20mm 25mm 25mm;
+
+				.wrapper
+				{
 					box-sizing: border-box;
-				}
-				.footer {
-					position: absolute;
-					bottom: 25mm;
-					left: 0;
+					height: 100%;
+					padding: 45mm 20mm 25mm 25mm;
+					position: relative;
 					width: 100%;
-					text-align: center;
-					font-size: 10pt;
-					font-style: italic;
 				}
-				.main-table td {
+				
+				.main-table td
+				{
 					padding: 4px 0;
 					vertical-align: top;
 				}
-				.label { width: 150px; }
-				.colon { width: 10px; }
-				.value-long { border-bottom: 1px solid black; height: 18px; }
-				h2, h3 { font-weight: bold; margin: 0; padding: 0; }
-				.center { text-align: center; }
+
+				.label
+				{
+					width: 150px;
+				}
+
+				.colon
+				{
+					width: 10px;
+				}
+
+				.value-long
+				{
+					border-bottom: 1px solid black;
+					height: 18px;
+				}
+
+				h2, h3
+				{
+					font-weight: bold;
+					margin: 0;
+					padding: 0;
+				}
+
+				.center
+				{
+					text-align: center;
+				}
 			</style>
 		</head>
 		<body>
