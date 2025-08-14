@@ -26,7 +26,7 @@ class PageController extends Controller
 		$this->userRole = Auth::user()->userrole;
 	}
 
-    public function PagePaginator(Request $request, Collection $data) : LengthAwarePaginator
+    private function PagePaginator(Request $request, Collection $data) : LengthAwarePaginator
 	{
 		$page = (int)$request->query("page", 1);
 		$perPage = 8;
@@ -38,15 +38,6 @@ class PageController extends Controller
 			"path" => $request->url(),
 			"query" => $request->query()
 		]);
-	}
-
-	public function Rooms(Request $request)
-	{
-		$rooms = app()->make(RoomController::class)->Index($request);
-		$rooms = $this->PagePaginator($request, collect($rooms));
-
-		if ($this->userRole === "admin")
-			return view("admin.rooms", ["dataRooms" => $rooms]);
 	}
 
 	private function GetAllSemesterList(Collection $data) : array
@@ -185,6 +176,46 @@ class PageController extends Controller
 
 		if ($this->userRole === "admin")
 			return view("admin.lecturers", compact("dataUsers"));
+	}
+
+	public function Rooms(Request $request)
+	{
+		$dataRooms = app()->make(RoomController::class)->Index($request);
+
+		// filters
+		$searchValidated = request()->validate(
+		[
+			"search" => "nullable|string|max:255"
+		]);
+
+		$search = isset($searchValidated["search"]) ? mb_strtolower(trim($searchValidated["search"])) : null;
+
+		if ($search)
+		{
+			$dataRooms = $dataRooms->filter(function($item) use ($search)
+			{
+				$fields =
+				[
+					$item->roomname ?? ""
+				];
+
+				foreach ($fields as $field)
+				{
+					if (!is_string($field))
+						continue;
+
+					if (str_contains(mb_strtolower(trim($field)), $search))
+						return true;
+				}
+
+				return false;
+			})->values();
+		}
+		
+		$dataRooms = $this->PagePaginator($request, $dataRooms);
+
+		if ($this->userRole === "admin")
+			return view("admin.rooms", compact("dataRooms"));
 	}
 
 	public function Seminars(Request $request)
