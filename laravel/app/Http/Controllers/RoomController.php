@@ -8,59 +8,51 @@ use Illuminate\Support\Str;
 
 class RoomController extends Controller
 {
-    public static function GetAll()
-    {
-        return Room::orderBy("name")->get();
-    }
+	public static function GetAll(array $columns = ["*"])
+	{
+		return Room::select($columns)->get();
+	}
 
-    public function Index(Request $request)
-    {
-        $rooms = self::GetAll();
+	public function Index(Request $request)
+	{
+		return self::GetAll()->sortBy("name");
+	}
 
-        $search = mb_strtolower(trim($request->query("search")));
-        if ($search)
-        {
-            $rooms = $rooms->filter(function($room) use ($search)
-            {
-                return str_contains(mb_strtolower(trim($room->name ?? "")), $search);
-            })->values();
-        }
+	public function Store(Request $request)
+	{
+		$validated = $request->validate(
+		[
+			"name" => "required|string|max:255",
+		]);
 
-        return $rooms;
-    }
+		Room::create(
+		[
+			"roomid" => (string)Str::uuid(),
+			"name" => $validated["name"],
+		]);
 
-    public function Store(Request $request)
-    {
-        $validated = $request->validate([
-            "name" => "required|string|max:255|unique:rooms,name",
-        ]);
+		return redirect()->route("admin.rooms")->with("toast_success", "Data Ruangan Berhasil Ditambahkan");
+	}
 
-        Room::create([
-            "roomid" => (string) Str::uuid(),
-            "name" => trim($validated["name"]),
-        ]);
+	public function Update(Request $request, Room $room)
+	{
+		$validated = $request->validate(
+		[
+			"name" => "required|string|max:255",
+		]);
 
-        return redirect()->route("admin.rooms")->with("toast_success", "Ruang Berhasil Ditambahkan");
-    }
+		$room->update(
+		[
+			"name" => $validated["name"],
+		]);
 
-    public function Update(Request $request, Room $room)
-    {
-        $validated = $request->validate([
-            "name" => "required|string|max:255|unique:rooms,name," . $room->roomid . ",roomid",
-        ]);
+		return redirect()->route("admin.rooms")->with("toast_success", "Data Ruangan Berhasil Diubah");
+	}
 
-        $room->update([
-            "name" => trim($validated["name"]),
-        ]);
+	public function Destroy(Room $room)
+	{
+		$room->delete();
 
-        return redirect()->route("admin.rooms")->with("toast_success", "Ruang Berhasil Diubah");
-    }
-
-    public function Destroy(Room $room)
-    {
-        $room->delete();
-        return redirect()->route("admin.rooms")->with("toast_success", "Ruang Berhasil Dihapus");
-    }
+		return redirect()->route("admin.rooms")->with("toast_success", "Ruang Berhasil Dihapus");
+	}
 }
-
-
