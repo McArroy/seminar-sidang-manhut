@@ -2,6 +2,21 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.8.14 [ Last update: 08/14/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ UI/UX ]**
+- Fixed visibility on scrollbar element
+- Fixed letter-viewer element's height not based on maximum content-height
+- Fixed letter's content not centered in the letter-viewer element
+
+**[ LARAVEL ]**
+- Fixed when refresh the registrationletter page it gives error but now will redirected into dashboard instead
+- Removed unused codes
+
+</details>
+
 #### UPDATE Version 1.25.8.13 [ Last update: 08/13/2025 ]
 <details>
 <summary>Click to expand</summary>
