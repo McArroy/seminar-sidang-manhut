@@ -98,11 +98,11 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 				<x-nav-link href="{{ route('admin.lecturers') }}" icon="fontisto:person" iconwidth="15" :active="request()->routeIs('admin.lecturers')">
 					Data Dosen
 				</x-nav-link>
-				<x-nav-link href="{{ route('admin.seminars') }}" icon="fluent:form-28-regular" iconwidth="21" :active="request()->routeIs('admin.seminars')">
-					Seminar
-				</x-nav-link>
 				<x-nav-link href="{{ route('admin.rooms') }}" icon="mdi:door" iconwidth="21" :active="request()->routeIs('admin.rooms')">
 					Data Ruangan
+				</x-nav-link>
+				<x-nav-link href="{{ route('admin.seminars') }}" icon="fluent:form-28-regular" iconwidth="21" :active="request()->routeIs('admin.seminars')">
+					Seminar
 				</x-nav-link>
 				<x-nav-link href="{{ route('admin.announcements', ['type' => 'seminar']) }}"  icon="hugeicons:folder-upload" iconwidth="21" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'seminar'">
 					Pengumuman Seminar
