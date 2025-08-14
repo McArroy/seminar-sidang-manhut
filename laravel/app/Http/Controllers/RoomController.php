@@ -15,20 +15,20 @@ class RoomController extends Controller
 
 	public function Index(Request $request)
 	{
-		return self::GetAll()->sortBy("name");
+		return self::GetAll()->sortBy("roomname");
 	}
 
 	public function Store(Request $request)
 	{
 		$validated = $request->validate(
 		[
-			"name" => "required|string|max:255",
+			"roomname" => "required|string|max:255",
 		]);
 
 		Room::create(
 		[
 			"roomid" => (string)Str::uuid(),
-			"name" => $validated["name"],
+			"roomname" => $validated["roomname"],
 		]);
 
 		return redirect()->route("admin.rooms")->with("toast_success", "Data Ruangan Berhasil Ditambahkan");
@@ -38,15 +38,23 @@ class RoomController extends Controller
 	{
 		$validated = $request->validate(
 		[
-			"name" => "required|string|max:255",
+			"roomname" => "required|string|max:255",
 		]);
 
 		$room->update(
 		[
-			"name" => $validated["name"],
+			"roomname" => $validated["roomname"],
 		]);
 
 		return redirect()->route("admin.rooms")->with("toast_success", "Data Ruangan Berhasil Diubah");
+	}
+
+	public static function GetRoomname(?string $roomid)
+	{
+		if (empty($roomid))
+			return null;
+
+		return Room::where("roomid", $roomid)->value("roomname");
 	}
 
 	public function Destroy(Room $room)
