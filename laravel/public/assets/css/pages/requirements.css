@@ -1,8 +1,5 @@
 .content-container
 {
-	background: var(--lightGrey);
-	padding: 75px 0 0 !important;
-
 	.main-content
 	{
 		.wrapper

@@ -39,11 +39,12 @@ table
 			border: none;
 			display: flex;
 			flex-direction: row;
-			gap: auto;
+			gap: .5em;
 			width: auto;
 
 			.button
 			{
+				border: none;
 				padding: 10px;
 				width: max-content;
 			}
@@ -54,6 +55,11 @@ table
 	{
 		border-bottom: 2px solid var(--grey3);
 		display: table-row;
+
+		&.highlighted
+		{
+			background: rgba(var(--green2RGB), .4);
+		}
 	}
 
 	thead

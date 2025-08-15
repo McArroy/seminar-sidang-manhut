@@ -2,11 +2,17 @@
 
 .content-container
 {
+	background: var(--lightGrey);
 	flex-direction: row;
 	height: 100dvh;
-	padding: 60px;
+	padding: 75px 0 0 50px;
 	position: relative;
 	width: 100%;
+
+	&.guest
+	{
+		padding: 60px;
+	}
 
 	.main-content
 	{

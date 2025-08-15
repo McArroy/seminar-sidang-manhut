@@ -5,6 +5,7 @@ body
 
 .content-container
 {
+	background: unset;
 	background-image: linear-gradient(to right, rgba(var(--blueRGB), .5), rgba(var(--grey2RGB), .5)), url("../../img/auth-background.png");
 	background-repeat: no-repeat;
 	background-size: cover;

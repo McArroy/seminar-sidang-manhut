@@ -7,8 +7,9 @@
 	bottom: 0;
 	padding: 16px 120px;
 	position: fixed;
-	width: 100%;
-	z-index: calc(var(--navBar) - 1);
+	right: 0;
+	width: 98%;
+	z-index: calc(var(--navBar) - 2);
 
 	h6
 	{
