@@ -133,9 +133,15 @@ Route::middleware(
 			}
 
 			$dataLecturers = app()->make(UserController::class)->GetLecturers();
-			$dataRooms = app()->make(\App\Http\Controllers\RoomController::class)->Index($request);
 
-			return view("student.registrationform", compact("dataLecturers", "dataRooms"));
+			if ($request->query("type") === "seminar")
+				$dataTime = app()->make(SeminarController::class)->GetDataTime();
+			else if ($request->query("type") === "thesisdefense")
+				$dataTime = app()->make(ThesisdefenseController::class)->GetDataTime();
+
+			$dataRooms = app()->make(RoomController::class)->Index($request);
+
+			return view("student.registrationform", compact("dataLecturers", "dataTime", "dataRooms"));
 		})->name("registrationform");
 
 		Route::post("/registrationform", function(Request $request)

@@ -41,74 +41,17 @@
 		@endif
 
 		<div class="input">
-			<x-input-wrapper id="supervisor1" label="Dosen Pembimbing 1" type="select" placeholder="Pilih Dosen Pembimbing 1" required>
-				@foreach ($dataLecturers as $lecturer)
-					<option value="{{ strtoupper($lecturer->useridnumber) }}">{{ $lecturer->username }}</option>
-				@endforeach
-			</x-input-wrapper>
+			<x-input-wrapper id="supervisor1" label="Dosen Pembimbing 1" type="select2" placeholder="Pilih Dosen Pembimbing 1" :options="$dataLecturers->pluck('username', 'useridnumber')->mapWithKeys(fn($v, $k) => [strtoupper($k) => $v])->toArray()" required />
 		</div>
 		<div class="input">
-			<x-input-wrapper id="supervisor2" label="Dosen Pembimbing 2" type="select" placeholder="Pilih Dosen Pembimbing 2" required>
-				@foreach ($dataLecturers as $lecturer)
-					<option value="{{ strtoupper($lecturer->useridnumber) }}">{{ $lecturer->username }}</option>
-				@endforeach
-			</x-input-wrapper>
+			<x-input-wrapper id="supervisor2" label="Dosen Pembimbing 2" type="select2" placeholder="Pilih Dosen Pembimbing 2" :options="$dataLecturers->pluck('username', 'useridnumber')->mapWithKeys(fn($v, $k) => [strtoupper($k) => $v])->toArray()" required />
 		</div>
 		<div class="input">
 			<x-input-wrapper id="date" label="Tanggal {{ (isset($IsThesisDefense) ? 'Sidang' : 'Seminar') }}" type="date" required/>
-			<x-input-wrapper id="time" label="Waktu" type="select" placeholder="Pilih Waktu {{ (isset($IsThesisDefense) ? 'Sidang' : 'Seminar') }}" :options="
-			(isset($IsThesisDefense) && $IsThesisDefense
-				?
-			[
-				'07:00 - 09:00' => '07:00 - 09:00',
-				'07:30 - 09:30' => '07:30 - 09:30',
-				'08:00 - 10:00' => '08:00 - 10:00',
-				'08:30 - 10:30' => '08:30 - 10:30',
-				'09:00 - 11:00' => '09:00 - 11:00',
-				'09:30 - 11:30' => '09:30 - 11:30',
-				'10:00 - 12:00' => '10:00 - 12:00',
-				'10:30 - 12:30' => '10:30 - 12:30',
-				'11:00 - 13:00' => '11:00 - 13:00',
-				'11:30 - 13:30' => '11:30 - 13:30',
-				'12:00 - 14:00' => '12:00 - 14:00',
-				'12:30 - 14:30' => '12:30 - 14:30',
-				'13:00 - 15:00' => '13:00 - 15:00',
-				'13:30 - 15:30' => '13:30 - 15:30',
-				'14:00 - 16:00' => '14:00 - 16:00',
-				'14:30 - 16:30' => '14:30 - 16:30',
-				'15:00 - 17:00' => '15:00 - 17:00',
-				'15:30 - 17:30' => '15:30 - 17:30',
-				'16:00 - 18:00' => '16:00 - 18:00'
-			]
-				:
-			[
-				'07:00 - 08:00' => '07:00 - 08:00',
-				'07:30 - 08:30' => '07:30 - 08:30',
-				'08:00 - 09:00' => '08:00 - 09:00',
-				'08:30 - 09:30' => '08:30 - 09:30',
-				'09:00 - 10:00' => '09:00 - 10:00',
-				'09:30 - 10:30' => '09:30 - 10:30',
-				'10:00 - 11:00' => '10:00 - 11:00',
-				'10:30 - 11:30' => '10:30 - 11:30',
-				'11:00 - 12:00' => '11:00 - 12:00',
-				'11:30 - 12:30' => '11:30 - 12:30',
-				'12:00 - 13:00' => '12:00 - 13:00',
-				'12:30 - 13:30' => '12:30 - 13:30',
-				'13:00 - 14:00' => '13:00 - 14:00',
-				'13:30 - 14:30' => '13:30 - 14:30',
-				'14:00 - 15:00' => '14:00 - 15:00',
-				'14:30 - 15:30' => '14:30 - 15:30',
-				'15:00 - 16:00' => '15:00 - 16:00',
-				'15:30 - 16:30' => '15:30 - 16:30',
-				'16:00 - 17:00' => '16:00 - 17:00'
-			])" required/>
+			<x-input-wrapper id="time" label="Waktu" type="select2" placeholder="Pilih Waktu {{ (isset($IsThesisDefense) ? 'Sidang' : 'Seminar') }}" :options="$dataTime" required/>
 		</div>
 		<div class="input">
-			<x-input-wrapper id="place" label="Tempat/Ruangan" type="select" placeholder="Pilih Ruang Sidang" required>
-				@foreach ($dataRooms as $room)
-					<option value="{{ $room->roomid }}">{{ $room->roomname }}</option>
-				@endforeach
-			</x-input-wrapper>
+			<x-input-wrapper id="place" label="Tempat/Ruangan" type="select2" placeholder="Pilih Ruang Sidang" :options="$dataRooms->pluck('roomname', 'roomid')->toArray()" required />
 		</div>
 		<div class="input">
 			<x-input-wrapper id="title" label="Judul Skripsi" type="textarea" placeholder="Masukkan Judul Skripsi" required/>
