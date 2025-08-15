@@ -97,6 +97,50 @@ class UserController extends Controller
 		return User::where("useridnumber", DeterministicEncryption::encryptDeterministic(strtolower(trim($useridnumber))))->value("username");
 	}
 
+	public function GetAdmins()
+	{
+		return self::GetAll(["userid", "useridnumber", "username", "userrole", "created_at"])->filter(function($user)
+		{
+			return $user->userrole === "admin";
+		});
+	}
+
+	public function StoreAdmins(Request $request)
+	{
+		$request->merge(
+		[
+			"from" => "admins",
+			"userrole" => "admin",
+			"text" => "Admin"
+		]);
+
+		return $this->Store($request);
+	}
+
+	public function UpdateAdmins(Request $request, User $user)
+	{
+		$request->merge(
+		[
+			"from" => "admins",
+			"userrole" => "admin",
+			"text" => "Admin"
+		]);
+
+		return $this->Update($request, $user);
+	}
+
+	public function DestroyAdmins(Request $request, User $user)
+	{
+		$request->merge(
+		[
+			"from" => "admins",
+			"userrole" => "admin",
+			"text" => "Admin"
+		]);
+
+		return $this->Destroy($request, $user);
+	}
+
 	public function GetStudents()
 	{
 		return self::GetAll(["userid", "useridnumber", "username", "userrole", "created_at"])->filter(function($user)
