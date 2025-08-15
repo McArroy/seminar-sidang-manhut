@@ -37,11 +37,13 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 		@yield("css")
 
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/select2@latest/dist/css/select2.min.css" rel="stylesheet" />
 		<script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
 		<script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
 		<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/html2pdf.js@latest/dist/html2pdf.bundle.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/chart.umd.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/select2@latest/dist/js/select2.min.js"></script>
 		
 		<script src="/assets/js/functions.js?hash=<?= $HashFile ?>"></script>
 		<script src="/assets/js/dialog.js?hash=<?= $HashFile ?>"></script>

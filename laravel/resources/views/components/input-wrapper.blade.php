@@ -7,8 +7,8 @@
 
 	@if ($type === "textarea" || $type === "url")
 	<textarea id="{{ $id }}" class="{{ $loading ? 'loading' : '' }}" name="{{ $id }}" placeholder="{{ $placeholder }}" oninput="{{ $oninput }}" onchange="{{ $onchange }}" @if($readonly || $loading) readonly @endif @if($required) required @endif @if($autofocus) autofocus @endif>{{ $value }}</textarea>
-	@elseif ($type === "select")
-	<select id="{{ $id }}" class="{{ $loading ? 'loading' : '' }}" name="{{ $id }}" oninput="{{ $oninput }}" onchange="{{ $onchange }}" @if($readonly || $loading) disabled @endif @if($required) required @endif @if($autofocus) autofocus @endif>
+	@elseif ($type === "select" || $type === "select2")
+	<select id="{{ $id }}" class="{{ $type === 'select2' ? 'select2 ' : '' }} {{ $loading ? 'loading' : '' }}" name="{{ $id }}" oninput="{{ $oninput }}" onchange="{{ $onchange }}" @if($readonly || $loading) disabled @endif @if($required) required @endif @if($autofocus) autofocus @endif>
 		<option value="" disabled selected hidden>{{ $placeholder ?: "Pilih" }}</option>
 		@if (!empty($options))
 			@foreach ($options as $optionValue => $optionLabel)

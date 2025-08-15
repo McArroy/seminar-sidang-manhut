@@ -33,6 +33,8 @@ $(function()
 			this.setSelectionRange(Len, Len);
 		}
 	});
+
+	$("select.select2").select2();;
 });
 
 $(document).on("input", "textarea", function()
