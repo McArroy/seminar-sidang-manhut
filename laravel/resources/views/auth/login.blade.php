@@ -19,7 +19,7 @@
 			@csrf
 			@method("POST")
 
-			<x-input-wrapper id="useridnumber" label="ID Pengguna" type="text" placeholder="Masukkan ID Pengguna" required>
+			<x-input-wrapper id="useridnumber" label="ID Pengguna" type="text" placeholder="Masukkan ID Pengguna" value="{{ old('useridnumber') }}" required>
 				<iconify-icon icon="solar:user-bold" width="24"></iconify-icon>
 			</x-input-wrapper>
 			<x-input-wrapper class="password" id="password" label="Kata Sandi" type="password" placeholder="Masukkan Kata Sandi" required>
