@@ -30,19 +30,19 @@ class ThesisdefenseController extends Controller
 	{
 		if ($this->userRole === "admin")
 		{
-			$datathesisdefense = self::GetAll(["thesisdefenseid", "useridnumber", "date", "title", "link", "status", "comment", "created_at"]);
+			$dataThesisdefense = self::GetAll(["thesisdefenseid", "useridnumber", "date", "title", "link", "status", "comment", "created_at"]);
 		}
 		else if ($this->userRole === "student")
 		{
 			$userId = $this->userId;
 
-			$datathesisdefense = self::GetAll()->filter(function($thesisdefense) use ($userId)
+			$dataThesisdefense = self::GetAll()->filter(function($thesisdefense) use ($userId)
 			{
 				return $thesisdefense->useridnumber === $userId;
 			});
 		}
 
-		return $datathesisdefense;
+		return $dataThesisdefense;
 	}
 
 	public function Created(Request $request)
@@ -57,9 +57,24 @@ class ThesisdefenseController extends Controller
 
 	public function RePreview(Request $request)
 	{
-		$data = $request->all();
+		$dataThesisdefense = Thesisdefense::where("thesisdefenseid", $request->id);
+		$dataThesisdefense = 
+		[
+			"useridnumber" => $dataThesisdefense->value("useridnumber"),
+			"semester" => $dataThesisdefense->value("semester"),
+			"address" => $dataThesisdefense->value("address"),
+			"supervisor1" => $dataThesisdefense->value("supervisor1"),
+			"supervisor2" => $dataThesisdefense->value("supervisor2"),
+			"date" => $dataThesisdefense->value("date"),
+			"time" => $dataThesisdefense->value("time"),
+			"place" => $dataThesisdefense->value("place"),
+			"title" => $dataThesisdefense->value("title"),
+			"link" => $dataThesisdefense->value("link"),
+			"comment" => $dataThesisdefense->value("comment"),
+			"status" => $dataThesisdefense->value("status"),
+		];
 
-		session(["validated_data_letter" => $data]);
+		session(["validated_data_letter" => $dataThesisdefense]);
 
 		return redirect()->route("student.registrationletter", ["type" => "thesisdefense"]);
 	}
@@ -134,6 +149,32 @@ class ThesisdefenseController extends Controller
 			return redirect()->back()->with("toast_info", "Semua Data Sidang Akhir Anda Sudah Lengkap");
 
 		return $this->Update($data, $thesisdefenseToUpdate);
+	}
+
+	public static function GetDataTime() : array
+	{
+		return
+		[
+			"07:00 - 09:00",
+			"07:30 - 09:30",
+			"08:00 - 10:00",
+			"08:30 - 10:30",
+			"09:00 - 11:00",
+			"09:30 - 11:30",
+			"10:00 - 12:00",
+			"10:30 - 12:30",
+			"11:00 - 13:00",
+			"11:30 - 13:30",
+			"12:00 - 14:00",
+			"12:30 - 14:30",
+			"13:00 - 15:00",
+			"13:30 - 15:30",
+			"14:00 - 16:00",
+			"14:30 - 16:30",
+			"15:00 - 17:00",
+			"15:30 - 17:30",
+			"16:00 - 18:00"
+		];
 	}
 
 	public static function GetCommentById(string $thesisdefenseid)
