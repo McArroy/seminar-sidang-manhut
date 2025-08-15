@@ -1,7 +1,33 @@
 /* Navigationbar */
 
+:has(navbar.side.active)
+{
+	.content-container
+	{
+		padding-left: 0;
+	}
+	
+	/* navbar.backdrop
+	{
+		opacity: 1;
+		pointer-events: unset;
+	} */
+}
+
 navbar
 {
+	&.backdrop
+	{
+		background: rgba(var(--blackRGB), .4);
+		height: 100dvh;
+		opacity: 0;
+		pointer-events: none;
+		position: absolute;
+		top: 0;
+		width: 100dvw;
+		z-index: calc(var(--navBar) - 2);
+	}
+
 	&.top
 	{
 		background: var(--blue2);
@@ -94,13 +120,18 @@ navbar
 		left: 0;
 		overflow-y: auto;
 		padding: 95px 0 90px;
-		position: relative;
+		position: absolute;
 		width: 50px;
 		z-index: calc(var(--navBar) - 1);
 
 		*
 		{
 			flex-shrink: 0;
+		}
+
+		&.active
+		{
+			position: relative;
 		}
 
 		&.active, &:hover
