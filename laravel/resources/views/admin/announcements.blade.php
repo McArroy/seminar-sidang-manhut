@@ -62,23 +62,17 @@
 	<x-navigator-buttons :data="$dataSubmissions" />
 	
 	<script>
+		@php
+		$dataLecturers = $dataLecturers->pluck('username', 'useridnumber')->mapWithKeys(fn($v, $k) => [strtoupper($k) => $v])->toArray();
+		@endphp
+		
 		$(document).on("click", "button#add-form-letter", function()
 		{
 			const $id = $(this).data("link");
-			const $optionsHtml =
-			`
-			{!!
-				collect($dataLecturers)->map(function($lecturer)
-				{
-					return '<option value="' . strtoupper($lecturer->useridnumber) . '">' . e($lecturer->username) . '</option>';
-				})->implode('')
-			!!}`;
 			let $innerContent =
 			`
 				<x-input-wrapper id="number_letter" type="text" label="Nomor Surat" placeholder="Masukkan Nomor Surat" required />
-				<x-input-wrapper id="moderator" label="Moderator" type="select" placeholder="Pilih Dosen Moderator" required>
-					${$optionsHtml}
-				</x-input-wrapper>
+				<x-input-wrapper id="moderator" label="Moderator" type="select2" placeholder="Pilih Dosen Moderator" :options="$dataLecturers" required />
 				<x-input-wrapper id="date_letter" type="date" label="Tanggal Pembuatan" required />
 			`;
 
@@ -92,15 +86,9 @@
 			@if ($type === "thesisdefense")
 				$innerContent +=
 				`
-					<x-input-wrapper id="supervisory_committee" label="Ketua Komisi Pembimbing" type="select" placeholder="Pilih Ketua Komisi Pembimbing" required>
-						${$optionsHtml}
-					</x-input-wrapper>
-					<x-input-wrapper id="external_examiner" label="Penguji Luar Komisi" type="select" placeholder="Pilih Penguji Luar Komisi" required>
-						${$optionsHtml}
-					</x-input-wrapper>
-					<x-input-wrapper id="chairman_session" label="Ketua Sidang" type="select" placeholder="Pilih Ketua Sidang" required>
-						${$optionsHtml}
-					</x-input-wrapper>
+					<x-input-wrapper id="supervisory_committee" label="Ketua Komisi Pembimbing" type="select2" placeholder="Pilih Ketua Komisi Pembimbing" :options="$dataLecturers" required />
+					<x-input-wrapper id="external_examiner" label="Penguji Luar Komisi" type="select2" placeholder="Pilih Penguji Luar Komisi" :options="$dataLecturers" required />
+					<x-input-wrapper id="chairman_session" label="Ketua Sidang" type="select2" placeholder="Pilih Ketua Sidang" :options="$dataLecturers" required />
 				`;
 			@endif
 

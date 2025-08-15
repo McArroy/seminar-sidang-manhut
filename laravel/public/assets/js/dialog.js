@@ -135,5 +135,10 @@ function CreateDialog($Content, $Class = "")
 
 	$Dialog[0].showModal();
 
+	$("select.select2").select2(
+	{
+		dropdownParent: $Dialog
+	});
+
 	return $Dialog;
 }
