@@ -83,7 +83,7 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 		</div>
 		@endauth
 
-		<div class="content-container">
+		<div class="content-container @guest guest @endguest">
 			@auth
 			<navbar class="side">
 				<x-nav-link href="{{ route(Auth::user()->userrole . '.dashboard') }}" icon="material-symbols:dashboard-outline" iconwidth="21" :active="request()->routeIs(Auth::user()->userrole . '.dashboard')">
@@ -94,6 +94,9 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 
 				@if (Auth::user()->userrole === "admin")
 
+				<x-nav-link href="{{ route('admin.admins') }}" icon="eos-icons:admin" iconwidth="21" :active="request()->routeIs('admin.admins')">
+					Data Admin
+				</x-nav-link>
 				<x-nav-link href="{{ route('admin.students') }}" icon="heroicons:user-group-solid" iconwidth="21" :active="request()->routeIs('admin.students')">
 					Data Mahasiswa
 				</x-nav-link>
@@ -157,6 +160,8 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 				</form>
 			</navbar>
 
+			<navbar class="backdrop"></navbar>
+
 			<div class="main-content">
 				<img src="/assets/img/background-banner.png?v=1.0" alt="background-banner" class="background-banner">
 				<div class="wrapper">
@@ -191,7 +196,7 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 		@endif
 
 		<script>
-			function DialogInputData($path = "{{ url()->current() }}", $icon = "heroicons:user-group-solid", $title = "", $type = "POST", $innerContent = "")
+			function DialogInputData($path = "{{ url()->current() }}", $title = "", $type = "POST", $innerContent = "")
 			{
 				const $content = 
 				`<form action="${$path}" method="${$type}">
@@ -201,8 +206,8 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 					<div class="top">
 						<img src="/assets/img/background-banner.png" alt="background-banner">
 						<div class="text">
-							<iconify-icon icon="${$icon}" width="24"></iconify-icon>
-							${$title}
+							<iconify-icon icon="{{ $icon ?? '' }}" width="24"></iconify-icon>
+							${$title} {{ $pagetitle ?? "" }}
 						</div>
 					</div>
 					<div class="content">
