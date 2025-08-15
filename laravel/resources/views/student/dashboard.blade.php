@@ -50,39 +50,26 @@
 				</td>
 				<td>
 					@php
-					$baseParams =
-					[
-						"useridnumber" => $item->useridnumber,
-						"supervisor1" => $item->supervisor1,
-						"supervisor2" => $item->supervisor2,
-						"date" => $item->date,
-						"time" => $item->time,
-						"place" => $item->place,
-						"title" => $item->title
-					];
-
 					if ($item->submission_type === "Seminar")
 					{
 						$pageName = "seminar";
-						$extraParams =
+						$params =
 						[
-							"type" => $pageName,
-							"studyprogram" => $item->studyprogram,
-							"department" => $item->department
+							"id" => $item->seminarid,
+							"type" => $pageName
 						];
 					}
 					else
 					{
 						$pageName = "thesisdefense";
-						$extraParams =
+						$params =
 						[
-							"type" => $pageName,
-							"semester" => $item->semester,
-							"address" => $item->address
+							"id" => $item->thesisdefenseid,
+							"type" => $pageName
 						];
 					}
 
-					$query = http_build_query(array_merge($baseParams, $extraParams));
+					$query = http_build_query($params);
 
 					$url = route("student.registrationletterrepreview") . "?" . $query;
 					@endphp
