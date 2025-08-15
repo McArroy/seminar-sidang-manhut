@@ -87,9 +87,6 @@
 				$path = $type === "thesisdefense"
 					? route("admin.announcements.thesisdefense.add", ":id")
 					: route("admin.announcements.seminar.add", ":id");
-				$title = $type === "thesisdefense"
-					? "Undangan Sidang Akhir"
-					: "Pengumuman Seminar";
 			@endphp
 
 			@if ($type === "thesisdefense")
@@ -107,7 +104,7 @@
 				`;
 			@endif
 
-			return DialogInputData("{{ $path }}".replace(":id", $id), "heroicons:user-group-solid", {!! json_encode($title) !!}, "POST", $innerContent);
+			return DialogInputData("{{ $path }}".replace(":id", $id), "Buat", "POST", $innerContent);
 		});
 	</script>
 </x-app-layout>

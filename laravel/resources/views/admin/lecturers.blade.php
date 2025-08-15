@@ -55,7 +55,7 @@
 	<script>
 		$(document).on("click", "button#add-lecturer", function()
 		{
-			return DialogInputData("{{ route('admin.lecturers.add') }}", "fontisto:person", "Tambah Data Dosen", "POST",
+			return DialogInputData("{{ route('admin.lecturers.add') }}", "Tambah", "POST",
 			`
 				<x-input-wrapper id="useridnumber" type="text" label="NIP" placeholder="Masukkan NIP Dosen" required />
 				<x-input-wrapper id="username" type="text" label="Nama" placeholder="Masukkan Nama Dosen" required />
@@ -70,7 +70,7 @@
 			const $userIdNumber = $(this).closest("tr").find("td.number").text().trim();
 			const $userName = $(this).closest("tr").find("td.name").text().trim();
 
-			return DialogInputData("{{ route('admin.lecturers.update', ':id') }}".replace(":id", $(this).data("link")), "fontisto:person", "Ubah Data Dosen", "POST",
+			return DialogInputData("{{ route('admin.lecturers.update', ':id') }}".replace(":id", $(this).data("link")), "Ubah", "POST",
 			`
 				<x-input-wrapper id="useridnumber" type="text" label="NIP" placeholder="Masukkan NIP Dosen" value="${$userIdNumber}" required />
 				<x-input-wrapper id="username" type="text" label="Nama" placeholder="Masukkan Nama Dosen" value="${$userName}" required />

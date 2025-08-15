@@ -80,7 +80,7 @@
 		{
 			const $seminarId = $(this).data("link");
 			
-			DialogInputData("{{ route('admin.seminars.revision', ':id') }}".replace(":id", $seminarId), "basil:document-outline", "Revisi Dokumen", "POST",
+			DialogInputData("{{ route('admin.seminars.revision', ':id') }}".replace(":id", $seminarId), "Revisi", "POST",
 			`<x-input-wrapper id="comment" type="textarea" label="Komentar" placeholder="Memuat Komentar..." loading />`);
 
 			$.get(`{{ url('/admin/seminars/comment') }}/${$seminarId}`, function(response)

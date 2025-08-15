@@ -80,7 +80,7 @@
 		{
 			const $thesisdefenseId = $(this).data("link");
 
-			DialogInputData("{{ route('admin.thesisdefenses.revision', ':id') }}".replace(":id", $thesisdefenseId), "basil:document-outline", "Revisi Dokumen", "POST",
+			DialogInputData("{{ route('admin.thesisdefenses.revision', ':id') }}".replace(":id", $thesisdefenseId), "Revisi", "POST",
 			`<x-input-wrapper id="comment" type="textarea" label="Komentar" placeholder="Memuat Komentar..." loading />`);
 
 			$.get(`{{ url('/admin/thesisdefenses/comment') }}/${$thesisdefenseId}`, function(response)

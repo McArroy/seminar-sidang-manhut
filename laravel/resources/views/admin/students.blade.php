@@ -55,7 +55,7 @@
 	<script>
 		$(document).on("click", "button#add-student", function()
 		{
-			return DialogInputData("{{ route('admin.students.add') }}", "heroicons:user-group-solid", "Tambah Data Mahasiswa", "POST",
+			return DialogInputData("{{ route('admin.students.add') }}", "Tambah", "POST",
 			`
 				<x-input-wrapper id="useridnumber" type="text" label="NIM" placeholder="Masukkan NIM Mahasiswa" required />
 				<x-input-wrapper id="username" type="text" label="Nama" placeholder="Masukkan Nama Mahasiswa" required />
@@ -70,7 +70,7 @@
 			const $userIdNumber = $(this).closest("tr").find("td.number").text().trim();
 			const $userName = $(this).closest("tr").find("td.name").text().trim();
 
-			return DialogInputData("{{ route('admin.students.update', ':id') }}".replace(":id", $(this).data("link")), "heroicons:user-group-solid", "Ubah Data Mahasiswa", "POST",
+			return DialogInputData("{{ route('admin.students.update', ':id') }}".replace(":id", $(this).data("link")), "Ubah", "POST",
 			`
 				<x-input-wrapper id="useridnumber" type="text" label="NIM" placeholder="Masukkan NIM Mahasiswa" value="${$userIdNumber}" required />
 				<x-input-wrapper id="username" type="text" label="Nama" placeholder="Masukkan Nama Mahasiswa" value="${$userName}" required />
