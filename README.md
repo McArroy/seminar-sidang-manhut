@@ -10,6 +10,7 @@ These changelogs are basically just a summary list of changes that are very impo
 - Added select2 element
 - Fixed when try to login but failed useridnumber will not be reset anymore
 - Fixed overflowed sub-buttons on side-navigationbar
+- Fixed typo
 
 **[ LARAVEL ]**
 - Fixed overflowed to display and sent to the server on student dashboard page
