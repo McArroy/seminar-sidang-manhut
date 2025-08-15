@@ -3,15 +3,18 @@
 loading
 {
 	background: radial-gradient(circle at center, rgba(var(--grey2RGB), .7), rgba(var(--blackRGB), .7));
-	display: none;
 	height: 100dvh;
+	opacity: 0;
+	pointer-events: none;
 	position: fixed;
+	transition-duration: .2s;
 	width: 100dvw;
 	z-index: var(--loadingAnim);
 
 	&.active
 	{
-		display: flex;
+		opacity: 1;
+		pointer-events: unset;
 	}
 
 	.container
