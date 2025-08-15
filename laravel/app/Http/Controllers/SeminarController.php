@@ -57,9 +57,24 @@ class SeminarController extends Controller
 
 	public function RePreview(Request $request)
 	{
-		$data = $request->all();
+		$dataSeminar = Seminar::where("seminarid", $request->id);
+		$dataSeminar = 
+		[
+			"useridnumber" => $dataSeminar->value("useridnumber"),
+			"studyprogram" => $dataSeminar->value("studyprogram"),
+			"department" => $dataSeminar->value("department"),
+			"supervisor1" => $dataSeminar->value("supervisor1"),
+			"supervisor2" => $dataSeminar->value("supervisor2"),
+			"date" => $dataSeminar->value("date"),
+			"time" => $dataSeminar->value("time"),
+			"place" => $dataSeminar->value("place"),
+			"title" => $dataSeminar->value("title"),
+			"link" => $dataSeminar->value("link"),
+			"comment" => $dataSeminar->value("comment"),
+			"status" => $dataSeminar->value("status"),
+		];
 
-		session(["validated_data_letter" => $data]);
+		session(["validated_data_letter" => $dataSeminar]);
 
 		return redirect()->route("student.registrationletter", ["type" => "seminar"]);
 	}
@@ -134,6 +149,32 @@ class SeminarController extends Controller
 			return redirect()->back()->with("toast_info", "Semua Data Seminar Anda Sudah Lengkap");
 
 		return $this->Update($data, $seminarToUpdate);
+	}
+
+	public static function GetDataTime() : array
+	{
+		return
+		[
+			"07:00 - 08:00",
+			"07:30 - 08:30",
+			"08:00 - 09:00",
+			"08:30 - 09:30",
+			"09:00 - 10:00",
+			"09:30 - 10:30",
+			"10:00 - 11:00",
+			"10:30 - 11:30",
+			"11:00 - 12:00",
+			"11:30 - 12:30",
+			"12:00 - 13:00",
+			"12:30 - 13:30",
+			"13:00 - 14:00",
+			"13:30 - 14:30",
+			"14:00 - 15:00",
+			"14:30 - 15:30",
+			"15:00 - 16:00",
+			"15:30 - 16:30",
+			"16:00 - 17:00"
+		];
 	}
 
 	public static function GetCommentById(string $seminarid)
