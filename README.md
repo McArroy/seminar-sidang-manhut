@@ -6,13 +6,24 @@ These changelogs are basically just a summary list of changes that are very impo
 <details>
 <summary>Click to expand</summary>
 
+**[ COMMONS ]**
+- Fixed dialog input-data by reducing function's parameters
+
 **[ UI/UX ]**
 - Added select2 element
+- Added admin-admins page
 - Fixed when try to login but failed useridnumber will not be reset anymore
 - Fixed overflowed sub-buttons on side-navigationbar
+- Fixed side-navigationbar to reduce motion sickness by enabling overlap when hovered
+- Fixed loading-animations to reduce motion sickness by changing the opacity instead of display-type
+- Fixed some codes by removing unused codes and moved into global CSS class
 - Fixed typo
+- Fixed some codes
 
 **[ LARAVEL ]**
+- Added some functions in PageController controller
+- Added some functions in UserController controller
+- Added some routes
 - Fixed overflowed to display and sent to the server on student dashboard page
 - Fixed some codes logic on registrationform page
 - Fixed codes logic on SeminarController controller
