@@ -8,6 +8,7 @@ These changelogs are basically just a summary list of changes that are very impo
 
 **[ COMMONS ]**
 - Fixed dialog input-data by reducing function's parameters
+- Fixed typo
 
 **[ UI/UX ]**
 - Added select2 element
