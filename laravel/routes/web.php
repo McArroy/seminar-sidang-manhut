@@ -32,6 +32,14 @@ Route::middleware(
 	{
 		Route::get("/dashboard", [PageController::class, "Dashboard"])->name("dashboard");
 
+		Route::get("/admins", [PageController::class, "Admins"])->name("admins");
+
+		Route::post("/admins", [UserController::class, "StoreAdmins"])->name("admins.add");
+
+		Route::post("/admins/update/{user}", [UserController::class, "UpdateAdmins"])->name("admins.update");
+
+		Route::delete("/admins/delete/{user}", [UserController::class, "DestroyAdmins"])->name("admins.delete");
+
 		Route::get("/students", [PageController::class, "Students"])->name("students");
 
 		Route::post("/students", [UserController::class, "StoreStudents"])->name("students.add");
