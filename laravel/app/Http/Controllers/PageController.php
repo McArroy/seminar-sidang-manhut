@@ -120,7 +120,9 @@ class PageController extends Controller
 
 	private function Users(Request $request, string $findAs = "students")
 	{
-		if ($findAs === "students")
+		if ($findAs === "admins")
+			$dataUsers = app()->make(UserController::class)->GetAdmins()->sortByDesc("created_at")->values();
+		else if ($findAs === "students")
 			$dataUsers = app()->make(UserController::class)->GetStudents()->sortByDesc("created_at")->values();
 		else if ($findAs === "lecturers")
 			$dataUsers = app()->make(UserController::class)->GetLecturers()->sortByDesc("created_at")->values();
@@ -160,6 +162,15 @@ class PageController extends Controller
 		$dataUsers = $this->PagePaginator($request, $dataUsers);
 
 		return $dataUsers;
+	}
+
+	public function Admins(Request $request)
+	{
+		$dataUsers = $this->Users($request, "admins");
+		$currentUser = Auth::user();
+
+		if ($this->userRole === "admin")
+			return view("admin.admins", compact("dataUsers", "currentUser"));
 	}
 
 	public function Students(Request $request)
