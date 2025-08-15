@@ -2,6 +2,24 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.8.15 [ Last update: 08/15/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ UI/UX ]**
+- Added select2 element
+- Fixed when try to login but failed useridnumber will not be reset anymore
+- Fixed overflowed sub-buttons on side-navigationbar
+
+**[ LARAVEL ]**
+- Fixed overflowed to display and sent to the server on student dashboard page
+- Fixed some codes logic on registrationform page
+- Fixed codes logic on SeminarController controller
+- Fixed codes logic on ThesisdefenseController controller
+- Fixed typo
+
+</details>
+
 #### UPDATE Version 1.25.8.14 [ Last update: 08/14/2025 ]
 <details>
 <summary>Click to expand</summary>
