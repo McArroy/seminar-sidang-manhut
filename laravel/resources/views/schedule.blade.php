@@ -65,8 +65,8 @@
 					<th class="type">Jenis</th>
 					<th class="title">Judul</th>
 					<th class="name">Mahasiswa</th>
-					<th>Pembimbing</th>
-					<th>Penguji</th>
+					<th class="name">Pembimbing</th>
+					<th class="name">Penguji</th>
 					<th class="schedule">Jadwal Sidang</th>
 				</tr>
 			</thead>
@@ -76,13 +76,13 @@
 					<td class="type">{{ ucfirst($item->submission_type) }}</td>
 					<td class="title">{{ $item->title }}</td>
 					<td class="name">{!! $item->username ?? "<i>Data Mahasiswa Tidak Ditemukan</i>" !!}</td>
-					<td>
+					<td class="name">
 						<ul>
 							<li>{!! $item->supervisor1 ?? "<i>Data Dosen Tidak Ditemukan</i>" !!}</li>
 							<li>{!! $item->supervisor2 ?? "<i>Data Dosen Tidak Ditemukan</i>" !!}</li>
 						</ul>
 					</td>
-					<td>
+					<td class="name">
 						<ul>
 							<li>Prof. Dr. Ir. Sudarsono Soedomo, MS</li>
 							<li>Dr. Ir. Harnios Arief, M.Sc.F.Trop</li>
