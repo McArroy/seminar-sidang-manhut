@@ -99,8 +99,8 @@ class ThesisdefenseController extends Controller
 
 		$validated["thesisdefenseid"] = (string)Str::uuid();
 		$validated["useridnumber"] = strtolower(trim($this->userId));
-		$validated["supervisor1"] = strtolower(trim($validated["supervisor1"]));
-		$validated["supervisor2"] = strtolower(trim($validated["supervisor2"]));
+		$validated["supervisor1"] = trim($validated["supervisor1"]);
+		$validated["supervisor2"] = trim($validated["supervisor2"]);
 
 		Thesisdefense::create($validated);
 

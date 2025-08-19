@@ -62,10 +62,6 @@
 	<x-navigator-buttons :data="$dataSubmissions" />
 	
 	<script>
-		@php
-		$dataLecturers = $dataLecturers->pluck('username', 'useridnumber')->mapWithKeys(fn($v, $k) => [strtoupper($k) => $v])->toArray();
-		@endphp
-		
 		$(document).on("click", "button#add-form-letter", function()
 		{
 			const $id = $(this).data("link");

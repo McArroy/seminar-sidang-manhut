@@ -140,16 +140,22 @@ Route::middleware(
 				exit;
 			}
 
-			$dataLecturers = app()->make(UserController::class)->GetLecturers();
+			$dataLecturers = app()->make(UserController::class)->GetLecturers()->pluck("username", "useridnumber")->mapWithKeys(fn($v, $k) => [$k . " - " . $v => $v])->toArray();
 
 			if ($request->query("type") === "seminar")
 				$dataTime = app()->make(SeminarController::class)->GetDataTime();
 			else if ($request->query("type") === "thesisdefense")
 				$dataTime = app()->make(ThesisdefenseController::class)->GetDataTime();
 
+			$dataTimeAssoc = [];
+			foreach ($dataTime as $time)
+			{
+				$dataTimeAssoc[$time] = $time;
+			}
+
 			$dataRooms = app()->make(RoomController::class)->Index($request);
 
-			return view("student.registrationform", compact("dataLecturers", "dataTime", "dataRooms"));
+			return view("student.registrationform", ["dataLecturers" => $dataLecturers, "dataTime" => $dataTimeAssoc, "dataRooms" => $dataRooms]);
 		})->name("registrationform");
 
 		Route::post("/registrationform", function(Request $request)

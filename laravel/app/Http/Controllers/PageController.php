@@ -382,7 +382,7 @@ class PageController extends Controller
 
 		$dataSubmissions = $this->PagePaginator($request, $dataSubmissions);
 
-		return view("admin.announcements", ["dataSubmissions" => $dataSubmissions, "dataLecturers" => app()->make(UserController::class)->GetLecturers()]);
+		return view("admin.announcements", ["dataSubmissions" => $dataSubmissions, "dataLecturers" => app()->make(UserController::class)->GetLecturers()->pluck("username", "useridnumber")->mapWithKeys(fn($v, $k) => [$k . " - " . $v => $v])->toArray()]);
 	}
 
 	public function Schedule(Request $request)
@@ -394,8 +394,8 @@ class PageController extends Controller
 		{
 			$item->submission_type = "Seminar";
 			$item->username = UserController::GetUsername($item->useridnumber);
-			$item->supervisor1 = UserController::GetUsername($item->supervisor1);
-			$item->supervisor2 = UserController::GetUsername($item->supervisor2);
+			$item->supervisor1 = explode(" - ", $item->supervisor1)[1];
+			$item->supervisor2 = explode(" - ", $item->supervisor2)[1];
 			$item->date_parsed = DateIndoFormatterController::Full($item->date, 1);
 			return $item;
 		});
@@ -407,8 +407,8 @@ class PageController extends Controller
 		{
 			$item->submission_type = "Sidang Akhir";
 			$item->username = UserController::GetUsername($item->useridnumber);
-			$item->supervisor1 = UserController::GetUsername($item->supervisor1);
-			$item->supervisor2 = UserController::GetUsername($item->supervisor2);
+			$item->supervisor1 = explode(" - ", $item->supervisor1)[1];
+			$item->supervisor2 = explode(" - ", $item->supervisor2)[1];
 			$item->date_parsed = DateIndoFormatterController::Full($item->date, 1);
 			return $item;
 		});
