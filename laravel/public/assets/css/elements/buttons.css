@@ -12,7 +12,7 @@
 
 	&:disabled
 	{
-		background: var(--grey2) !important;
+		background: var(--grey3) !important;
 	}
 
 	&:not(:disabled)
