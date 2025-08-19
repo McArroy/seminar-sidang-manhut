@@ -2,6 +2,21 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.8.19 [ Last update: 08/19/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ UI/UX ]**
+- Fixed textarea element now is able to resize vertically
+- Fixed some bugs when dialog message not close or display correctly
+- Fixed some bugs
+
+**[ LARAVEL ]**
+- Fixed some data is no longer stored dynamically to prevent inconsistency data
+`The example for this update is like when store the letter, in the supervisor column, the stored data is just plain text instead of id for the supervisor then get the rest of supervisor's data from database. This can make data more consistent if we want to look at in future time.`
+
+</details>
+
 #### UPDATE Version 1.25.8.15 [ Last update: 08/15/2025 ]
 <details>
 <summary>Click to expand</summary>
