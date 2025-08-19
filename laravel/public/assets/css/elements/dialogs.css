@@ -2,6 +2,7 @@
 
 dialog
 {
+	animation: dialog-popup .4s forwards;
 	background: var(--lightGrey);
 	border-radius: 10px;
 	display: flex;
@@ -9,9 +10,10 @@ dialog
 	justify-content: flex-start;
 	left: 50%;
 	min-width: 30%;
+	opacity: 0;
 	padding: 20px;
 	position: absolute;
-	top: 50%;
+	top: 30%;
 	transform: translate(-50%, -50%);
 	width: max-content;
 	z-index: calc(var(--loadingAnim) - 2);
@@ -98,7 +100,7 @@ dialog
 	&::backdrop
 	{
 		backdrop-filter: blur(5px);
-		background-color: rgba(var(--blackRGB), .4);
+		background-color: rgba(var(--blackRGB), .3);
 	}
 
 	h1
