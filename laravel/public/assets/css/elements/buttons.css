@@ -10,6 +10,11 @@
 	text-decoration: none;
 	width: 100%;
 
+	&:disabled
+	{
+		background: var(--grey2) !important;
+	}
+
 	&:not(:disabled)
 	{
 		cursor: pointer;
