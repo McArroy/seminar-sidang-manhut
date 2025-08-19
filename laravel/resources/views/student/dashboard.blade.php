@@ -77,12 +77,16 @@
 					<x-button href="{!! $url !!}" class="viewform" icon="fe:document" iconwidth="25">Lihat</x-button>
 				</td>
 				<td>
+					@if ($item->status === 1)
+					<x-button class="remove" disabled>Hapus</x-button>
+					@else
 					<form id="form-delete" action="{{ route('student.' . $pageName . '.delete', $item->{$pageName . 'id'}) }}" method="POST">
 						@csrf
 						@method("DELETE")
 						
 						<x-button class="remove">Hapus</x-button>
 					</form>
+					@endif
 				</td>
 			</tr>
 			@empty

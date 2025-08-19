@@ -218,6 +218,9 @@ class SeminarController extends Controller
 
 	public function Destroy(Seminar $seminar)
 	{
+		if ($seminar->status === 1)
+			return redirect()->back()->with("toast_info", "Daftar Pengajuan Seminar Yang Sudah Disetujui Tidak Bisa Dihapus");
+
 		$seminar->delete();
 
 		if ($this->userRole === "student")

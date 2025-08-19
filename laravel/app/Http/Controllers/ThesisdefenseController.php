@@ -218,6 +218,9 @@ class ThesisdefenseController extends Controller
 
 	public function Destroy(Thesisdefense $thesisdefense)
 	{
+		if ($thesisdefense->status === 1)
+			return redirect()->back()->with("toast_info", "Daftar Pengajuan Sidang Akhir Yang Sudah Disetujui Tidak Bisa Dihapus");
+
 		$thesisdefense->delete();
 
 		if ($this->userRole === "student")
