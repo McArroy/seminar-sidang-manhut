@@ -6,11 +6,16 @@ These changelogs are basically just a summary list of changes that are very impo
 <details>
 <summary>Click to expand</summary>
 
+**[ COMMONS ]**
+- Added validation-forms to validate required input(s) before submit
+
 **[ UI/UX ]**
+- Added dialog pop-up animation
 - Fixed background for button when disabled
 - Fixed textarea element now is able to resize vertically
 - Fixed some bugs when dialog message not close or display correctly
 - Fixed some bugs
+- Fixed typo
 
 **[ LARAVEL ]**
 - Fixed seminar and thesis defense are no longer removable if status is accepted
