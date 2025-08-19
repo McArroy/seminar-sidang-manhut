@@ -12,7 +12,7 @@ These changelogs are basically just a summary list of changes that are very impo
 - Fixed some bugs
 
 **[ LARAVEL ]**
-- Fixed some data is no longer stored dynamically to prevent inconsistency data
+- Fixed some data is no longer stored dynamically to prevent inconsistency data<br>
 `The example for this update is like when store the letter, in the supervisor column, the stored data is just plain text instead of id for the supervisor then get the rest of supervisor's data from database. This can make data more consistent if we want to look at in future time.`
 
 </details>
