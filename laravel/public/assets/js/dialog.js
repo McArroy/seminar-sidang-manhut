@@ -140,5 +140,14 @@ function CreateDialog($Content, $Class = "")
 		dropdownParent: $Dialog
 	});
 
+	$Dialog.on("keydown", function(event)
+	{
+		if (event.key === "Escape")
+		{
+			$Dialog[0].close();
+			$Dialog.remove();
+		}
+	});
+
 	return $Dialog;
 }

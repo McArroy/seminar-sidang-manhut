@@ -37,7 +37,7 @@ $(function()
 	$("select.select2").select2();
 });
 
-$(document).on("input", "textarea", function()
+$(document).on("input change focus", "textarea", function()
 {
 	AutoResizeTextarea($(this));
 });
@@ -108,11 +108,11 @@ $(document).on("click", "button#folder-link-admin", function()
 
 $(document).on("keydown", "dialog form", function(event)
 {
-	if (event.key === "Escape")
-		RemoveDialog();
-
 	if (event.key === "Enter")
-		event.preventDefault();
+	{
+		if (event.target.tagName.toLowerCase() !== "textarea")
+			event.preventDefault();
+	}
 });
 
 $(document).on("click", "dialog.input-data .button.confirmation-close", function()
