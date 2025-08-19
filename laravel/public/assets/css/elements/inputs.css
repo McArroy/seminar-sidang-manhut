@@ -87,7 +87,7 @@
 		cursor: pointer;
 		height: 100%;
 		padding: 15px;
-		resize: none;
+		resize: vertical;
 		width: 100%;
 
 		&::-webkit-outer-spin-button, &::-webkit-inner-spin-button
