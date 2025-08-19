@@ -214,7 +214,7 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 						${$innerContent}
 						<div class="buttons">
 							<x-button class="confirmation-close">Batal</x-button>
-							<x-button class="confirmation-ok active">Simpan</x-button>
+							<x-button class="confirmation-ok active" disabled>Simpan</x-button>
 						</div>
 					</div>
 				</form>`;

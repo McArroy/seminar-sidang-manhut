@@ -35,6 +35,8 @@ $(function()
 	});
 
 	$("select.select2").select2();
+
+	ValidateForms();
 });
 
 $(document).on("input change focus", "textarea", function()

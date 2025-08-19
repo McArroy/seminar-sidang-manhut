@@ -149,5 +149,7 @@ function CreateDialog($Content, $Class = "")
 		}
 	});
 
+	ValidateForms();
+
 	return $Dialog;
 }

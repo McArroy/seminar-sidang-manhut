@@ -89,6 +89,7 @@
 
 				$("dialog.input-data .input-wrapper").replaceWith(`<x-input-wrapper id="comment" type="textarea" label="Komentar" placeholder="Masukkan Saran Revisi Anda" value="${$seminarComment}" required />`);
 				$("dialog textarea").focus();
+				ValidateForms();
 			});
 		});
 	</script>

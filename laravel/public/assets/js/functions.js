@@ -92,3 +92,33 @@ function AutoResizeTextarea($Element)
 	else
 		$Element.height(MaxHeight);
 }
+
+function ValidateForms()
+{
+	$("form").each(function()
+	{
+		const $Form = $(this);
+
+		function ValidateLocalForm()
+		{
+			let IsValid = true;
+
+			$Form.find("[required]").each(function()
+			{
+				if (!this.checkValidity())
+				{
+					IsValid = false;
+
+					return false;
+				}
+			});
+
+			$Form.find("button.button, button.confirmation-ok").prop("disabled", !IsValid);
+			$Form.find("button.confirmation-close").prop("disabled", false);
+		}
+
+		$Form.find("[required]").on("input change", ValidateLocalForm);
+
+		ValidateLocalForm();
+	});
+}
