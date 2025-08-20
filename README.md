@@ -2,6 +2,17 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.8.20 [ Last update: 08/20/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ UI/UX ]**
+- Fixed visibility side-navigationbar by added box-shadow
+- Fixed adjustments some tables
+- Fixed some codes
+
+</details>
+
 #### UPDATE Version 1.25.8.19 [ Last update: 08/19/2025 ]
 <details>
 <summary>Click to expand</summary>
