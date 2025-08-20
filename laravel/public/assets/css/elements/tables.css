@@ -12,11 +12,12 @@ table
 {
 	counter-reset: rowNumber;
 	table-layout: auto;
-	width: 100%;
+	width: max-content;
 
 	&.type-2
 	{
 		border: 2px solid var(--grey3);
+		width: 100%;
 
 		th, td
 		{
@@ -70,6 +71,19 @@ table
 	tbody
 	{
 		display: table-row-group;
+
+		tr
+		{
+			&:hover
+			{
+				background: hsl(from var(--grey) h s l / .2);
+
+				.button
+				{
+					border-color: transparent;
+				}
+			}
+		}
 	}
 
 	th, td
@@ -89,13 +103,26 @@ table
 			width: 1% !important;
 		}
 
-		&.title
+		&.type
+		{
+			white-space: nowrap;
+			width: 6% !important;
+		}
+
+		&.name, &.title, &.schedule
 		{
 			width: 20% !important;
+		}
+
+		&.schedule
+		{
+			width: 15% !important;
 		}
 		
 		ul
 		{
+			gap: .7rem;
+
 			li
 			{
 				align-items: center;

@@ -23,6 +23,7 @@
 
 <x-app-layout>
 	@section("css")
+		<link rel="stylesheet" href="/assets/css/pages/datatables.css?v=1.0">
 		<link rel="stylesheet" href="/assets/css/pages/schedule.css?v=1.0">
 	@endsection
 	

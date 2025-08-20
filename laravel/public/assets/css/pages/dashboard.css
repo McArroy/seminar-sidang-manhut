@@ -25,6 +25,7 @@
 				table
 				{
 					border-bottom: 2px solid var(--grey3);
+					width: 100%;
 
 					tr
 					{
