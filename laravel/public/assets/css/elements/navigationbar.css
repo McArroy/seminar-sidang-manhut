@@ -115,6 +115,7 @@ navbar
 	{
 		align-items: flex-start;
 		background: var(--lightGrey);
+		box-shadow: 4px 0 80px -15px hsl(from var(--black) h s l / .5);
 		height: 100dvh;
 		justify-content: flex-start;
 		left: 0;
