@@ -11,6 +11,7 @@ table, thead, tbody, tr, th, td
 table
 {
 	counter-reset: rowNumber;
+	min-width: 100%;
 	table-layout: auto;
 	width: max-content;
 
