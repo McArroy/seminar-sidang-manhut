@@ -81,6 +81,11 @@ body
 				font-weight: 600;
 				margin-top: 30px;
 
+				&:disabled
+				{
+					border-color: var(--white);
+				}
+
 				&:hover
 				{
 					background: var(--darkBlue);

@@ -67,7 +67,7 @@
 			{
 				background: var(--white);
 				border-radius: 8px;
-				box-shadow: 0px 4px 80px -34px rgba(var(--blackRGB), .50);
+				box-shadow: 0 4px 80px -34px hsl(from var(--black) h s l / .5);
 				overflow: clip;
 				padding: 30px;
 				width: 90%;
