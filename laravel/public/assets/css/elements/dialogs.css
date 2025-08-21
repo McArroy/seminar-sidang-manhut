@@ -108,6 +108,14 @@ dialog
 		font-size: 15pt;
 	}
 
+	a
+	{
+		display: unset;
+		overflow-wrap: break-word;
+		white-space: normal;
+		text-align: justify;
+	}
+
 	.active
 	{
 		display: flex;
