@@ -37,12 +37,7 @@
 					<td class="name">{{ $currentAdmin->username }}</td>
 					<td class="button-actions">
 						<x-button class="edit" id="edit-admin" data-link="{{ $currentAdmin->userid }}">Ubah</x-button>
-						<form id="form-delete" action="{{ route('admin.admins.delete', [$currentAdmin->userid]) }}" method="POST">
-							@csrf
-							@method("DELETE")
-							
-							<x-button class="remove">Hapus</x-button>
-						</form>
+						<x-button class="remove" disabled>Hapus</x-button>
 					</td>
 				</tr>
 				@endif
