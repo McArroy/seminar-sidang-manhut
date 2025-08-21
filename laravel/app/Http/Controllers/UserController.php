@@ -13,10 +13,12 @@ class UserController extends Controller
 {
 	use DeterministicEncryption;
 
+	private string $userId;
 	private string $userRole;
 
 	public function __construct()
 	{
+		$this->userId = Auth::user()->useridnumber;
 		$this->userRole = Auth::user()->userrole;
 	}
 
@@ -78,6 +80,9 @@ class UserController extends Controller
 
 	private function Destroy(Request $request, User $user)
 	{
+		if ($user->useridnumber === $this->userId)
+			return redirect()->back()->with("dialog_info", ["Gagal Menghapus Data", "Anda Tidak Bisa Menghapus Data Diri Anda", "Tutup", "", "", ""]);
+
 		$user->delete();
 
 		if ($this->userRole === "admin")

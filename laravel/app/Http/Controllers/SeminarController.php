@@ -30,19 +30,23 @@ class SeminarController extends Controller
 	{
 		if ($this->userRole === "admin")
 		{
-			$dataseminar = self::GetAll(["seminarid", "useridnumber", "date", "title", "link", "status", "comment", "created_at"]);
+			$dataSeminar = self::GetAll(["seminarid", "useridnumber", "date", "title", "link", "status", "comment", "created_at"])->map(function($item)
+			{
+				$item->submission_type = "Seminar";
+				return $item;
+			});
 		}
 		else if ($this->userRole === "student")
 		{
 			$userId = $this->userId;
 
-			$dataseminar = self::GetAll()->filter(function($seminar) use ($userId)
+			$dataSeminar = self::GetAll()->filter(function($seminar) use ($userId)
 			{
 				return $seminar->useridnumber === $userId;
 			});
 		}
 
-		return $dataseminar;
+		return $dataSeminar;
 	}
 
 	public function Created(Request $request)
@@ -58,6 +62,13 @@ class SeminarController extends Controller
 	public function RePreview(Request $request)
 	{
 		$dataSeminar = Seminar::where("seminarid", $request->id);
+
+		if (!$dataSeminar->exists())
+			return redirect()->back()->with("dialog_info", ["Gagal Memuat Data", "Data Seminar Tidak Ditemukan", "Tutup", "", "", ""]);
+
+		if ($dataSeminar->value("useridnumber") !== $this->userId)
+			return redirect()->back()->with("dialog_info", ["Gagal Memuat Data", "Anda Tidak Memiliki Akses Untuk Data Seminar Yang Anda Cari", "Tutup", "", "", ""]);
+
 		$dataSeminar = 
 		[
 			"useridnumber" => $dataSeminar->value("useridnumber"),
@@ -186,6 +197,9 @@ class SeminarController extends Controller
 
 	public function Accept(Request $request, Seminar $seminar)
 	{
+		if ($seminar->link === null || empty($seminar->link))
+			return redirect()->back()->with("dialog_info", ["Gagal Verifikasi Data Seminar", "Data Seminar Tidak Lengkap. Mahasiswa Belum Mengirim Dokumen Berupa Link Google Drive Di Menu Persyaratan Seminar", "Tutup", "", "", ""]);
+
 		$data = $request->merge(
 		[
 			"status" => 1,
@@ -218,8 +232,10 @@ class SeminarController extends Controller
 
 	public function Destroy(Seminar $seminar)
 	{
-		if ($seminar->status === 1)
-			return redirect()->back()->with("toast_info", "Daftar Pengajuan Seminar Yang Sudah Disetujui Tidak Bisa Dihapus");
+		if ($seminar->useridnumber !== $this->userId)
+			return redirect()->back()->with("dialog_info", ["Gagal Menghapus Data", "Anda Tidak Memiliki Akses Untuk Data Seminar Yang Anda Cari", "Tutup", "", "", ""]);
+		else if ($seminar->status === 1)
+			return redirect()->back()->with("dialog_info", ["Gagal Menghapus Data", "Daftar Pengajuan Seminar Yang Sudah Disetujui Tidak Bisa Dihapus", "Tutup", "", "", ""]);
 
 		$seminar->delete();
 

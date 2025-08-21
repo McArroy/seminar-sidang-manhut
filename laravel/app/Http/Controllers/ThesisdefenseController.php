@@ -30,7 +30,11 @@ class ThesisdefenseController extends Controller
 	{
 		if ($this->userRole === "admin")
 		{
-			$dataThesisdefense = self::GetAll(["thesisdefenseid", "useridnumber", "date", "title", "link", "status", "comment", "created_at"]);
+			$dataThesisdefense = self::GetAll(["thesisdefenseid", "useridnumber", "date", "title", "link", "status", "comment", "created_at"])->map(function($item)
+			{
+				$item->submission_type = "Sidang Akhir";
+				return $item;
+			});
 		}
 		else if ($this->userRole === "student")
 		{
@@ -58,6 +62,13 @@ class ThesisdefenseController extends Controller
 	public function RePreview(Request $request)
 	{
 		$dataThesisdefense = Thesisdefense::where("thesisdefenseid", $request->id);
+
+		if (!$dataThesisdefense->exists())
+			return redirect()->back()->with("dialog_info", ["Gagal Memuat Data", "Data Sidang Akhir Tidak Ditemukan", "Tutup", "", "", ""]);
+
+		if ($dataThesisdefense->value("useridnumber") !== $this->userId)
+			return redirect()->back()->with("dialog_info", ["Gagal Memuat Data", "Anda Tidak Memiliki Akses Untuk Data Sidang Akhir Yang Anda Cari", "Tutup", "", "", ""]);
+
 		$dataThesisdefense = 
 		[
 			"useridnumber" => $dataThesisdefense->value("useridnumber"),
@@ -186,6 +197,9 @@ class ThesisdefenseController extends Controller
 
 	public function Accept(Request $request, Thesisdefense $thesisdefense)
 	{
+		if ($thesisdefense->link === null || empty($thesisdefense->link))
+			return redirect()->back()->with("dialog_info", ["Gagal Verifikasi Data Sidang Akhir", "Data Sidang Akhir Tidak Lengkap. Mahasiswa Belum Mengirim Dokumen Berupa Link Google Drive Di Menu Persyaratan Sidang Akhir", "Tutup", "", "", ""]);
+
 		$data = $request->merge(
 		[
 			"status" => 1,
@@ -218,8 +232,10 @@ class ThesisdefenseController extends Controller
 
 	public function Destroy(Thesisdefense $thesisdefense)
 	{
-		if ($thesisdefense->status === 1)
-			return redirect()->back()->with("toast_info", "Daftar Pengajuan Sidang Akhir Yang Sudah Disetujui Tidak Bisa Dihapus");
+		if ($thesisdefense->useridnumber !== $this->userId)
+			return redirect()->back()->with("dialog_info", ["Gagal Menghapus Data", "Anda Tidak Memiliki Akses Untuk Data Sidang Akhir Yang Anda Cari", "Tutup", "", "", ""]);
+		else if ($thesisdefense->status === 1)
+			return redirect()->back()->with("dialog_info", ["Gagal Menghapus Data", "Daftar Pengajuan Sidang Akhir Yang Sudah Disetujui Tidak Bisa Dihapus", "Tutup", "", "", ""]);
 
 		$thesisdefense->delete();
 
