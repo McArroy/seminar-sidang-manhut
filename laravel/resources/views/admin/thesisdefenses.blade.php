@@ -49,12 +49,16 @@
 						@endif
 					</td>
 					<td class="button-actions">
+						@if (!empty($item->link))
 						<form id="form-verification" action="{{ route('admin.thesisdefenses.accept', $item->thesisdefenseid) }}" method="POST">
 							@csrf
 							@method("POST")
 							
 							<x-button class="verification">Verifikasi</x-button>
 						</form>
+						@else
+						<x-button class="verification" disabled>Verifikasi</x-button>
+						@endif
 						<x-button class="revision" id="revision-thesisdefense" data-link="{{ $item->thesisdefenseid }}">Revisi</x-button>
 						<form id="form-rejection" action="{{ route('admin.thesisdefenses.reject', $item->thesisdefenseid) }}" method="POST">
 							@csrf
