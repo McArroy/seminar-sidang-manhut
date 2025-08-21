@@ -52,6 +52,7 @@
 
 			h1
 			{
+				animation: slide-right .4s forwards ease-in-out;
 				color: var(--white);
 				display: flex;
 				flex-direction: row;
@@ -65,6 +66,7 @@
 
 			.inner-content
 			{
+				animation: slide-up .4s forwards ease-in-out;
 				background: var(--white);
 				border-radius: 8px;
 				box-shadow: 0 4px 80px -34px hsl(from var(--black) h s l / .5);

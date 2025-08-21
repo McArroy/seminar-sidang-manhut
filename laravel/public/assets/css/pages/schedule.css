@@ -8,6 +8,7 @@
 
 			.inner-content
 			{
+				animation: none;
 				margin-top: 20px;
 
 				.input-wrapper
