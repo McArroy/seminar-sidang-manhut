@@ -184,7 +184,16 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 
 		@stack("modals")
 
-		@livewireScripts
+		@if (session("dialog_info") || session("dialog_success"))
+		<script>
+			DialogMessage(
+				{{ session("dialog_info") ? 0 : 1 }},
+				[@json(session("dialog_info")[0] ?? session("dialog_success")[0]), @json(session("dialog_info")[1] ?? session("dialog_success")[1])],
+				[@json(session("dialog_info")[2] ?? session("dialog_success")[2]), @json(session("dialog_info")[3] ?? session("dialog_success")[3])],
+				[@json(session("dialog_info")[4] ?? session("dialog_success")[4]), @json(session("dialog_info")[5] ?? session("dialog_success")[5])]
+			);
+		</script>
+		@endif
 
 		@if (session("toast_info") || session("toast_success"))
 		<script>
