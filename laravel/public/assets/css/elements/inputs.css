@@ -4,6 +4,15 @@
 {
 	width: 100%;
 
+	&:has(*:required)
+	{
+		label::after
+		{
+			color: var(--red);
+			content: "*";
+		}
+	}
+
 	&:not(:has([readonly]))
 	{
 		&:hover

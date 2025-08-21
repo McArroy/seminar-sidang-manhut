@@ -108,6 +108,11 @@ body
 					font-weight: 600;
 					margin-bottom: 8px;
 					width: 100%;
+
+					&::after
+					{
+						content: "";
+					}
 				}
 
 				input
