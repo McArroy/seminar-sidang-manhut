@@ -19,12 +19,6 @@ table
 	{
 		border: 2px solid var(--grey3);
 		width: 100%;
-
-		th, td
-		{
-			border-left: 2px solid var(--grey3);
-			border-right: 2px solid var(--grey3);
-		}
 		
 		tr
 		{
@@ -46,7 +40,6 @@ table
 
 			.button
 			{
-				border: none;
 				padding: 10px;
 				width: max-content;
 			}
@@ -89,6 +82,8 @@ table
 
 	th, td
 	{
+		border-left: 2px solid var(--grey3);
+		border-right: 2px solid var(--grey3);
 		display: table-cell;
 		overflow-wrap: break-word;
 		padding: 8px;
@@ -98,26 +93,21 @@ table
 		word-break: break-word;
 		width: 12%;
 
-		&.numbered, &.number, &.link
+		&:first-child, &:last-child
+		{
+			border-left: none;
+			border-right: none;
+		}
+
+		&.numbered, &.number, &.link, &.status, &.actions
 		{
 			white-space: nowrap;
 			width: 1% !important;
 		}
 
-		&.type
-		{
-			white-space: nowrap;
-			width: 6% !important;
-		}
-
 		&.name, &.title, &.schedule
 		{
 			width: 20% !important;
-		}
-
-		&.schedule
-		{
-			width: 15% !important;
 		}
 		
 		ul
@@ -159,6 +149,7 @@ table
 			{
 				background: var(--lightRed);
 				border-color: var(--white);
+				padding: 10px;
 
 				&:hover
 				{
@@ -194,7 +185,7 @@ table
 			&.form, &.print, &.viewform
 			{
 				flex-direction: row;
-				gap: 10px;
+				gap: .5em;
 				padding: 5px;
 			}
 
@@ -231,10 +222,11 @@ table
 			display: block;
 			font-size: 10pt;
 			font-weight: 700;
-			padding: 4px 12px;
+			min-width: 100%;
+			padding: 4px 5px;
 			text-align: center;
 			white-space: nowrap;
-			width: 100%;
+			width: max-content;
 
 			&.verified
 			{
@@ -262,9 +254,12 @@ table
 		}
 	}
 
-	th.title
+	th
 	{
-		white-space: nowrap;
+		&.name, &.title, &.type, &.date, &.comment
+		{
+			white-space: nowrap;
+		}
 	}
 
 	td.numbered
