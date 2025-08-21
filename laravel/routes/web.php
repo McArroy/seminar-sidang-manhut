@@ -93,7 +93,6 @@ Route::middleware(
 
 		Route::get("/schedule", [PageController::class, "Schedule"])->name("schedule");
 
-		// rooms
 		Route::get("/rooms", [PageController::class, "Rooms"])->name("rooms");
 
 		Route::post("/rooms", [RoomController::class, "Store"])->name("rooms.add");
@@ -117,9 +116,19 @@ Route::middleware(
 	{
 		Route::get("/dashboard", [PageController::class, "Dashboard"])->name("dashboard");
 
-		Route::delete("/dashboard/delete/seminar/{seminar}", [SeminarController::class, "Destroy"])->name("seminar.delete");
+		Route::delete("/dashboard/delete/seminar/{seminar}", [SeminarController::class, "Destroy"])
+		->missing(function()
+		{
+			return redirect()->back()->with("dialog_info", ["Gagal Menghapus Data", "Data Seminar Tidak Ditemukan", "Tutup", "", "", ""]);
+		})
+		->name("seminar.delete");
 
-		Route::delete("/dashboard/delete/thesisdefense/{thesisdefense}", [ThesisdefenseController::class, "Destroy"])->name("thesisdefense.delete");
+		Route::delete("/dashboard/delete/thesisdefense/{thesisdefense}", [ThesisdefenseController::class, "Destroy"])
+		->missing(function()
+		{
+			return redirect()->back()->with("dialog_info", ["Gagal Menghapus Data", "Data Sidang Akhir Tidak Ditemukan", "Tutup", "", "", ""]);
+		})
+		->name("thesisdefense.delete");
 
 		Route::get("/flow", function(Request $request)
 		{
