@@ -18,7 +18,7 @@ navbar
 {
 	&.backdrop
 	{
-		background: rgba(var(--blackRGB), .4);
+		background: hsl(from var(--black) h s l / .4);
 		height: 100dvh;
 		opacity: 0;
 		pointer-events: none;
@@ -85,13 +85,6 @@ navbar
 		.right
 		{
 			gap: -3px;
-
-			img
-			{
-				aspect-ratio: 1/1;
-				border-radius: 50%;
-				object-fit: cover;
-			}
 
 			.text
 			{
@@ -171,6 +164,16 @@ navbar
 			}
 		}
 
+		&:hover
+		{
+			width: 290px;
+
+			&.active
+			{
+				width: 350px;
+			}
+		}
+
 		h1
 		{
 			color: var(--grey);
@@ -190,7 +193,7 @@ navbar
 		.button
 		{
 			background: var(--lightGrey);
-			border-color: rgba(var(--whiteRGB), 0);
+			border-color: transparent;
 			flex-direction: row;
 			font-size: 12pt;
 			font-weight: 500;
