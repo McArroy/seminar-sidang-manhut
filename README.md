@@ -7,10 +7,19 @@ These changelogs are basically just a summary list of changes that are very impo
 <summary>Click to expand</summary>
 
 **[ COMMONS ]**
+- Added tag link into seminar and thesis defense page in dialog message
 
 **[ UI/UX ]**
+- Added animations for some elements
+- Added star character (*) after label for each required-input elements
+- Added dialog message called via server-side
+- Fixed tag `<a>` not displayed properly in dialog pop-up
+- Fixed some tables not displayed properly
+- Fixed some bugs on side-navigationbar
+- Removed unused codes
 
 **[ LARAVEL ]**
+- Added server-side validation for some actions
 
 </details>
 
