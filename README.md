@@ -2,6 +2,25 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.8.25 [ Last update: 08/25/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ COMMONS ]**
+- Fixed when adding user(s) the password not added automatically when input the useridnumber
+
+**[ UI/UX ]**
+- Fixed pop-up after created seminar or thesis defense by replaced into dialog pop-up instead of toast pop-up
+- Fixed display re-preview letters by not using the same display when letters created in the first place
+- Fixed schedule page on admin by added status/filter in the first column
+- Fixed some codes
+- Fixed typo
+
+**[ LARAVEL ]**
+- Added HelperController controller
+
+</details>
+
 #### UPDATE Version 1.25.8.21 [ Last update: 08/21/2025 ]
 <details>
 <summary>Click to expand</summary>
