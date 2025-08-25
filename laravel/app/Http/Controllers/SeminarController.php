@@ -87,7 +87,7 @@ class SeminarController extends Controller
 
 		session(["validated_data_letter" => $dataSeminar]);
 
-		return redirect()->route("student.registrationletter", ["type" => "seminar"]);
+		return redirect()->route("student.registrationletter", ["type" => "seminar", "mod" => "preview"]);
 	}
 
 	public function Store(Request $request)
@@ -117,7 +117,7 @@ class SeminarController extends Controller
 
 		session(["validated_data_letter" => $validated]);
 
-		return redirect()->route("student.registrationletter", ["type" => "seminar"])->with("toast_success", "Seminar Berhasil Dibuat");
+		return redirect()->route("student.registrationletter", ["type" => "seminar"])->with("dialog_success", ["Seminar Berhasil Dibuat", "Unggah Persyaratan Seminar Untuk Melengkapi Data Seminar Anda.", "Tutup", "", "", ""]);
 	}
 
 	private function Update(array $data, Seminar $seminar)

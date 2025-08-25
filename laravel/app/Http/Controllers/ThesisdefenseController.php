@@ -87,7 +87,7 @@ class ThesisdefenseController extends Controller
 
 		session(["validated_data_letter" => $dataThesisdefense]);
 
-		return redirect()->route("student.registrationletter", ["type" => "thesisdefense"]);
+		return redirect()->route("student.registrationletter", ["type" => "thesisdefense", "mod" => "preview"]);
 	}
 
 	public function Store(Request $request)
@@ -117,7 +117,7 @@ class ThesisdefenseController extends Controller
 
 		session(["validated_data_letter" => $validated]);
 
-		return redirect()->route("student.registrationletter", ["type" => "thesisdefense"])->with("toast_success", "Sidang Akhir Berhasil Dibuat");
+		return redirect()->route("student.registrationletter", ["type" => "thesisdefense"])->with("dialog_success", ["Sidang Akhir Berhasil Dibuat", "Unggah Persyaratan Sidang Akhir Untuk Melengkapi Data Sidang Akhir Anda.", "Tutup", "", "", ""]);
 	}
 
 	private function Update(array $data, Thesisdefense $thesisdefense)
