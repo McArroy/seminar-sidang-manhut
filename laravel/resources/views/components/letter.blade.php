@@ -10,7 +10,7 @@ else
 	$id = "pdf-source";
 @endphp
 
-<x-letter-viewer id="{{ $id }}" title="Preview Berkas {{ $IsThesisDefense ? 'Sidang Akhir' : 'Seminar' }}" sandbox="allow-scripts allow-same-origin allow-modals">
+<x-letter-viewer id="{{ $id }}" title="Pratinjau Formulir {{ $IsThesisDefense ? 'Sidang Akhir' : 'Seminar' }}" sandbox="allow-scripts allow-same-origin allow-modals">
 	<!DOCTYPE html>
 	<html lang='en'>
 		<head>
