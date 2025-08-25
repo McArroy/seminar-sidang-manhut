@@ -63,6 +63,9 @@
 		<table>
 			<thead>
 				<tr>
+					@if ($userRole === "admin")
+					<th class="status-schedule">Status</th>
+					@endif
 					<th class="type">Jenis</th>
 					<th class="title">Judul</th>
 					<th class="name">Mahasiswa</th>
@@ -74,6 +77,20 @@
 			<tbody>
 			@forelse ($dataSubmissions as $index => $item)
 				<tr>
+					@if ($userRole === "admin")
+					<th class="status-schedule">
+						@if ($item->status_schedule === 1)
+						<x-button class="status-passed" disabled>Selesai</x-button>
+						@else
+						<form id="form-delete" action="{{ route('admin.schedule') }}" method="POST">
+							@csrf
+							@method("DELETE")
+							
+							<x-button class="remove">Hapus</x-button>
+						</form>
+						@endif
+					</th>
+					@endif
 					<td class="type">{{ ucfirst($item->submission_type) }}</td>
 					<td class="title">{{ $item->title }}</td>
 					<td class="name">{!! $item->username ?? "<i>Data Mahasiswa Tidak Ditemukan</i>" !!}</td>

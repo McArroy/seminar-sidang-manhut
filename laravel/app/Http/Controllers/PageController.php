@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+use App\Http\Controllers\HelperController;
 use App\Http\Controllers\DateIndoFormatterController;
 use App\Http\Controllers\SeminarController;
 use App\Http\Controllers\ThesisdefenseController;
@@ -491,8 +492,13 @@ class PageController extends Controller
 			})->values();
 		}
 
+		if ($this->userRole === "admin")
+			$dataSubmissions = HelperController::MarkIfDatePassed($dataSubmissions);
+		else
+			$dataSubmissions = HelperController::FilterByDateRange($dataSubmissions);
+
 		$dataSubmissions = $this->PagePaginator($request, $dataSubmissions);
 
-		return view("schedule", ["dataSubmissions" => $dataSubmissions, "semesterList" => $this->semesterList]);
+		return view("schedule", ["userRole" => $this->userRole, "dataSubmissions" => $dataSubmissions, "semesterList" => $this->semesterList]);
 	}
 }
