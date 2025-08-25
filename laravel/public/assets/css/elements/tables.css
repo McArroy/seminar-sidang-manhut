@@ -99,7 +99,7 @@ table
 			border-right: none;
 		}
 
-		&.numbered, &.number, &.link, &.status, &.actions
+		&.numbered, &.number, &.link, &.status, &.status-schedule, &.actions
 		{
 			white-space: nowrap;
 			width: 1% !important;

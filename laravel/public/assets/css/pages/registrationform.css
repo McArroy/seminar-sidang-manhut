@@ -91,9 +91,18 @@
 							margin-top: 20px;
 						}
 
-						span
+						span, a
 						{
 							color: var(--lightRed);
+						}
+
+						a
+						{
+							display: unset;
+							overflow-wrap: break-word;
+							white-space: normal;
+							text-align: justify;
+							text-decoration: underline;
 						}
 					}
 				}
