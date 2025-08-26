@@ -1,5 +1,6 @@
 @php
-	$InputSearch = $_GET["search"] ?? "";
+	$querySearch = request()->query("search") ?? "";
+	$queryType = request()->query("type") ?? "";
 @endphp
 
 <x-app-layout>
@@ -9,12 +10,12 @@
 
 	<x-slot name="icon">fluent:form-28-regular</x-slot>
 
-	@if ($_GET["type"] === "seminar")
+	@if ($queryType === "seminar")
 
 	<x-slot name="title">Pengumuman Seminar</x-slot>
 	<x-slot name="pagetitle">Pengumuman Seminar</x-slot>
 
-	@elseif ($_GET["type"] === "thesisdefense")
+	@elseif ($queryType === "thesisdefense")
 
 	<x-slot name="title">Undangan Sidang</x-slot>
 	<x-slot name="pagetitle">Undangan Sidang</x-slot>
@@ -22,7 +23,7 @@
 	@endif
 
 	<div class="top">
-		<x-input-wrapper class="search type-2" id="search" type="text" placeholder="Cari Data {{ request()->query('type') === 'seminar' ? 'Seminar' : 'Sidang Akhir' }}" value="{{ $InputSearch }}" autofocus />
+		<x-input-wrapper class="search type-2" id="search" type="text" placeholder="Cari Data {{ request()->query('type') === 'seminar' ? 'Seminar' : 'Sidang Akhir' }}" value="{{ $querySearch }}" autofocus />
 	</div>
 	<div class="middle">
 		<table class="type-2">
@@ -32,8 +33,8 @@
 					<th class="number">NIM</th>
 					<th class="name">Nama</th>
 					<th class="title">Judul</th>
-					<th class="form">Form {{ request()->query("type") === "seminar" ? "Undangan" : "Pengumuman" }}</th>
-					<th class="form">Cetak {{ request()->query("type") === "seminar" ? "Undangan" : "Pengumuman" }}</th>
+					<th class="form">Form {{ $queryType === "seminar" ? "Pengumuman" : "Undangan" }}</th>
+					<th class="form">Cetak {{ $queryType === "seminar" ? "Pengumuman" : "Undangan" }}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -44,10 +45,23 @@
 					<td class="name">{!! $item->username ?? "<i>Data Mahasiswa<br>Tidak Ditemukan</i>" !!}</td>
 					<td class="title">{{ $item->title }}</td>
 					<td class="form">
-						<x-button class="form" id="add-form-letter" icon="system-uicons:create" iconwidth="23" data-link="{{ request()->query('type') === 'seminar' ? $item->seminarid : $item->thesisdefenseid }}">Isi Form</x-button>
+						@if ($item->printable)
+						<x-button class="form" id="edit-form-letter" icon="system-uicons:create" iconwidth="23" data-link="{{ $item->academicid }}">Ubah Form</x-button>
+						@else
+						<x-button class="form" id="add-form-letter" icon="system-uicons:create" iconwidth="23" data-link="{{ $item->academicid }}">Isi Form</x-button>
+						@endif
 					</td>
 					<td class="form">
-						<x-button class="print" id="print-form-letter" icon="material-symbols-light:print-outline-rounded" iconwidth="23" data-link="{{ request()->query('type') === 'seminar' ? $item->seminarid : $item->thesisdefenseid }}">Cetak</x-button>
+						@if ($item->printable)
+						<form id="form-print" action="{{ route('admin.announcements.letter.print', [$item->academicid]) }}" method="POST">
+							@csrf
+							@method("POST")
+							
+							<x-button class="print" icon="material-symbols-light:print-outline-rounded" iconwidth="23">Cetak</x-button>
+						</form>
+						@else
+						<x-button class="print" icon="material-symbols-light:print-outline-rounded" iconwidth="23" disabled>Cetak</x-button>
+						@endif
 					</td>
 				</tr>
 				@empty
@@ -67,28 +81,79 @@
 			const $id = $(this).data("link");
 			let $innerContent =
 			`
-				<x-input-wrapper id="number_letter" type="text" label="Nomor Surat" placeholder="Masukkan Nomor Surat" required />
-				<x-input-wrapper id="moderator" label="Moderator" type="select2" placeholder="Pilih Dosen Moderator" :options="$dataLecturers" required />
-				<x-input-wrapper id="date_letter" type="date" label="Tanggal Pembuatan" required />
+				<x-input-wrapper id="letternumber" type="text" label="Nomor Surat" placeholder="Masukkan Nomor Surat" required />
+				<x-input-wrapper id="moderator" type="select2" label="Moderator" placeholder="Pilih Dosen Moderator" :options="$dataLecturers" required />
+				<x-input-wrapper id="letterdate" type="date" label="Tanggal Pembuatan" required />
 			`;
 
-			@php
-				$type = request()->query("type");
-				$path = $type === "thesisdefense"
-					? route("admin.announcements.thesisdefense.add", ":id")
-					: route("admin.announcements.seminar.add", ":id");
-			@endphp
-
-			@if ($type === "thesisdefense")
+			@if ($queryType === "thesisdefense")
 				$innerContent +=
 				`
-					<x-input-wrapper id="supervisory_committee" label="Ketua Komisi Pembimbing" type="select2" placeholder="Pilih Ketua Komisi Pembimbing" :options="$dataLecturers" required />
-					<x-input-wrapper id="external_examiner" label="Penguji Luar Komisi" type="select2" placeholder="Pilih Penguji Luar Komisi" :options="$dataLecturers" required />
-					<x-input-wrapper id="chairman_session" label="Ketua Sidang" type="select2" placeholder="Pilih Ketua Sidang" :options="$dataLecturers" required />
+					<x-input-wrapper id="supervisory_committee" type="select2" label="Ketua Komisi Pembimbing" placeholder="Pilih Ketua Komisi Pembimbing" :options="$dataLecturers" required />
+					<x-input-wrapper id="external_examiner" type="select2" label="Penguji Luar Komisi" placeholder="Pilih Penguji Luar Komisi" :options="$dataLecturers" required />
+					<x-input-wrapper id="chairman_session" type="select2" label="Ketua Sidang" placeholder="Pilih Ketua Sidang" :options="$dataLecturers" required />
 				`;
 			@endif
 
-			return DialogInputData("{{ $path }}".replace(":id", $id), "Buat", "POST", $innerContent);
+			return DialogInputData("{{ route('admin.announcements.letter.add', ':id') }}".replace(":id", $id) + "?type={{ $queryType }}", "Buat", "POST", $innerContent);
+		});
+
+		$(document).on("click", "button#edit-form-letter", function()
+		{
+			const $id = $(this).data("link");
+			let $innerContent =
+			`
+				<x-input-wrapper id="letternumber" type="text" label="Nomor Surat" placeholder="Memuat Nomor Surat..." loading />
+				<x-input-wrapper id="moderator" type="select2" label="Moderator" placeholder="Pilih Dosen Moderator" :options="$dataLecturers" required />
+				<x-input-wrapper id="letterdate" type="text" label="Tanggal Pembuatan" placeholder="Memuat Tanggal Pembuatan..." loading />
+			`;
+
+			@if ($queryType === "thesisdefense")
+				$innerContent +=
+				`
+					<x-input-wrapper id="supervisory_committee" type="select2" label="Ketua Komisi Pembimbing" placeholder="Pilih Ketua Komisi Pembimbing" :options="$dataLecturers" required />
+					<x-input-wrapper id="external_examiner" type="select2" label="Penguji Luar Komisi" placeholder="Pilih Penguji Luar Komisi" :options="$dataLecturers" required />
+					<x-input-wrapper id="chairman_session" type="select2" label="Ketua Sidang" placeholder="Pilih Ketua Sidang" :options="$dataLecturers" required />
+				`;
+			@endif
+
+			DialogInputData("{{ route('admin.announcements.letter.update', ':id') }}".replace(":id", $id) + "?type={{ $queryType }}", "Ubah", "POST", $innerContent);
+
+			$.get(`{{ route("admin.announcements.letter", ":id") }}`.replace(":id", $id), function(response)
+			{
+				const $letterNumber = response.letternumber ?? "";
+				const $moderator = response.moderator ?? "";
+				const $letterDate = response.letterdate ?? "";
+				const $supervisoryCommittee = response.supervisory_committee ?? "";
+				const $externalExaminer = response.external_examiner ?? "";
+				const $chairmanSession = response.chairman_session ?? "";
+
+				$("dialog.input-data .input-wrapper").has("#letternumber").replaceWith(`<x-input-wrapper id="letternumber" type="text" label="Nomor Surat" placeholder="Masukkan Nomor Surat" value="${$letterNumber}" required />`);
+				$("dialog.input-data .input-wrapper").has("#letterdate").replaceWith(`<x-input-wrapper id="letterdate" type="date" label="Tanggal Pembuatan" value="${$letterDate}" required />`);
+				
+				$("dialog input#letternumber").focus();
+				setTimeout(function()
+				{
+					const $selectModerator = $("dialog select#moderator");
+					const $selectSupervisoryCommittee = $("dialog select#supervisory_committee");
+					const $selectExternalExaminer = $("dialog select#external_examiner");
+					const $selectChairmanSession = $("dialog select#chairman_session");
+
+					if ($selectModerator.length)
+						$selectModerator.val($moderator).trigger("change");
+					
+					if ($selectSupervisoryCommittee.length)
+						$selectSupervisoryCommittee.val($supervisoryCommittee).trigger("change");
+					
+					if ($selectExternalExaminer.length)
+						$selectExternalExaminer.val($externalExaminer).trigger("change");
+					
+					if ($selectChairmanSession.length)
+						$selectChairmanSession.val($chairmanSession).trigger("change");
+				}, 100);
+
+				ValidateForms();
+			});
 		});
 	</script>
 </x-app-layout>
