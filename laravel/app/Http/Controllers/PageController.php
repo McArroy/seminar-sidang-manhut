@@ -12,6 +12,7 @@ use App\Http\Controllers\HelperController;
 use App\Http\Controllers\DateIndoFormatterController;
 use App\Http\Controllers\SeminarController;
 use App\Http\Controllers\ThesisdefenseController;
+use App\Http\Controllers\LetterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoomController;
 
@@ -334,6 +335,14 @@ class PageController extends Controller
 			{
 				return $item->status === 1;
 			});
+
+			$dataSubmissions->map(function($item)
+			{
+				$item->academicid = $item->seminarid;
+				$item->printable = LetterController::IsExist($item->seminarid, "seminar");
+				$item->username = UserController::GetUsername($item->useridnumber);
+				return $item;
+			})->sortByDesc("created_at")->values();
 		}
 		else if ($request->query("type") === "thesisdefense")
 		{
@@ -341,13 +350,15 @@ class PageController extends Controller
 			{
 				return $item->status === 1;
 			});
-		}
 
-		$dataSubmissions->map(function($item)
-		{
-			$item->username = UserController::GetUsername($item->useridnumber);
-			return $item;
-		})->sortByDesc("created_at")->values();
+			$dataSubmissions->map(function($item)
+			{
+				$item->academicid = $item->thesisdefenseid;
+				$item->printable = LetterController::IsExist($item->thesisdefenseid);
+				$item->username = UserController::GetUsername($item->useridnumber);
+				return $item;
+			})->sortByDesc("created_at")->values();
+		}
 
 		// filters
 		$searchValidated = request()->validate(
@@ -364,7 +375,7 @@ class PageController extends Controller
 				$fields =
 				[
 					$item->useridnumber ?? "",
-					UserController::GetUsername($item->useridnumber) ?? "",
+					$item->username ?? "",
 					$item->title ?? ""
 				];
 
