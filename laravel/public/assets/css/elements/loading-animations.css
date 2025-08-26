@@ -2,11 +2,12 @@
 
 loading
 {
-	background: radial-gradient(circle at center, rgba(var(--grey2RGB), .7), rgba(var(--blackRGB), .7));
+	background: radial-gradient(circle at center, hsl(from var(--grey2) h s l / .7), hsl(from var(--black) h s l / .7));
 	height: 100dvh;
 	opacity: 0;
 	pointer-events: none;
 	position: fixed;
+	transform: scale(2.5) translateY(5%);
 	transition-duration: .2s;
 	width: 100dvw;
 	z-index: var(--loadingAnim);
@@ -15,6 +16,7 @@ loading
 	{
 		opacity: 1;
 		pointer-events: unset;
+		transform: scale(1) translateY(0);
 	}
 
 	.container
@@ -29,7 +31,7 @@ loading
 			aspect-ratio: 1/1;
 			background: linear-gradient(135deg, var(--lightBlue), var(--darkBlue2));
 			border-radius: 50%;
-			filter: drop-shadow(0 0 30px rgba(var(--blueRGB), .6));
+			filter: drop-shadow(0 0 30px hsl(from var(--blue) h s l / .6));
 			margin: 0 auto 30px;
 			width: 10%;
 		}
