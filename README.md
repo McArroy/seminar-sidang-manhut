@@ -2,6 +2,26 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.26.8.25 [ Last update: 08/26/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ DATABASE ]**
+- Added Letter database
+
+**[ UI/UX ]**
+- Fixed loading-animations
+- Fixed padding on side-navigationbar
+
+**[ LARAVEL ]**
+- Added LetterController controller
+- Added Letter model
+- Added some routes
+- Fixed some codes announcements page
+- Fixed some codes
+
+</details>
+
 #### UPDATE Version 1.25.8.25 [ Last update: 08/25/2025 ]
 <details>
 <summary>Click to expand</summary>
