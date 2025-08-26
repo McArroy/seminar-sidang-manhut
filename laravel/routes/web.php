@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SeminarController;
 use App\Http\Controllers\ThesisdefenseController;
+use App\Http\Controllers\LetterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoomController;
 
@@ -87,9 +88,13 @@ Route::middleware(
 			return app()->make(PageController::class)->Announcements($request);
 		})->name("announcements");
 
-		Route::post("/announcements/{seminar}", [SeminarController::class, "UpdateLink"])->name("announcements.seminar.add");
-
-		Route::post("/announcements/{thesisdefense}", [ThesisdefenseController::class, "UpdateLink"])->name("announcements.thesisdefense.add");
+		Route::get("/announcements/letter/{academicid}", [LetterController::class, "GetValuesByAcademicId"])->name("announcements.letter");
+	
+		Route::post("/announcements/{academicid}", [LetterController::class, "Store"])->name("announcements.letter.add");
+		
+		Route::post("/announcements/update/{academicid}", [LetterController::class, "Update"])->name("announcements.letter.update");
+		
+		Route::post("/announcements/print/{academicid}", [LetterController::class, "Print"])->name("announcements.letter.print");
 
 		Route::get("/schedule", [PageController::class, "Schedule"])->name("schedule");
 
