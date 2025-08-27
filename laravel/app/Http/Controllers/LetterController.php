@@ -68,7 +68,7 @@ class LetterController extends Controller
 			$query->where("academicid", '!=', $data["academicid"]);
 
 		if ($query->exists())
-			return redirect()->back()->with("dialog_info", ["Gagal " . ($isUpdate ? "Memperbarui " : "Membuat ") . ($isThesis ? "Undangan Sidang Akhir" : "Pengumuman Seminar"), "Nomor Surat Pada " . ($isThesis ? "Undangan Sidang Akhir" : "Pengumuman Seminar") . " Sudah Pernah Dibuat (Tidak Boleh Sama)", "Tutup", "", "", ""]);
+			return redirect()->back()->with("dialog_info", ["Gagal " . ($isUpdate ? "Mengubah " : "Membuat ") . ($isThesis ? "Undangan Sidang Akhir" : "Pengumuman Seminar"), "Nomor Surat Pada " . ($isThesis ? "Undangan Sidang Akhir" : "Pengumuman Seminar") . " Sudah Pernah Dibuat (Tidak Boleh Sama)", "Tutup", "", "", ""]);
 	
 		return null;
 	}
@@ -155,11 +155,11 @@ class LetterController extends Controller
 		$letter = Letter::where("academicid", $academicid)->first();
 
 		if (!$letter)
-			return redirect()->back()->with("dialog_info", ["Gagal Memperbarui " . ($isThesis ? "Undangan Sidang Akhir" : "Pengumuman Seminar"), "Data " . ($isThesis ? "Undangan Sidang Akhir" : "Pengumuman Seminar") . " Tidak Ditemukan", "Tutup", "", "", ""]);
+			return redirect()->back()->with("dialog_info", ["Gagal Mengubah " . ($isThesis ? "Undangan Sidang Akhir" : "Pengumuman Seminar"), "Data " . ($isThesis ? "Undangan Sidang Akhir" : "Pengumuman Seminar") . " Tidak Ditemukan", "Tutup", "", "", ""]);
 
 		$letter->update($validated);
 
-		return redirect()->route("admin.announcements", ["type" => $this->queryType])->with("toast_success", ($isThesis ? "Undangan Sidang Akhir" : "Pengumuman Seminar") . " Berhasil Diperbarui");
+		return redirect()->route("admin.announcements", ["type" => $this->queryType])->with("toast_success", ($isThesis ? "Undangan Sidang Akhir" : "Pengumuman Seminar") . " Berhasil Diubah");
 	}
 
 	public function Print(?string $academicid)
@@ -170,6 +170,6 @@ class LetterController extends Controller
 			return redirect()->back();
 
 		if (!self::IsExist($academicid))
-			return redirect()->back()->with("dialog_info", ["Gagal Mencetak " . ($isThesis ? "Undangan Sidang Akhir" : "Pengumuman Seminar"), "Form " . ($isThesis ? "Undangan Sidang Akhir" : "Pengumuman Seminar") . " Harus Dibuat Terlebih Dahulu", "Tutup", "", "", ""]);
+			return redirect()->back()->with("dialog_info", ["Gagal Mencetak " . ($isThesis ? "Undangan Sidang Akhir" : "Pengumuman Seminar"), "Form " . ($isThesis ? "Undangan Sidang Akhir" : "Pengumuman Seminar") . " Tidak Ditemukan Atau Harus Dibuat Terlebih Dahulu", "Tutup", "", "", ""]);
 	}
 }
