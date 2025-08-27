@@ -2,7 +2,23 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
-#### UPDATE Version 1.26.8.25 [ Last update: 08/26/2025 ]
+#### UPDATE Version 1.25.8.27 [ Last update: 08/27/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ COMMONS ]**
+- Fixed when adding user(s) and the password added automatically now is no longer in uppercase by default instead using lowercase to prevent user-error when login
+
+**[ LARAVEL ]**
+- Fixed RoomContoller controller
+- Fixed failed to update letter(s)
+- Fixed some routes
+- Fixed typo
+- Removed unused files
+
+</details>
+
+#### UPDATE Version 1.25.8.26 [ Last update: 08/26/2025 ]
 <details>
 <summary>Click to expand</summary>
 
