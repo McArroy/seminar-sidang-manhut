@@ -31,52 +31,48 @@ Route::middleware(
 {
 	Route::prefix("admin")->name("admin.")->group(function()
 	{
+		// Dashboard
 		Route::get("/dashboard", [PageController::class, "Dashboard"])->name("dashboard");
 
+		// Admin
 		Route::get("/admins", [PageController::class, "Admins"])->name("admins");
-
 		Route::post("/admins", [UserController::class, "StoreAdmins"])->name("admins.add");
-
 		Route::post("/admins/update/{user}", [UserController::class, "UpdateAdmins"])->name("admins.update");
-
 		Route::delete("/admins/delete/{user}", [UserController::class, "DestroyAdmins"])->name("admins.delete");
 
+		// Student
 		Route::get("/students", [PageController::class, "Students"])->name("students");
-
 		Route::post("/students", [UserController::class, "StoreStudents"])->name("students.add");
-
 		Route::post("/students/update/{user}", [UserController::class, "UpdateStudents"])->name("students.update");
-
 		Route::delete("/students/delete/{user}", [UserController::class, "DestroyStudents"])->name("students.delete");
 
+		// Lecturer
 		Route::get("/lecturers", [PageController::class, "Lecturers"])->name("lecturers");
-
 		Route::post("/lecturers", [UserController::class, "StoreLecturers"])->name("lecturers.add");
-
 		Route::post("/lecturers/update/{user}", [UserController::class, "UpdateLecturers"])->name("lecturers.update");
-
 		Route::delete("/lecturers/delete/{user}", [UserController::class, "DestroyLecturers"])->name("lecturers.delete");
 
+		// Room
+		Route::get("/rooms", [PageController::class, "Rooms"])->name("rooms");
+		Route::post("/rooms", [RoomController::class, "Store"])->name("rooms.add");
+		Route::post("/rooms/update/{roomid}", [RoomController::class, "Update"])->name("rooms.update");
+		Route::delete("/rooms/delete/{roomid}", [RoomController::class, "Destroy"])->name("rooms.delete");
+
+		// Seminar
 		Route::get("/seminars", [PageController::class, "Seminars"])->name("seminars");
-
 		Route::get("/seminars/comment/{seminarid}", [SeminarController::class, "GetCommentById"])->name("seminars.comment");
-
 		Route::post("/seminars/accept/{seminar}", [SeminarController::class, "Accept"])->name("seminars.accept");
-
 		Route::post("/seminars/revision/{seminar}", [SeminarController::class, "Comment"])->name("seminars.revision");
-
 		Route::post("/seminars/reject/{seminar}", [SeminarController::class, "Reject"])->name("seminars.reject");
 
+		// Thesisdefense
 		Route::get("/thesisdefenses", [PageController::class, "Thesisdefenses"])->name("thesisdefenses");
-
 		Route::get("/thesisdefenses/comment/{thesisdefenseid}", [ThesisdefenseController::class, "GetCommentById"])->name("thesisdefenses.comment");
-
 		Route::post("/thesisdefenses/accept/{thesisdefense}", [ThesisdefenseController::class, "Accept"])->name("thesisdefenses.accept");
-
 		Route::post("/thesisdefenses/revision/{thesisdefense}", [ThesisdefenseController::class, "Comment"])->name("thesisdefenses.revision");
-
 		Route::post("/thesisdefenses/reject/{thesisdefense}", [ThesisdefenseController::class, "Reject"])->name("thesisdefenses.reject");
 
+		// Announcement
 		Route::get("/announcements", function(Request $request)
 		{
 			if (!in_array($request->query("type") ?? null, ["seminar", "thesisdefense"]))
@@ -87,24 +83,13 @@ Route::middleware(
 
 			return app()->make(PageController::class)->Announcements($request);
 		})->name("announcements");
-
 		Route::get("/announcements/letter/{academicid}", [LetterController::class, "GetValuesByAcademicId"])->name("announcements.letter");
-	
 		Route::post("/announcements/{academicid}", [LetterController::class, "Store"])->name("announcements.letter.add");
-		
 		Route::post("/announcements/update/{academicid}", [LetterController::class, "Update"])->name("announcements.letter.update");
-		
 		Route::post("/announcements/print/{academicid}", [LetterController::class, "Print"])->name("announcements.letter.print");
 
+		// Sechedule
 		Route::get("/schedule", [PageController::class, "Schedule"])->name("schedule");
-
-		Route::get("/rooms", [PageController::class, "Rooms"])->name("rooms");
-
-		Route::post("/rooms", [RoomController::class, "Store"])->name("rooms.add");
-
-		Route::post("/rooms/update/{room}", [RoomController::class, "Update"])->name("rooms.update");
-
-		Route::delete("/rooms/delete/{room}", [RoomController::class, "Destroy"])->name("rooms.delete");
 	});
 });
 
@@ -119,6 +104,7 @@ Route::middleware(
 {
 	Route::prefix("student")->name("student.")->group(function()
 	{
+		// Dashboard
 		Route::get("/dashboard", [PageController::class, "Dashboard"])->name("dashboard");
 
 		Route::delete("/dashboard/delete/seminar/{seminar}", [SeminarController::class, "Destroy"])
