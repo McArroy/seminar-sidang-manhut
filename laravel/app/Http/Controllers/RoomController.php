@@ -8,6 +8,29 @@ use Illuminate\Support\Str;
 
 class RoomController extends Controller
 {
+	private function Validate(Request $request) : array
+	{
+		$validated = $request->validate(
+		[
+			"roomname" => "required|string|max:255",
+		]);
+
+		return $validated;
+	}
+
+	private function CheckData(?array $data, bool $isUpdate = false)
+	{
+		$query = Room::where("roomname", $data["roomname"]);
+
+		if ($isUpdate)
+			$query->where("roomid", '!=', $data["roomid"]);
+
+		if ($query->exists())
+			return redirect()->back()->with("dialog_info", ["Gagal " . ($isUpdate ? "Mengubah " : "Menambahkan ") . "Data Ruangan", "Data Ruangan Sudah Pernah Ditambahkan", "Tutup", "", "", ""]);
+	
+		return null;
+	}
+
 	public static function GetAll(array $columns = ["*"])
 	{
 		return Room::select($columns)->get();
@@ -20,45 +43,46 @@ class RoomController extends Controller
 
 	public function Store(Request $request)
 	{
-		$validated = $request->validate(
-		[
-			"roomname" => "required|string|max:255",
-		]);
+		$validated = $this->Validate($request);
 
-		Room::create(
-		[
-			"roomid" => (string)Str::uuid(),
-			"roomname" => $validated["roomname"],
-		]);
+		$validated["roomid"] = (string)Str::uuid();
+
+		$check = $this->CheckData($validated);
+
+		if ($check !== null)
+			return $check;
+
+		Room::create($validated);
 
 		return redirect()->route("admin.rooms")->with("toast_success", "Data Ruangan Berhasil Ditambahkan");
 	}
 
-	public function Update(Request $request, Room $room)
+	public function Update(Request $request, string $roomid)
 	{
-		$validated = $request->validate(
-		[
-			"roomname" => "required|string|max:255",
-		]);
+		$room = Room::where("roomid", $roomid)->first();
 
-		$room->update(
-		[
-			"roomname" => $validated["roomname"],
-		]);
+		if (!$room)
+			return redirect()->back()->with("dialog_info", ["Gagal Mengubah Data Ruangan", "Data Ruangan Tidak Ditemukan", "Tutup", "", "", ""]);
+
+		$validated = $this->Validate($request);
+
+		$check = $this->CheckData($validated);
+
+		if ($check !== null)
+			return $check;
+
+		$room->update($validated);
 
 		return redirect()->route("admin.rooms")->with("toast_success", "Data Ruangan Berhasil Diubah");
 	}
 
-	public static function GetRoomname(?string $roomid)
+	public function Destroy(string $roomid)
 	{
-		if (empty($roomid))
-			return null;
+		$room = Room::where("roomid", $roomid)->first();
 
-		return Room::where("roomid", $roomid)->value("roomname");
-	}
+		if (!$room)
+			return redirect()->back()->with("dialog_info", ["Gagal Menghapus Data Ruangan", "Data Ruangan Tidak Ditemukan", "Tutup", "", "", ""]);
 
-	public function Destroy(Room $room)
-	{
 		$room->delete();
 
 		return redirect()->route("admin.rooms")->with("toast_success", "Ruang Berhasil Dihapus");
