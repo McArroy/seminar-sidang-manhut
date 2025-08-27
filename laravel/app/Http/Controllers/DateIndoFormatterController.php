@@ -46,7 +46,7 @@ class DateIndoFormatterController
 	 */
 	public static function Today() : string
 	{
-		return self::simple(new DateTime());
+		return self::Simple(new DateTime());
 	}
 
 	/**
@@ -54,7 +54,7 @@ class DateIndoFormatterController
 	 */
 	public static function Simple(DateTime|string $date) : string
 	{
-		$date = self::ensureDateTime($date);
+		$date = self::EnsureDateTime($date);
 
 		return $date->format("j") . " " .
 			self::$monthNames[(int) $date->format("n")] . " " .
