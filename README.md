@@ -9,6 +9,9 @@ These changelogs are basically just a summary list of changes that are very impo
 **[ COMMONS ]**
 - Fixed when adding user(s) and the password added automatically now is no longer in uppercase by default instead using lowercase to prevent user-error when login
 
+**[ UI/UX ]**
+- Fixed typo
+
 **[ LARAVEL ]**
 - Fixed RoomContoller controller
 - Fixed failed to update letter(s)
