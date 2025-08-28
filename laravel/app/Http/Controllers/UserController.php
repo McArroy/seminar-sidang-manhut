@@ -9,12 +9,15 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+use App\Http\Controllers\HelperController;
+
 class UserController extends Controller
 {
 	use DeterministicEncryption;
 
 	private string $userId;
 	private string $userRole;
+	private string $queryFrom;
 
 	public function __construct()
 	{
@@ -22,71 +25,154 @@ class UserController extends Controller
 		$this->userRole = Auth::user()->userrole;
 	}
 
-	private function Store(Request $request)
+	private function Validate(Request $request, bool $isUpdate = false) : array
 	{
 		$validated = $request->validate(
 		[
 			"useridnumber" => "required|string|max:33",
 			"username" => "required|string|max:255",
-			"password" => "required|string|max:127"
+			"password" =>
+			[
+				$isUpdate ? "nullable" : "required",
+				"string",
+				"max:127"
+			]
 		]);
 
 		$validated["useridnumber"] = strtolower(trim($validated["useridnumber"]));
 
-		$exists = User::where("useridnumber", $this->encryptDeterministic($validated["useridnumber"]))->exists();
+		if (!$isUpdate)
+		{
+			$validated["userid"] = (string)Str::uuid();
+			$validated["userrole"] = $request["userrole"];
+			$validated["password"] = Hash::make($validated["password"]);
+		}
+		else
+		{
+			if (!empty($validated["password"]))
+				$validated["password"] = Hash::make($validated["password"]);
+			else
+				unset($validated["password"]);
+		}
 
-		if ($exists)
-			return redirect()->route("admin." . $request["from"])->with("toast_info", "NIM/NIP Sudah Digunakan. Gagal Menambahkan Data " . $request["text"]);
+		return $validated;
+	}
 
-		$validated["userid"] = (string)Str::uuid();
-		$validated["useridnumber"] = strtolower($validated["useridnumber"]);
-		$validated["userrole"] = $request["userrole"];
-		$validated["password"] = Hash::make($validated["password"]);
+	private function CheckData(?array $data, bool $isUpdate = false)
+	{
+		$query = User::where("useridnumber", $this->encryptDeterministic($data["useridnumber"]));
+
+		if ($isUpdate)
+			$query->where("userid", '!=', $data["userid"]);
+
+		if ($query->exists())
+		{
+			$message = match($this->queryFrom)
+			{
+				"admins" => $isUpdate ? "NIP Sudah Digunakan. Gagal Mengubah Data Admin" : "NIP Sudah Digunakan. Gagal Menambahkan Data Admin",
+				"students" => $isUpdate ? "NIM Sudah Digunakan. Gagal Mengubah Data Mahasiswa" : "NIM Sudah Digunakan. Gagal Menambahkan Data Mahasiswa",
+				"lecturers" => $isUpdate ? "NIP Sudah Digunakan. Gagal Mengubah Data Dosen" : "NIP Sudah Digunakan. Gagal Menambahkan Data Dosen"
+			};
+			
+			return HelperController::Message("toast_info", $message);
+		}
+	
+		return null;
+	}
+
+	private function Store(Request $request)
+	{
+		$this->queryFrom = $request["from"];
+
+		$validated = $this->Validate($request);
+
+		$check = $this->CheckData($validated, false);
+
+		if ($check !== null)
+			return $check;
 
 		User::create($validated);
 
-		return redirect()->route("admin." . $request["from"])->with("toast_success", "Data " . $request["text"] . " Berhasil Dibuat");
+		$message = match($this->queryFrom)
+		{
+			"admins" => "Data Admin Berhasil Ditambahkan",
+			"students" => "Data Mahasiswa Berhasil Ditambahkan",
+			"lecturers" => "Data Dosen Berhasil Ditambahkan"
+		};
+
+		return HelperController::Message("toast_success", $message);
 	}
 
-	private function Update(Request $request, User $user)
+	private function Update(Request $request, string $userid)
 	{
-		$validated = $request->validate(
-		[
-			"useridnumber" => "required|string|max:33",
-			"username" => "required|string|max:255",
-			"password" => "nullable|string|max:127"
-		]);
+		$this->queryFrom = $request["from"];
 
-		$validated["useridnumber"] = strtolower(trim($validated["useridnumber"]));
+		$user = User::where("userid", $userid)->first();
 
-		$exists = User::where("useridnumber", $this->encryptDeterministic($validated["useridnumber"]))
-			->where("userid", "!=", $user->userid)
-			->exists();
+		if (!$user)
+		{
+			$messages = match($this->queryFrom)
+			{
+				"admins" => ["Gagal Mengubah Data Admin", "Data Admin Tidak Ditemukan"],
+				"students" => ["Gagal Mengubah Data Mahasiswa", "Data Mahasiswa Tidak Ditemukan"],
+				"lecturers" => ["Gagal Mengubah Data Dosen", "Data Dosen Tidak Ditemukan"]
+			};
+			
+			return HelperController::Message("dialog_info", $messages);
+		}
 
-		if ($exists)
-			return redirect()->route("admin." . $request["from"])->with("toast_info", "NIM/NIP Sudah Digunakan. Gagal Mengubah Data " . $request["text"]);
+		$validated = $this->Validate($request, true);
 
-		$user->update(
-		[
-			"useridnumber" => $validated["useridnumber"],
-			"username" => $validated["username"]
-		]);
+		$validated["userid"] = trim($userid);
 
-		if (!empty($validated["password"]))
-			$user->update(["password" => Hash::make($validated["password"])]);
+		$check = $this->CheckData($validated, true);
 
-		return redirect()->route("admin." . $request["from"])->with("toast_success", "Data " . $request["text"] . " Berhasil Diubah");
+		if ($check !== null)
+			return $check;
+
+		$user->update($validated);
+
+		$message = match($this->queryFrom)
+		{
+			"admins" => "Data Admin Berhasil Diubah",
+			"students" => "Data Mahasiswa Berhasil Diubah",
+			"lecturers" => "Data Dosen Berhasil Diubah"
+		};
+
+		return HelperController::Message("toast_success", $message);
 	}
 
-	private function Destroy(Request $request, User $user)
+	private function Destroy(Request $request, string $userid)
 	{
-		if ($user->useridnumber === $this->userId)
-			return redirect()->back()->with("dialog_info", ["Gagal Menghapus Data", "Anda Tidak Bisa Menghapus Data Diri Anda", "Tutup", "", "", ""]);
+		$this->queryFrom = $request["from"];
+
+		$user = User::where("userid", $userid)->first();
+
+		if (!$user)
+		{
+			$messages = match($this->queryFrom)
+			{
+				"admins" => ["Gagal Menghapus Data Admin", "Data Admin Tidak Ditemukan"],
+				"students" => ["Gagal Menghapus Data Mahasiswa", "Data Mahasiswa Tidak Ditemukan"],
+				"lecturers" => ["Gagal Menghapus Data Dosen", "Data Dosen Tidak Ditemukan"]
+			};
+			
+			return HelperController::Message("dialog_info", $messages);
+		}
+
+		if ($userid === Auth::user()->userid)
+			return HelperController::Message("dialog_info", ["Gagal Menghapus Data Admin", "Anda Tidak Bisa Menghapus Data Diri Anda"]);
 
 		$user->delete();
 
-		if ($this->userRole === "admin")
-			return redirect()->route("admin." . $request["from"])->with("toast_success", "Data " . $request["text"] . " Berhasil Dihapus");
+		$message = match($this->queryFrom)
+		{
+			"admins" => "Data Admin Berhasil Dihapus",
+			"students" => "Data Mahasiswa Berhasil Dihapus",
+			"lecturers" => "Data Dosen Berhasil Dihapus"
+		};
+
+		return HelperController::Message("toast_success", $message);
 	}
 
 	public static function GetAll(array $columns = ["*"])
@@ -115,35 +201,30 @@ class UserController extends Controller
 		$request->merge(
 		[
 			"from" => "admins",
-			"userrole" => "admin",
-			"text" => "Admin"
+			"userrole" => "admin"
 		]);
 
 		return $this->Store($request);
 	}
 
-	public function UpdateAdmins(Request $request, User $user)
+	public function UpdateAdmins(Request $request, string $userid)
 	{
 		$request->merge(
 		[
-			"from" => "admins",
-			"userrole" => "admin",
-			"text" => "Admin"
+			"from" => "admins"
 		]);
 
-		return $this->Update($request, $user);
+		return $this->Update($request, $userid);
 	}
 
-	public function DestroyAdmins(Request $request, User $user)
+	public function DestroyAdmins(Request $request, string $userid)
 	{
 		$request->merge(
 		[
-			"from" => "admins",
-			"userrole" => "admin",
-			"text" => "Admin"
+			"from" => "admins"
 		]);
 
-		return $this->Destroy($request, $user);
+		return $this->Destroy($request, $userid);
 	}
 
 	public function GetStudents()
@@ -159,35 +240,30 @@ class UserController extends Controller
 		$request->merge(
 		[
 			"from" => "students",
-			"userrole" => "student",
-			"text" => "Mahasiswa"
+			"userrole" => "student"
 		]);
 
 		return $this->Store($request);
 	}
 
-	public function UpdateStudents(Request $request, User $user)
+	public function UpdateStudents(Request $request, string $userid)
 	{
 		$request->merge(
 		[
-			"from" => "students",
-			"userrole" => "student",
-			"text" => "Mahasiswa"
+			"from" => "students"
 		]);
 
-		return $this->Update($request, $user);
+		return $this->Update($request, $userid);
 	}
 
-	public function DestroyStudents(Request $request, User $user)
+	public function DestroyStudents(Request $request, string $userid)
 	{
 		$request->merge(
 		[
-			"from" => "students",
-			"userrole" => "student",
-			"text" => "Mahasiswa"
+			"from" => "students"
 		]);
 
-		return $this->Destroy($request, $user);
+		return $this->Destroy($request, $userid);
 	}
 
 	public function GetLecturers()
@@ -203,34 +279,29 @@ class UserController extends Controller
 		$request->merge(
 		[
 			"from" => "lecturers",
-			"userrole" => "lecturer",
-			"text" => "Dosen"
+			"userrole" => "lecturer"
 		]);
 		
 		return $this->Store($request);
 	}
 
-	public function UpdateLecturers(Request $request, User $user)
+	public function UpdateLecturers(Request $request, string $userid)
 	{
 		$request->merge(
 		[
-			"from" => "lecturers",
-			"userrole" => "lecturer",
-			"text" => "Dosen"
+			"from" => "lecturers"
 		]);
 		
-		return $this->Update($request, $user);
+		return $this->Update($request, $userid);
 	}
 
-	public function DestroyLecturers(Request $request, User $user)
+	public function DestroyLecturers(Request $request, string $userid)
 	{
 		$request->merge(
 		[
-			"from" => "lecturers",
-			"userrole" => "lecturer",
-			"text" => "Dosen"
+			"from" => "lecturers"
 		]);
 		
-		return $this->Destroy($request, $user);
+		return $this->Destroy($request, $userid);
 	}
 }
