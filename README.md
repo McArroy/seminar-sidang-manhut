@@ -2,6 +2,26 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.8.28 [ Last update: 08/28/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ COMMONS ]**
+- Fixed when adding user(s) and the password added automatically now is using uppercase (again)
+
+**[ UI/UX ]**
+- Fixed button(s) when focused
+- Fixed visibility side-navigationbar to prevent clickable when not visible
+
+**[ LARAVEL ]**
+- Added Message function in HelperController controller
+- Fixed some codes on LetterContoller controller
+- Fixed some codes on RoomContoller controller
+- Fixed some codes on UserContoller controller
+- Fixed some routes
+
+</details>
+
 #### UPDATE Version 1.25.8.27 [ Last update: 08/27/2025 ]
 <details>
 <summary>Click to expand</summary>
