@@ -206,13 +206,13 @@ navbar
 			{
 				color: var(--red);
 
-				&:hover, &.active
+				&:hover, &:focus, &.active
 				{
 					background: var(--red);
 				}
 			}
 
-			&:hover, &.active, &.listed
+			&:hover, &:focus, &.active, &.listed
 			{
 				background: var(--blue3);
 				border-color: var(--white);
@@ -252,8 +252,8 @@ navbar
 		{
 			align-items: flex-end;
 			height: 0;
-			opacity: 0;
 			padding-left: 0;
+			visibility: hidden;
 			width: 100%;
 			z-index: -1;
 
@@ -261,6 +261,7 @@ navbar
 			{
 				height: auto;
 				opacity: 1;
+				visibility: visible;
 			}
 		}
 	}
