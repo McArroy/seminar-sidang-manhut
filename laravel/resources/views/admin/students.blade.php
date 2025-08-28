@@ -57,7 +57,7 @@
 		{
 			return DialogInputData("{{ route('admin.students.add') }}", "Tambah", "POST",
 			`
-				<x-input-wrapper id="useridnumber" type="text" label="NIM" placeholder="Masukkan NIM Mahasiswa" oninput="$('#password').val($(this).val().toLowerCase())" required />
+				<x-input-wrapper id="useridnumber" type="text" label="NIM" placeholder="Masukkan NIM Mahasiswa" oninput="$('#password').val($(this).val().toUpperCase())" required />
 				<x-input-wrapper id="username" type="text" label="Nama" placeholder="Masukkan Nama Mahasiswa" required />
 				<x-input-wrapper class="password" id="password" type="password" label="Kata Sandi" placeholder="********" required>
 					<iconify-icon icon="basil:eye-outline" class="show-hide-password" width="24" onclick="TogglePassword($(this))"></iconify-icon>

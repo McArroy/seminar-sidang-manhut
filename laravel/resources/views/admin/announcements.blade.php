@@ -132,6 +132,7 @@
 				$("dialog.input-data .input-wrapper").has("#letterdate").replaceWith(`<x-input-wrapper id="letterdate" type="date" label="Tanggal Pembuatan" value="${$letterDate}" required />`);
 				
 				$("dialog input#letternumber").focus();
+
 				setTimeout(function()
 				{
 					const $selectModerator = $("dialog select#moderator");
@@ -139,16 +140,16 @@
 					const $selectExternalExaminer = $("dialog select#external_examiner");
 					const $selectChairmanSession = $("dialog select#chairman_session");
 
-					if ($selectModerator.length)
+					if ($selectModerator.length && $selectModerator.find(`option[value="${$moderator}"]`).length)
 						$selectModerator.val($moderator).trigger("change");
 					
-					if ($selectSupervisoryCommittee.length)
+					if ($selectSupervisoryCommittee.length && $selectSupervisoryCommittee.find(`option[value="${$supervisoryCommittee}"]`).length)
 						$selectSupervisoryCommittee.val($supervisoryCommittee).trigger("change");
 					
-					if ($selectExternalExaminer.length)
+					if ($selectExternalExaminer.length && $selectExternalExaminer.find(`option[value="${$externalExaminer}"]`).length)
 						$selectExternalExaminer.val($externalExaminer).trigger("change");
 					
-					if ($selectChairmanSession.length)
+					if ($selectChairmanSession.length && $selectChairmanSession.find(`option[value="${$chairmanSession}"]`).length)
 						$selectChairmanSession.val($chairmanSession).trigger("change");
 				}, 100);
 
