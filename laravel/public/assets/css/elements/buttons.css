@@ -19,10 +19,15 @@
 	{
 		cursor: pointer;
 
-		&:hover
+		&:hover, &:focus
 		{
 			border-color: var(--black);
 			transform: scale(.95);
+		}
+
+		&:focus
+		{
+			border-color: unset;
 		}
 	}
 
