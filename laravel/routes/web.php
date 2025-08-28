@@ -37,20 +37,20 @@ Route::middleware(
 		// Admin
 		Route::get("/admins", [PageController::class, "Admins"])->name("admins");
 		Route::post("/admins", [UserController::class, "StoreAdmins"])->name("admins.add");
-		Route::post("/admins/update/{user}", [UserController::class, "UpdateAdmins"])->name("admins.update");
-		Route::delete("/admins/delete/{user}", [UserController::class, "DestroyAdmins"])->name("admins.delete");
+		Route::post("/admins/update/{userid}", [UserController::class, "UpdateAdmins"])->name("admins.update");
+		Route::delete("/admins/delete/{userid}", [UserController::class, "DestroyAdmins"])->name("admins.delete");
 
 		// Student
 		Route::get("/students", [PageController::class, "Students"])->name("students");
 		Route::post("/students", [UserController::class, "StoreStudents"])->name("students.add");
-		Route::post("/students/update/{user}", [UserController::class, "UpdateStudents"])->name("students.update");
-		Route::delete("/students/delete/{user}", [UserController::class, "DestroyStudents"])->name("students.delete");
+		Route::post("/students/update/{userid}", [UserController::class, "UpdateStudents"])->name("students.update");
+		Route::delete("/students/delete/{userid}", [UserController::class, "DestroyStudents"])->name("students.delete");
 
 		// Lecturer
 		Route::get("/lecturers", [PageController::class, "Lecturers"])->name("lecturers");
 		Route::post("/lecturers", [UserController::class, "StoreLecturers"])->name("lecturers.add");
-		Route::post("/lecturers/update/{user}", [UserController::class, "UpdateLecturers"])->name("lecturers.update");
-		Route::delete("/lecturers/delete/{user}", [UserController::class, "DestroyLecturers"])->name("lecturers.delete");
+		Route::post("/lecturers/update/{userid}", [UserController::class, "UpdateLecturers"])->name("lecturers.update");
+		Route::delete("/lecturers/delete/{userid}", [UserController::class, "DestroyLecturers"])->name("lecturers.delete");
 
 		// Room
 		Route::get("/rooms", [PageController::class, "Rooms"])->name("rooms");
