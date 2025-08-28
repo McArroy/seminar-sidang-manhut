@@ -49,4 +49,12 @@ class HelperController extends Controller
 			return $item;
 		});
 	}
+
+	public static function Message(string $type = "dialog_info", string|array $messages)
+	{
+		if ($type === "dialog_info")
+			$messages = array_merge($messages, ["Tutup", "", "", ""]);
+
+		return redirect()->back()->with($type, $messages);
+	}
 }
