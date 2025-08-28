@@ -6,6 +6,8 @@ use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
+use App\Http\Controllers\HelperController;
+
 class RoomController extends Controller
 {
 	private function Validate(Request $request) : array
@@ -26,7 +28,7 @@ class RoomController extends Controller
 			$query->where("roomid", '!=', $data["roomid"]);
 
 		if ($query->exists())
-			return redirect()->back()->with("dialog_info", ["Gagal " . ($isUpdate ? "Mengubah " : "Menambahkan ") . "Data Ruangan", "Data Ruangan Sudah Pernah Ditambahkan", "Tutup", "", "", ""]);
+			return HelperController::Message("dialog_info", [$isUpdate ? "Gagal Mengubah Data Ruangan" : "Gagal Menambahkan Data Ruangan", "Data Ruangan Sudah Pernah Ditambahkan"]);
 	
 		return null;
 	}
@@ -54,7 +56,7 @@ class RoomController extends Controller
 
 		Room::create($validated);
 
-		return redirect()->route("admin.rooms")->with("toast_success", "Data Ruangan Berhasil Ditambahkan");
+		return HelperController::Message("toast_success", "Data Ruangan Berhasil Ditambahkan");
 	}
 
 	public function Update(Request $request, string $roomid)
@@ -62,18 +64,20 @@ class RoomController extends Controller
 		$room = Room::where("roomid", $roomid)->first();
 
 		if (!$room)
-			return redirect()->back()->with("dialog_info", ["Gagal Mengubah Data Ruangan", "Data Ruangan Tidak Ditemukan", "Tutup", "", "", ""]);
+			return HelperController::Message("dialog_info", ["Gagal Mengubah Data Ruangan", "Data Ruangan Tidak Ditemukan"]);
 
 		$validated = $this->Validate($request);
 
-		$check = $this->CheckData($validated);
+		$validated["roomid"] = trim($roomid);
+
+		$check = $this->CheckData($validated, true);
 
 		if ($check !== null)
 			return $check;
 
 		$room->update($validated);
 
-		return redirect()->route("admin.rooms")->with("toast_success", "Data Ruangan Berhasil Diubah");
+		return HelperController::Message("toast_success", "Data Ruangan Berhasil Diubah");
 	}
 
 	public function Destroy(string $roomid)
@@ -81,10 +85,10 @@ class RoomController extends Controller
 		$room = Room::where("roomid", $roomid)->first();
 
 		if (!$room)
-			return redirect()->back()->with("dialog_info", ["Gagal Menghapus Data Ruangan", "Data Ruangan Tidak Ditemukan", "Tutup", "", "", ""]);
+			return HelperController::Message("dialog_info", ["Gagal Menghapus Data Ruangan", "Data Ruangan Tidak Ditemukan"]);
 
 		$room->delete();
 
-		return redirect()->route("admin.rooms")->with("toast_success", "Ruang Berhasil Dihapus");
+		return HelperController::Message("toast_success", "Ruang Berhasil Dihapus");
 	}
 }
