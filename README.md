@@ -6,11 +6,20 @@ These changelogs are basically just a summary list of changes that are very impo
 <details>
 <summary>Click to expand</summary>
 
+**[ COMMONS ]**
+- Added form-confirmation before deleting user(s)
+- Fixed some bugs when validating form(s)
+- Fixed form-validation that button save or submit is no longer enabled if content(s) is/are not changed
+
 **[ UI/UX ]**
 - Fixed useridnumber-field now is readonly
+- Fixed dialog-message width-size
+- Fixed misplaced animations for dialog-message
+- Removed unused codes
 
 **[ LARAVEL ]**
 - Fixed useridnumber now is no longer editable
+- Fixed some routes
 
 </details>
 
