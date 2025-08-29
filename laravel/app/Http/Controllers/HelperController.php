@@ -8,6 +8,14 @@ use Carbon\Carbon;
 
 class HelperController extends Controller
 {
+	public static function Asset(?string $path)
+	{
+		$fullPath = public_path($path);
+		$hash = file_exists($fullPath) ? filemtime($fullPath) : time();
+
+		return asset($path) . "?v=" . $hash;
+	}
+
 	public static function FilterByDateRange($data)
 	{
 		$today = Carbon::today();
