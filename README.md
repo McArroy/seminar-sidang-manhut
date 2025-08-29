@@ -2,6 +2,18 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.8.29 [ Last update: 08/29/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ UI/UX ]**
+- Fixed useridnumber-field now is readonly
+
+**[ LARAVEL ]**
+- Fixed useridnumber now is no longer editable
+
+</details>
+
 #### UPDATE Version 1.25.8.28 [ Last update: 08/28/2025 ]
 <details>
 <summary>Click to expand</summary>
