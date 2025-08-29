@@ -50,7 +50,7 @@
 						<td class="name">{{ $item->username }}</td>
 						<td class="button-actions">
 							<x-button class="edit" id="edit-admin" data-link="{{ $item->userid }}">Ubah</x-button>
-							<form id="form-delete" action="{{ route('admin.admins.delete', [$item->userid]) }}" method="POST">
+							<form id="form-delete-user" action="{{ route('admin.admins.delete', [$item->userid]) }}" method="POST">
 								@csrf
 								@method("DELETE")
 								
