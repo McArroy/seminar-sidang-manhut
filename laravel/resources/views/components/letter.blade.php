@@ -104,7 +104,7 @@ else
 		</head>
 		<body>
 			<div class='wrapper'>
-				<img src='/assets/img/letter/letterhead.jpg' alt='letterhead' class='letterhead'>
+				<img src='{{ \App\Http\Controllers\HelperController::Asset('assets/img/letter/letterhead.jpg') }}' alt='letterhead' class='letterhead'>
 				<main>
 					<h3 class='center' style='font-size: {{ $IsThesisDefense ? '16pt' : '22pt' }}; text-decoration: underline;'>FORMULIR {{ $IsThesisDefense ? 'PENDAFTARAN UJIAN AKHIR SARJANA' : 'SEMINAR' }}</h3>
 					{{ !$IsThesisDefense ? '<br><br>' : '' }}

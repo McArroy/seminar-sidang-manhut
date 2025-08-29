@@ -8,7 +8,7 @@
 
 <x-app-layout>
 	@section("css")
-		<link rel="stylesheet" href="/assets/css/pages/dashboard.css?v=1.0">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/pages/dashboard.css') }}">
 	@endsection
 
 	<x-slot name="title">Dashboard</x-slot>
@@ -25,7 +25,7 @@
 						<iconify-icon icon="icon-park-outline:up-two" width="21"></iconify-icon>
 					</div>
 				</div>
-				<img src="/assets/img/card-1.png" alt="card-1">
+				<img src="{{ \App\Http\Controllers\HelperController::Asset('assets/img/card-1.png') }}" alt="card-1">
 			</div>
 			<div class="card">
 				<div class="text">
@@ -35,7 +35,7 @@
 						<iconify-icon icon="icon-park-outline:up-two" width="21"></iconify-icon>
 					</div>
 				</div>
-				<img src="/assets/img/card-2.png" alt="card-2">
+				<img src="{{ \App\Http\Controllers\HelperController::Asset('assets/img/card-2.png') }}" alt="card-2">
 			</div>
 			<div class="card">
 				<div class="text">
@@ -45,7 +45,7 @@
 						<iconify-icon icon="icon-park-outline:up-two" width="21"></iconify-icon>
 					</div>
 				</div>
-				<img src="/assets/img/card-3.png" alt="card-3">
+				<img src="{{ \App\Http\Controllers\HelperController::Asset('assets/img/card-3.png') }}" alt="card-3">
 			</div>
 		</div>
 

@@ -1,11 +1,3 @@
-<?php
-
-date_default_timezone_set("Asia/Jakarta");
-
-$HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
-
-?>
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 	<head>
@@ -15,24 +7,24 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 
 		<title>{{ isset($title) ? config("app.name") . " | " . $title : config("app.name") }}</title>
 
-		<link rel="stylesheet" href="/assets/css/elements/animations.css?hash=<?= $HashFile ?>">
-		<link rel="stylesheet" href="/assets/css/elements/colors.css?hash=<?= $HashFile ?>">
-		<link rel="stylesheet" href="/assets/css/elements/indexes.css?hash=<?= $HashFile ?>">
-		<link rel="stylesheet" href="/assets/css/elements/transitions.css?hash=<?= $HashFile ?>">
-		<link rel="stylesheet" href="/assets/css/elements/commons.css?hash=<?= $HashFile ?>">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/animations.css') }}">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/colors.css') }}">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/indexes.css') }}">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/transitions.css') }}">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/commons.css') }}">
 
-		<link rel="stylesheet" href="/assets/css/elements/texts.css?hash=<?= $HashFile ?>">
-		<link rel="stylesheet" href="/assets/css/elements/buttons.css?hash=<?= $HashFile ?>">
-		<link rel="stylesheet" href="/assets/css/elements/contents.css?hash=<?= $HashFile ?>">
-		<link rel="stylesheet" href="/assets/css/elements/dialogs.css?hash=<?= $HashFile ?>">
-		<link rel="stylesheet" href="/assets/css/elements/footer.css?hash=<?= $HashFile ?>">
-		<link rel="stylesheet" href="/assets/css/elements/inputs.css?hash=<?= $HashFile ?>">
-		<link rel="stylesheet" href="/assets/css/elements/letter-viewer.css?hash=<?= $HashFile ?>">
-		<link rel="stylesheet" href="/assets/css/elements/loading-animations.css?hash=<?= $HashFile ?>">
-		<link rel="stylesheet" href="/assets/css/elements/navigationbar.css?hash=<?= $HashFile ?>">
-		<link rel="stylesheet" href="/assets/css/elements/navigator-buttons.css?hash=<?= $HashFile ?>">
-		<link rel="stylesheet" href="/assets/css/elements/scrollbar.css?hash=<?= $HashFile ?>">
-		<link rel="stylesheet" href="/assets/css/elements/tables.css?hash=<?= $HashFile ?>">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/texts.css') }}">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/buttons.css') }}">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/contents.css') }}">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/dialogs.css') }}">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/footer.css') }}">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/inputs.css') }}">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/letter-viewer.css') }}">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/loading-animations.css') }}">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/navigationbar.css') }}">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/navigator-buttons.css') }}">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/scrollbar.css') }}">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/tables.css') }}">
 
 		@yield("css")
 
@@ -44,12 +36,12 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 		<script src="https://cdn.jsdelivr.net/npm/html2pdf.js@latest/dist/html2pdf.bundle.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/chart.umd.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/select2@latest/dist/js/select2.min.js"></script>
-		
-		<script src="/assets/js/functions.js?hash=<?= $HashFile ?>"></script>
-		<script src="/assets/js/dialog.js?hash=<?= $HashFile ?>"></script>
-		<script src="/assets/js/form.js?hash=<?= $HashFile ?>"></script>
-		<script src="/assets/js/pdf.js?hash=<?= $HashFile ?>"></script>
-		<script src="/assets/js/commons.js?hash=<?= $HashFile ?>"></script>
+
+		<script src="{{ \App\Http\Controllers\HelperController::Asset('assets/js/functions.js') }}"></script>
+		<script src="{{ \App\Http\Controllers\HelperController::Asset('assets/js/dialog.js') }}"></script>
+		<script src="{{ \App\Http\Controllers\HelperController::Asset('assets/js/form.js') }}"></script>
+		<script src="{{ \App\Http\Controllers\HelperController::Asset('assets/js/pdf.js') }}"></script>
+		<script src="{{ \App\Http\Controllers\HelperController::Asset('assets/js/commons.js') }}"></script>
 	</head>
 	<body>
 		<loading class="active">
@@ -163,7 +155,7 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 			<navbar class="backdrop"></navbar>
 
 			<div class="main-content">
-				<img src="/assets/img/background-banner.png?v=1.0" alt="background-banner" class="background-banner">
+				<img src="{{ \App\Http\Controllers\HelperController::Asset('assets/img/background-banner.png') }}" alt="background-banner" class="background-banner">
 				<div class="wrapper">
 					<h1>
 						<iconify-icon icon="{{ $icon }}" width="24"></iconify-icon>
@@ -213,7 +205,7 @@ $HashFile = "Uvuvwevwevwe Onyetenyevwe Ugwemuhwem Osas";
 					<input type="hidden" name="_method" value="${$type}">
 
 					<div class="top">
-						<img src="/assets/img/background-banner.png" alt="background-banner">
+						<img src="{{ \App\Http\Controllers\HelperController::Asset('assets/img/background-banner.png') }}" alt="background-banner">
 						<div class="text">
 							<iconify-icon icon="{{ $icon ?? '' }}" width="24"></iconify-icon>
 							${$title} {{ $pagetitle ?? "" }}

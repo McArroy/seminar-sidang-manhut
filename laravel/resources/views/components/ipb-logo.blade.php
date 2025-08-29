@@ -1,1 +1,1 @@
-<img src="/assets/img/ipb-logo.png?v=1.0" alt="ipb-logo">
+<img src="{{ \App\Http\Controllers\HelperController::Asset('assets/img/ipb-logo.png') }}" alt="ipb-logo">

@@ -1,6 +1,6 @@
 <x-app-layout>
 	@section("css")
-		<link rel="stylesheet" href="/assets/css/pages/dashboard.css?v=1.0">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/pages/dashboard.css') }}">
 	@endsection
 
 	<x-slot name="title">Dashboard</x-slot>

@@ -1,12 +1,12 @@
 <x-guest-layout>
 	@section("css")
-		<link rel="stylesheet" href="/assets/css/pages/login.css?v=1.0">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/pages/login.css') }}">
 	@endsection
 
 	<x-slot name="title">Login</x-slot>
 	
 	<div class="left">
-		<img src="/assets/img/ipb-logo.png" alt="ipb-logo">
+		<x-ipb-logo/>
 		<div class="text">
 			<h6>Selamat Datang di</h6>
 			<h1>{{ config("app.name") }}</h1>

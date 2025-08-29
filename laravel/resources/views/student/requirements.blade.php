@@ -1,7 +1,7 @@
 <x-app-layout>
 	@section("css")
-		<link rel="stylesheet" href="/assets/css/pages/registrationform.css?v=1.0">
-		<link rel="stylesheet" href="/assets/css/pages/requirements.css?v=1.0">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/pages/registrationform.css') }}">
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/pages/requirements.css') }}">
 	@endsection
 
 	<x-slot name="icon">hugeicons:folder-upload</x-slot>
