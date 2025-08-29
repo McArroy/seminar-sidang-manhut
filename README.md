@@ -10,6 +10,10 @@ These changelogs are basically just a summary list of changes that are very impo
 - Added form-confirmation before deleting user(s)
 - Fixed some bugs when validating form(s)
 - Fixed form-validation that button save or submit is no longer enabled if content(s) is/are not changed
+- Fixed typo
+
+**[ DATABASE ]**
+- Fixed typo
 
 **[ UI/UX ]**
 - Fixed useridnumber-field now is readonly
@@ -21,6 +25,7 @@ These changelogs are basically just a summary list of changes that are very impo
 
 **[ LARAVEL ]**
 - Added `Asset` function in HelperController controller
+- Fixed DeterministicEncryption traits function by added inside the traits rather than included in every Model classes
 - Fixed useridnumber now is no longer editable
 - Fixed assets cache by added each assets dynamically
 - Fixed some routes
