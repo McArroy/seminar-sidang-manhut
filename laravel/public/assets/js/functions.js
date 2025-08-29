@@ -98,12 +98,31 @@ function ValidateForms()
 	$("form").each(function()
 	{
 		const $Form = $(this);
+		const initialValues = {};
+		const $RequiredFields = $Form.find("[required]");
+		const $NamedInputs = $Form.find("[name]");
+
+		if ($RequiredFields.length === 0 || $NamedInputs.length === 0)
+		{
+			$Form.find("button").prop("disabled", false);
+
+			return;
+		}
+
+		$NamedInputs.each(function()
+		{
+			const name = $(this).attr("name");
+
+			if (name)
+				initialValues[name] = $(this).val();
+		});
 
 		function ValidateLocalForm()
 		{
 			let IsValid = true;
+			let IsChanged = false;
 
-			$Form.find("[required]").each(function()
+			$RequiredFields.each(function()
 			{
 				if (!this.checkValidity())
 				{
@@ -113,11 +132,39 @@ function ValidateForms()
 				}
 			});
 
-			$Form.find("button.button, button.confirmation-ok").prop("disabled", !IsValid);
+			$NamedInputs.each(function()
+			{
+				const name = $(this).attr("name");
+				const currentValue = $(this).val();
+
+				if (initialValues.hasOwnProperty(name) && initialValues[name] !== currentValue)
+				{
+					IsChanged = true;
+
+					return false;
+				}
+			});
+
+			const enable = IsValid && IsChanged;
+
+			$Form.find("button.button, button.confirmation-ok").prop("disabled", !enable);
 			$Form.find("button.confirmation-close").prop("disabled", false);
 		}
 
-		$Form.find("[required]").on("input change", ValidateLocalForm);
+		$Form.find("input, select, textarea").on("input change", ValidateLocalForm);
+		$Form.find("select").each(function()
+		{
+			const $select = $(this);
+
+			if ($select.hasClass("select2-hidden-accessible"))
+			{
+				$select.on("select2:select select2:unselect", function()
+				{
+					$select.trigger("change");
+					ValidateLocalForm();
+				});
+			}
+		});
 
 		ValidateLocalForm();
 	});
