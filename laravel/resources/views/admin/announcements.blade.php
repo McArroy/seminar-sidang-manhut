@@ -151,9 +151,9 @@
 					
 					if ($selectChairmanSession.length && $selectChairmanSession.find(`option[value="${$chairmanSession}"]`).length)
 						$selectChairmanSession.val($chairmanSession).trigger("change");
-				}, 100);
 
-				ValidateForms();
+					ValidateForms();
+				}, 100);
 			});
 		});
 	</script>
