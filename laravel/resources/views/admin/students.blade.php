@@ -72,7 +72,7 @@
 
 			return DialogInputData("{{ route('admin.students.update', ':id') }}".replace(":id", $(this).data("link")), "Ubah", "POST",
 			`
-				<x-input-wrapper id="useridnumber" type="text" label="NIM" placeholder="Masukkan NIM Mahasiswa" value="${$userIdNumber}" required />
+				<x-input-wrapper id="useridnumber" type="text" label="NIM" placeholder="Masukkan NIM Mahasiswa" value="${$userIdNumber}" readonly />
 				<x-input-wrapper id="username" type="text" label="Nama" placeholder="Masukkan Nama Mahasiswa" value="${$userName}" required />
 				<x-input-wrapper class="password" id="password" type="password" label="Kata Sandi" placeholder="********">
 					<iconify-icon icon="basil:eye-outline" class="show-hide-password" width="24" onclick="TogglePassword($(this))"></iconify-icon>
