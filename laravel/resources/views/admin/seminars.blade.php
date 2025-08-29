@@ -87,7 +87,7 @@
 			DialogInputData("{{ route('admin.seminars.revision', ':id') }}".replace(":id", $seminarId), "Revisi", "POST",
 			`<x-input-wrapper id="comment" type="textarea" label="Komentar" placeholder="Memuat Komentar..." loading />`);
 
-			$.get(`{{ url('/admin/seminars/comment') }}/${$seminarId}`, function(response)
+			$.get(`{{ route("admin.seminars.comment", ":id") }}`.replace(":id", $seminarId), function(response)
 			{
 				const $seminarComment = response.comment ?? "";
 

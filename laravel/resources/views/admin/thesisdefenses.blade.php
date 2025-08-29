@@ -87,7 +87,7 @@
 			DialogInputData("{{ route('admin.thesisdefenses.revision', ':id') }}".replace(":id", $thesisdefenseId), "Revisi", "POST",
 			`<x-input-wrapper id="comment" type="textarea" label="Komentar" placeholder="Memuat Komentar..." loading />`);
 
-			$.get(`{{ url('/admin/thesisdefenses/comment') }}/${$thesisdefenseId}`, function(response)
+			$.get(`{{ route("admin.thesisdefenses.comment", ":id") }}`.replace(":id", $thesisdefenseId), function(response)
 			{
 				const $thesisdefenseComment = response.comment ?? "";
 
