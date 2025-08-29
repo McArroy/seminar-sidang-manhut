@@ -27,9 +27,8 @@ class UserController extends Controller
 
 	private function Validate(Request $request, bool $isUpdate = false) : array
 	{
-		$validated = $request->validate(
+		$rules =
 		[
-			"useridnumber" => "required|string|max:33",
 			"username" => "required|string|max:255",
 			"password" =>
 			[
@@ -37,13 +36,17 @@ class UserController extends Controller
 				"string",
 				"max:127"
 			]
-		]);
+		];
 
-		$validated["useridnumber"] = strtolower(trim($validated["useridnumber"]));
+		if (!$isUpdate)
+			$rules["useridnumber"] = "required|string|max:33";
+
+		$validated = $request->validate($rules);
 
 		if (!$isUpdate)
 		{
 			$validated["userid"] = (string)Str::uuid();
+			$validated["useridnumber"] = strtolower(trim($validated["useridnumber"]));
 			$validated["userrole"] = $request["userrole"];
 			$validated["password"] = Hash::make($validated["password"]);
 		}
@@ -60,7 +63,7 @@ class UserController extends Controller
 
 	private function CheckData(?array $data, bool $isUpdate = false)
 	{
-		$query = User::where("useridnumber", $this->encryptDeterministic($data["useridnumber"]));
+		$query = User::where("useridnumber", $isUpdate ? $data["useridnumber"] : $this->encryptDeterministic($data["useridnumber"]));
 
 		if ($isUpdate)
 			$query->where("userid", '!=', $data["userid"]);
@@ -124,6 +127,7 @@ class UserController extends Controller
 		$validated = $this->Validate($request, true);
 
 		$validated["userid"] = trim($userid);
+		$validated["useridnumber"] = trim($user->useridnumber);
 
 		$check = $this->CheckData($validated, true);
 
