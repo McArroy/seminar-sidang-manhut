@@ -15,10 +15,14 @@ These changelogs are basically just a summary list of changes that are very impo
 - Fixed useridnumber-field now is readonly
 - Fixed dialog-message width-size
 - Fixed misplaced animations for dialog-message
+- Fixed dialog letter-viewer max-width when on full-screen
+- Renamed some images
 - Removed unused codes
 
 **[ LARAVEL ]**
+- Added `Asset` function in HelperController controller
 - Fixed useridnumber now is no longer editable
+- Fixed assets cache by added each assets dynamically
 - Fixed some routes
 
 </details>
