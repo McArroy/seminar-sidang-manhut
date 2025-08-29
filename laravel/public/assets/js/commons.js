@@ -56,7 +56,7 @@ $(document).on("submit", "form#form-delete", function(event)
 
 $(document).on("submit", "form#form-delete-user", function(event)
 {
-	return FormConfirmation(event, ["Anda Yakin Akan Menghapus Data Pengguna Ini?", "Pastikan Data Pengguna Yang Anda Pilih Benar<br>Data Pengguna Yang Dihapus, Memungkinkan Juga Akan Menghapus Seluruh Data Yang Mencakup ID, Nama, Hak Akses, Dan Surat-Surat Yang Berhubungan Dengan Data Pengguna Serta Aksi Penghapusan Tidak Bisa Dibatalkan Atau Dikembalikan"], ["Batal", "Hapus"]);
+	return FormConfirmation(event, ["Anda Yakin Akan Menghapus Data Pengguna Ini?", "Pastikan Data Pengguna Yang Anda Pilih Benar<br><br>Data Pengguna Yang Dihapus, Memungkinkan Juga Akan Menghapus Seluruh Data Yang Mencakup ID, Nama, Hak Akses, Dan Surat-Surat Yang Berhubungan Dengan Data Pengguna Serta Aksi Penghapusan Tidak Bisa Dibatalkan Atau Dikembalikan"], ["Batal", "Hapus"]);
 });
 
 $(document).on("submit", "form#form-letter", function(event)
