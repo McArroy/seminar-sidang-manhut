@@ -32,8 +32,13 @@ class LetterController extends Controller
 		$validated = $request->validate(
 		[
 			"letternumber" => "required|string|max:33",
-			"moderator" => "required|string|max:255",
 			"letterdate" => "required|date",
+			"moderator" =>
+			[
+				$this->isThesis ? "nullable" : "required",
+				"string",
+				"max:255"
+			],
 			"supervisory_committee" =>
 			[
 				$this->isThesis ? "required" : "nullable",
