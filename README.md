@@ -13,10 +13,15 @@ These changelogs are basically just a summary list of changes that are very impo
 - Fixed now `moderator` database-field is nullable
 - Fixed typo
 
+**[ UI/UX ]**
+- Fixed dialog input-data top-banner is no longer scrolled
+- Fixed dialog maximum height by reduced into 90%
+
 **[ LARAVEL ]**
 - Fixed request-query in better way for consistency
 - Fixed `moderator` input-field is no longer available for Thesis Defense
 - Fixed `moderator` field is not required anymore for Thesis Defense in LetterController controller
+- Fixed typo
 - Removed unused codes
 
 </details>
