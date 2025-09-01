@@ -12,6 +12,7 @@ These changelogs are basically just a summary list of changes that are very impo
 **[ DATABASE ]**
 - Fixed now `moderator` database-field is nullable
 - Fixed typo
+- Removed `supervisory_committee` that no longer needed
 
 **[ UI/UX ]**
 - Fixed dialog input-data top-banner is no longer scrolled
@@ -22,6 +23,7 @@ These changelogs are basically just a summary list of changes that are very impo
 - Fixed `moderator` input-field is no longer available for Thesis Defense
 - Fixed `moderator` field is not required anymore for Thesis Defense in LetterController controller
 - Fixed typo
+- Removed `supervisory_committee` that no longer needed
 - Removed unused codes
 
 </details>
