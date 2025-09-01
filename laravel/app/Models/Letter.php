@@ -16,9 +16,10 @@ class Letter extends Model
 	protected $fillable =
 	[
 		"letterid",
+		"academicid",
 		"letternumber",
-		"letterdate",
 		"moderator",
+		"letterdate",
 		"supervisory_committee",
 		"external_examiner",
 		"chairman_session"
