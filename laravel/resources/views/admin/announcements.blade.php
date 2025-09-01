@@ -93,7 +93,6 @@
 			@elseif ($queryType === "thesisdefense")
 				$innerContent +=
 				`
-					<x-input-wrapper id="supervisory_committee" type="select2" label="Ketua Komisi Pembimbing" placeholder="Pilih Ketua Komisi Pembimbing" :options="$dataLecturers" required />
 					<x-input-wrapper id="external_examiner" type="select2" label="Penguji Luar Komisi" placeholder="Pilih Penguji Luar Komisi" :options="$dataLecturers" required />
 					<x-input-wrapper id="chairman_session" type="select2" label="Ketua Sidang" placeholder="Pilih Ketua Sidang" :options="$dataLecturers" required />
 				`;
@@ -119,7 +118,6 @@
 			@elseif ($queryType === "thesisdefense")
 				$innerContent +=
 				`
-					<x-input-wrapper id="supervisory_committee" type="select2" label="Ketua Komisi Pembimbing" placeholder="Pilih Ketua Komisi Pembimbing" :options="$dataLecturers" required />
 					<x-input-wrapper id="external_examiner" type="select2" label="Penguji Luar Komisi" placeholder="Pilih Penguji Luar Komisi" :options="$dataLecturers" required />
 					<x-input-wrapper id="chairman_session" type="select2" label="Ketua Sidang" placeholder="Pilih Ketua Sidang" :options="$dataLecturers" required />
 				`;
@@ -132,7 +130,6 @@
 				const $letterNumber = response.letternumber ?? "";
 				const $moderator = response.moderator ?? "";
 				const $letterDate = response.letterdate ?? "";
-				const $supervisoryCommittee = response.supervisory_committee ?? "";
 				const $externalExaminer = response.external_examiner ?? "";
 				const $chairmanSession = response.chairman_session ?? "";
 
@@ -144,15 +141,11 @@
 				setTimeout(function()
 				{
 					const $selectModerator = $("dialog select#moderator");
-					const $selectSupervisoryCommittee = $("dialog select#supervisory_committee");
 					const $selectExternalExaminer = $("dialog select#external_examiner");
 					const $selectChairmanSession = $("dialog select#chairman_session");
 
 					if ($selectModerator.length && $selectModerator.find(`option[value="${$moderator}"]`).length)
 						$selectModerator.val($moderator).trigger("change");
-					
-					if ($selectSupervisoryCommittee.length && $selectSupervisoryCommittee.find(`option[value="${$supervisoryCommittee}"]`).length)
-						$selectSupervisoryCommittee.val($supervisoryCommittee).trigger("change");
 					
 					if ($selectExternalExaminer.length && $selectExternalExaminer.find(`option[value="${$externalExaminer}"]`).length)
 						$selectExternalExaminer.val($externalExaminer).trigger("change");

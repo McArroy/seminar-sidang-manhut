@@ -39,12 +39,6 @@ class LetterController extends Controller
 				"string",
 				"max:255"
 			],
-			"supervisory_committee" =>
-			[
-				$this->isThesis ? "required" : "nullable",
-				"string",
-				"max:255"
-			],
 			"external_examiner" =>
 			[
 				$this->isThesis ? "required" : "nullable",
@@ -133,7 +127,6 @@ class LetterController extends Controller
 			"letternumber" => $letter->letternumber,
 			"moderator" => $letter->moderator,
 			"letterdate" => $letter->letterdate,
-			"supervisory_committee" => $letter->supervisory_committee,
 			"external_examiner" => $letter->external_examiner,
 			"chairman_session" => $letter->chairman_session
 		];

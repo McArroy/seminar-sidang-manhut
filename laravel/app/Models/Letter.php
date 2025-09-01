@@ -19,7 +19,6 @@ class Letter extends Model
 		"letternumber",
 		"letterdate",
 		"moderator",
-		"supervisory_committee",
 		"external_examiner",
 		"chairman_session"
 	];
@@ -29,7 +28,6 @@ class Letter extends Model
 	[
 		"letternumber",
 		"moderator",
-		"supervisory_committee",
 		"external_examiner",
 		"chairman_session"
 	];

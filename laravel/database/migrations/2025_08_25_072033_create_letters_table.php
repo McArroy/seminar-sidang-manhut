@@ -17,7 +17,6 @@ return new class extends Migration
 			$table->text("letternumber")->unique();
 			$table->date("letterdate");
 			$table->text("moderator")->nullable();
-			$table->text("supervisory_committee")->nullable();
 			$table->text("external_examiner")->nullable();
 			$table->text("chairman_session")->nullable();
 			$table->timestamps();
