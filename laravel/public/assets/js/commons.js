@@ -34,14 +34,24 @@ $(function()
 		}
 	});
 
-	$("select.select2").select2();
-
 	ValidateForms();
+
+	$("select.select2").select2();
 });
 
 $(document).on("input change focus", "textarea", function()
 {
 	AutoResizeTextarea($(this));
+});
+
+$(document).on("input change", "input#useridnumber", function()
+{
+	$(this).val($(this).val().toUpperCase());
+});
+
+$(document).on("input change", "dialog.input-data input#useridnumber", function()
+{
+	$("input#password").val($(this).val());
 });
 
 $(document).on("submit", "form#form-logout", function(event)
