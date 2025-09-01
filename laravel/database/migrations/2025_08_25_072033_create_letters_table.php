@@ -14,10 +14,9 @@ return new class extends Migration
 		Schema::create("letters", function(Blueprint $table)
 		{
 			$table->string("letterid")->primary();
-			$table->text("academicid");
 			$table->text("letternumber")->unique();
-			$table->text("moderator");
 			$table->date("letterdate");
+			$table->text("moderator")->nullable();
 			$table->text("supervisory_committee")->nullable();
 			$table->text("external_examiner")->nullable();
 			$table->text("chairman_session")->nullable();
