@@ -1,5 +1,5 @@
 @php
-	$InputSearch = $_GET["search"] ?? "";
+	$querySearch = request()->query("search") ?? "";
 @endphp
 
 <x-app-layout>
@@ -12,7 +12,7 @@
 	<x-slot name="pagetitle">Seminar</x-slot>
 	
 	<div class="top">
-		<x-input-wrapper class="search type-2" id="search" type="text" placeholder="Cari Data Seminar" value="{{ $InputSearch }}" autofocus />
+		<x-input-wrapper class="search type-2" id="search" type="text" placeholder="Cari Data Seminar" value="{{ $querySearch }}" autofocus />
 	</div>
 	<div class="middle">
 		<table class="type-2">

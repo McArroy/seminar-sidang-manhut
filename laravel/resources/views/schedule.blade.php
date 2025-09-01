@@ -1,24 +1,23 @@
 @php
 	use Carbon\Carbon;
 
-	$SelectedSemester = $_GET["semester"] ?? "";
+	$querySearch = request()->query("search") ?? "";
+	$queryType = request()->query("type") ?? "";
+	$querySemester = request()->query("search") ?? "";
 
-	if (empty($SelectedSemester))
+	if (empty($querySemester))
 	{
 		$now = Carbon::now();
 		$year = $now->year;
 		$month = $now->month;
 
-		$SelectedSemester = ($month >= 7)
+		$querySemester = ($month >= 7)
 			? "{$year}-" . ($year + 1)
 			: ($year - 1) . "-{$year}";
 		
-		if (isset($semesterList[$SelectedSemester]))
+		if (isset($semesterList[$querySemester]))
 			$semesterSelectTriggered = true;
 	}
-
-	$SelectedType = $_GET["type"] ?? "";
-	$InputSearch = $_GET["search"] ?? "";
 @endphp
 
 <x-app-layout>
@@ -32,17 +31,17 @@
 	<x-slot name="pagetitle">Jadwal Seminar & Sidang</x-slot>
 
 	<x-input-wrapper class="filter" id="semester" type="select" label="Semester*" placeholder="Pilih Semester">
-		<option value="all" {{ ($SelectedSemester === "all" || $SelectedSemester === "" ? " selected" : "") }}>Semua Semester</option>
+		<option value="all" {{ ($querySemester === "all" || $querySemester === "" ? " selected" : "") }}>Semua Semester</option>
 		
 		@foreach ($semesterList as $code => $label)
-			<option value="{{ $code }}" {{ ($SelectedSemester === $code ? " selected" : "") }}>{{ $label }}</option>
+			<option value="{{ $code }}" {{ ($querySemester === $code ? " selected" : "") }}>{{ $label }}</option>
 		@endforeach
 	</x-input-wrapper>
 
 	@if (isset($semesterSelectTriggered))
 		<script>
 			var $select = $("select#semester");
-			var selectedValue = "{{ $SelectedSemester }}";
+			var selectedValue = "{{ $querySemester }}";
 
 			if ($select.length && $select.find("option[value='" + selectedValue + "']").length)
 				$select.val(selectedValue).trigger("change");
@@ -51,12 +50,12 @@
 
 	<div class="top">
 		<x-input-wrapper class="filter" id="type" type="select" placeholder="Pilih Jenis">
-			<option value="all" {{ ($SelectedType === "all" || $SelectedType === "" ? " selected" : "") }}>Semua Jenis</option>
-			<option value="seminar" {{ ($SelectedType === "seminar" ? " selected" : "") }}>Seminar Proposal</option>
-			<option value="thesisdefense" {{ ($SelectedType === "thesisdefense" ? " selected" : "") }}>Sidang Akhir</option>
+			<option value="all" {{ ($queryType === "all" || $queryType === "" ? " selected" : "") }}>Semua Jenis</option>
+			<option value="seminar" {{ ($queryType === "seminar" ? " selected" : "") }}>Seminar Proposal</option>
+			<option value="thesisdefense" {{ ($queryType === "thesisdefense" ? " selected" : "") }}>Sidang Akhir</option>
 		</x-input-wrapper>
 
-		<x-input-wrapper class="search type-1" id="search" type="text" placeholder="Cari" value="{{ $InputSearch }}" autofocus />
+		<x-input-wrapper class="search type-1" id="search" type="text" placeholder="Cari" value="{{ $querySearch }}" autofocus />
 	</div>
 
 	<div class="middle">

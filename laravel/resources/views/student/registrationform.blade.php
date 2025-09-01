@@ -1,3 +1,7 @@
+@php
+	$queryType = request()->query("type") ?? "";
+@endphp
+
 <x-app-layout>
 	@section("css")
 		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/pages/registrationform.css') }}">
@@ -6,11 +10,11 @@
 	<x-slot name="title">Form Pendaftaran</x-slot>
 	<x-slot name="icon">basil:document-outline</x-slot>
 
-	@if ($_GET["type"] === "seminar")
+	@if ($queryType === "seminar")
 
 	<x-slot name="pagetitle">Form Pendafataran Seminar Proposal</x-slot>
 
-	@elseif ($_GET["type"] === "thesisdefense")
+	@elseif ($queryType === "thesisdefense")
 
 	@php $IsThesisDefense = true; @endphp
 
@@ -18,7 +22,7 @@
 
 	@endif
 
-	<form action="{{ route('student.registrationform', ['type' => $_GET['type']]) }}" method="POST">
+	<form action="{{ route('student.registrationform', ['type' => $queryType]) }}" method="POST">
 		@csrf
 
 		<div class="input">
@@ -31,12 +35,12 @@
 			<x-input-wrapper id="semester" label="Semester" type="text" placeholder="8 (Delapan)" required/>
 		</div>
 		<div class="input">
-			<x-input-wrapper id="address" label="Alamat di Bogor" type="textarea" placeholder="Perumahan Taman Dramaga  Permai Blok C1 No. 2" required/>
+			<x-input-wrapper id="address" label="Alamat di Bogor" type="textarea" placeholder="Perumahan Taman Dramaga Permai Blok C1 No. 2" required/>
 		</div>
 		@else
 		<div class="input">
-			<x-input-wrapper id="studyprogram" label="Program Studi" type="text" placeholder="Masukkan Program Studi" required/>
-			<x-input-wrapper id="department" label="Departemen" type="text" placeholder="Masukkan Departemen" required/>
+			<x-input-wrapper id="studyprogram" label="Program Studi" type="text" placeholder="Masukkan Program Studi" value="Departemen Manajemen Hutan" required/>
+			<x-input-wrapper id="department" label="Departemen" type="text" placeholder="Masukkan Departemen" value="Departemen Manajemen Hutan" required/>
 		</div>
 		@endif
 
@@ -44,7 +48,7 @@
 			<x-input-wrapper id="supervisor1" label="Dosen Pembimbing 1" type="select2" placeholder="Pilih Dosen Pembimbing 1" :options="$dataLecturers" required />
 		</div>
 		<div class="input">
-			<x-input-wrapper id="supervisor2" label="Dosen Pembimbing 2" type="select2" placeholder="Pilih Dosen Pembimbing 2" :options="$dataLecturers" required />
+			<x-input-wrapper id="supervisor2" label="Dosen Pembimbing 2" type="select2" placeholder="Pilih Dosen Pembimbing 2" :options="$dataLecturers" />
 		</div>
 		<div class="input">
 			<x-input-wrapper id="date" label="Tanggal {{ (isset($IsThesisDefense) ? 'Sidang' : 'Seminar') }}" type="date" required/>

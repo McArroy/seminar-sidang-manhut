@@ -1,3 +1,7 @@
+@php
+	$queryType = request()->query("type") ?? "";
+@endphp
+
 <x-app-layout>
 	@section("css")
 		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/pages/registrationform.css') }}">
@@ -6,14 +10,14 @@
 
 	<x-slot name="icon">hugeicons:folder-upload</x-slot>
 
-	@if ($_GET["type"] === "seminar")
+	@if ($queryType === "seminar")
 
 	@php $IsThesisDefense = false; @endphp
 
 	<x-slot name="title">Persyaratan Seminar</x-slot>
 	<x-slot name="pagetitle">Persyaratan Seminar</x-slot>
 
-	@elseif ($_GET["type"] === "thesisdefense")
+	@elseif ($queryType === "thesisdefense")
 
 	@php $IsThesisDefense = true; @endphp
 
@@ -46,7 +50,7 @@
 		@endif
 	</div>
 
-	<form id="form-letter" class="link letter" action="{{ route('student.requirements') . '?type=' . $_GET['type'] }}" method="POST">
+	<form id="form-letter" class="link letter" action="{{ route('student.requirements') . '?type=' . $queryType }}" method="POST">
 		@csrf
 		@method("POST")
 

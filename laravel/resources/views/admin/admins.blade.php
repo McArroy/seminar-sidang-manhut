@@ -1,5 +1,5 @@
 @php
-	$InputSearch = $_GET["search"] ?? "";
+	$querySearch = request()->query("search") ?? "";
 @endphp
 
 <x-app-layout>
@@ -12,7 +12,7 @@
 	<x-slot name="pagetitle">Data Admin</x-slot>
 	
 	<div class="top">
-		<x-input-wrapper class="search type-2" id="search" type="text" placeholder="Cari Data Admin" value="{{ $InputSearch }}" autofocus />
+		<x-input-wrapper class="search type-2" id="search" type="text" placeholder="Cari Data Admin" value="{{ $querySearch }}" autofocus />
 		<x-button class="add" id="add-admin" icon="material-symbols:add-rounded" iconwidth="auto">Tambah Data</x-button>
 	</div>
 	<div class="middle">
@@ -75,7 +75,7 @@
 		{
 			return DialogInputData("{{ route('admin.admins.add') }}", "Tambah", "POST",
 			`
-				<x-input-wrapper id="useridnumber" type="text" label="NIP" placeholder="Masukkan NIP Admin" oninput="$('#password').val($(this).val().toUpperCase())" required />
+				<x-input-wrapper id="useridnumber" type="text" label="NIP" placeholder="Masukkan NIP Admin" required />
 				<x-input-wrapper id="username" type="text" label="Nama" placeholder="Masukkan Nama Admin" required />
 				<x-input-wrapper class="password" id="password" type="password" label="Kata Sandi" placeholder="********" required>
 					<iconify-icon icon="basil:eye-outline" class="show-hide-password" width="24" onclick="TogglePassword($(this))"></iconify-icon>

@@ -1,6 +1,6 @@
 @props(["data"])
 
-@php $PageSearch = $_GET["page"] ?? "1"; @endphp
+@php $queryPageSearch = request()->query("page") ?? "1"; @endphp
 
 <div class="navigator-buttons">
 	<p>Menampilkan {{ $data->firstItem() }} sampai {{ $data->lastItem() }} dari {{ $data->total() ?? 0 }} data</p>
@@ -24,7 +24,7 @@
 		@if ($CurrentPage >= $LastPage)
 			<x-button class="next" disabled>Berikutnya</x-button>
 		@else
-			<x-button class="next navigator-button" data-link="{{ (isset($PageSearch) ? ((int)$PageSearch + 1) : 2) }}">Berikutnya</x-button>
+			<x-button class="next navigator-button" data-link="{{ (isset($queryPageSearch) ? ((int)$queryPageSearch + 1) : 2) }}">Berikutnya</x-button>
 		@endif
 	</div>
 </div>

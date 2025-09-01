@@ -1,9 +1,14 @@
+@php
+	$queryType = request()->query("type") ?? "";
+	$queryMod = request()->query("mod") ?? "";
+@endphp
+
 <x-app-layout>
 	@section("css")
 		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/pages/registrationform.css') }}">
 	@endsection
 
-	@if (isset($_GET["mod"]) && $_GET["mod"] === "preview")
+	@if (isset($queryMod) && $queryMod === "preview")
 	@php $IsPreviewMode = true; @endphp
 	@else
 	@php $IsPreviewMode = false; @endphp
@@ -12,11 +17,11 @@
 	<x-slot name="title">{{ $IsPreviewMode ? "Pratinjau Formulir" : "Form Pendaftaran" }}</x-slot>
 	<x-slot name="icon">basil:document-outline</x-slot>
 
-	@if ($_GET["type"] === "seminar")
+	@if ($queryType === "seminar")
 
 	@php $IsThesisDefense = false; @endphp
 
-	@elseif ($_GET["type"] === "thesisdefense")
+	@elseif ($queryType === "thesisdefense")
 
 	@php $IsThesisDefense = true; @endphp
 
