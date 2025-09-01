@@ -2,6 +2,26 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.9.01 [ Last update: 09/01/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ COMMONS ]**
+- Fixed some inputs logic
+
+**[ DATABASE ]**
+- Fixed now `moderator` database-field is nullable
+- Fixed typo
+
+**[ UI/UX ]**
+
+**[ LARAVEL ]**
+- Fixed request-query in better way for consistency
+- Fixed `moderator` input-field is no longer available for Thesis Defense
+- Fixed `moderator` field is not required anymore for Thesis Defense in LetterController controller
+
+</details>
+
 #### UPDATE Version 1.25.8.29 [ Last update: 08/29/2025 ]
 <details>
 <summary>Click to expand</summary>
