@@ -13,12 +13,11 @@ These changelogs are basically just a summary list of changes that are very impo
 - Fixed now `moderator` database-field is nullable
 - Fixed typo
 
-**[ UI/UX ]**
-
 **[ LARAVEL ]**
 - Fixed request-query in better way for consistency
 - Fixed `moderator` input-field is no longer available for Thesis Defense
 - Fixed `moderator` field is not required anymore for Thesis Defense in LetterController controller
+- Removed unused codes
 
 </details>
 
