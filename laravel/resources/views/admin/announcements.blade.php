@@ -82,11 +82,15 @@
 			let $innerContent =
 			`
 				<x-input-wrapper id="letternumber" type="text" label="Nomor Surat" placeholder="Masukkan Nomor Surat" required />
-				<x-input-wrapper id="moderator" type="select2" label="Moderator" placeholder="Pilih Dosen Moderator" :options="$dataLecturers" required />
 				<x-input-wrapper id="letterdate" type="date" label="Tanggal Pembuatan" required />
 			`;
 
-			@if ($queryType === "thesisdefense")
+			@if ($queryType === "seminar")
+				$innerContent +=
+				`
+					<x-input-wrapper id="moderator" type="select2" label="Moderator" placeholder="Pilih Dosen Moderator" :options="$dataLecturers" required />
+				`;
+			@elseif ($queryType === "thesisdefense")
 				$innerContent +=
 				`
 					<x-input-wrapper id="supervisory_committee" type="select2" label="Ketua Komisi Pembimbing" placeholder="Pilih Ketua Komisi Pembimbing" :options="$dataLecturers" required />
@@ -104,11 +108,15 @@
 			let $innerContent =
 			`
 				<x-input-wrapper id="letternumber" type="text" label="Nomor Surat" placeholder="Memuat Nomor Surat..." loading />
-				<x-input-wrapper id="moderator" type="select2" label="Moderator" placeholder="Pilih Dosen Moderator" :options="$dataLecturers" required />
 				<x-input-wrapper id="letterdate" type="text" label="Tanggal Pembuatan" placeholder="Memuat Tanggal Pembuatan..." loading />
 			`;
 
-			@if ($queryType === "thesisdefense")
+			@if ($queryType === "seminar")
+				$innerContent +=
+				`
+					<x-input-wrapper id="moderator" type="select2" label="Moderator" placeholder="Pilih Dosen Moderator" :options="$dataLecturers" required />
+				`;
+			@elseif ($queryType === "thesisdefense")
 				$innerContent +=
 				`
 					<x-input-wrapper id="supervisory_committee" type="select2" label="Ketua Komisi Pembimbing" placeholder="Pilih Ketua Komisi Pembimbing" :options="$dataLecturers" required />
