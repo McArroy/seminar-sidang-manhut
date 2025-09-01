@@ -66,7 +66,7 @@ class UserController extends Controller
 		$query = User::where("useridnumber", $isUpdate ? $data["useridnumber"] : $this->encryptDeterministic($data["useridnumber"]));
 
 		if ($isUpdate)
-			$query->where("userid", '!=', $data["userid"]);
+			$query->where("userid", "!=", $data["userid"]);
 
 		if ($query->exists())
 		{
