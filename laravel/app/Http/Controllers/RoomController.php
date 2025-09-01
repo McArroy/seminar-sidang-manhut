@@ -25,7 +25,7 @@ class RoomController extends Controller
 		$query = Room::where("roomname", $data["roomname"]);
 
 		if ($isUpdate)
-			$query->where("roomid", '!=', $data["roomid"]);
+			$query->where("roomid", "!=", $data["roomid"]);
 
 		if ($query->exists())
 			return HelperController::Message("dialog_info", [$isUpdate ? "Gagal Mengubah Data Ruangan" : "Gagal Menambahkan Data Ruangan", "Data Ruangan Sudah Pernah Ditambahkan"]);

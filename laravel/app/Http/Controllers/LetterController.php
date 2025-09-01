@@ -78,7 +78,7 @@ class LetterController extends Controller
 		$query = Letter::where("letternumber", $this->encryptDeterministic($data["letternumber"]));
 
 		if ($isUpdate)
-			$query->where("academicid", '!=', $data["academicid"]);
+			$query->where("academicid", "!=", $data["academicid"]);
 
 		if ($query->exists())
 		{
