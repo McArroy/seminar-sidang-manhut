@@ -9,6 +9,7 @@ dialog
 	height: max-content;
 	justify-content: flex-start;
 	left: 50%;
+	max-height: 90%;
 	max-width: 45%;
 	min-width: 30%;
 	opacity: 0;
@@ -29,8 +30,10 @@ dialog
 
 			.top
 			{
-				position: relative;
+				position: sticky;
+				top: 0;
 				width: 100%;
+				z-index: 2;
 
 				img
 				{
