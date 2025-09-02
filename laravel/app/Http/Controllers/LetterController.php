@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Letter;
+use App\Models\Academic;
 use App\Traits\DeterministicEncryption;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -23,11 +24,11 @@ class LetterController extends Controller
 	{
 		$this->userId = Auth::user()->useridnumber;
 		$this->userRole = Auth::user()->userrole;
-		$this->queryType = $request->query("type", "");
+		$this->queryType = $request->query("type", "seminar");
 		$this->isThesis = $this->queryType === "thesisdefense";
 	}
 
-	private function Validate(Request $request) : array
+	private function Validate(Request $request, bool $isUpdate = false, ?string $academicid = "") : array
 	{
 		$validated = $request->validate(
 		[
@@ -53,37 +54,24 @@ class LetterController extends Controller
 			]
 		]);
 
+		if (!$isUpdate)
+			$validated["letterid"] = $academicid;
+
 		return $validated;
 	}
 
 	private function CheckData(?array $data, bool $isUpdate = false)
 	{
-		if (self::IsExist($data["academicid"], $this->queryType) && !$isUpdate)
-		{
-			$messages = match($this->queryType)
-			{
-				"seminar" => ["Gagal Membuat Pengumuman Seminar", "Pengumuman Seminar Sudah Pernah Dibuat"],
-				"thesisdefense" => ["Gagal Membuat Undangan Sidang Akhir", "Undangan Sidang Akhir Sudah Pernah Dibuat"]
-			};
-
-			return HelperController::Message("dialog_info", $messages);
-		}
+		if (self::IsExist($data["letterid"], $this->queryType) && !$isUpdate)
+			return HelperController::Message("dialog_info", [__($this->queryType . ".failedtocreateletter"), __($this->queryType . ".existedletter")]);
 
 		$query = Letter::where("letternumber", $this->encryptDeterministic($data["letternumber"]));
 
 		if ($isUpdate)
-			$query->where("academicid", "!=", $data["academicid"]);
+			$query->where("letterid", "!=", $data["letterid"]);
 
 		if ($query->exists())
-		{
-			$messages = match($this->queryType)
-			{
-				"seminar" => $isUpdate ? ["Gagal Mengubah Pengumuman Seminar", "Nomor Surat Pada Pengumuman Seminar Sudah Pernah Dibuat (Tidak Boleh Sama)"] : ["Gagal Membuat Pengumuman Seminar", "Nomor Surat Pada Pengumuman Seminar Sudah Pernah Dibuat (Tidak Boleh Sama)"],
-				"thesisdefense" => $isUpdate ? ["Gagal Mengubah Undangan Sidang Akhir", "Nomor Surat Pada Undangan Sidang Akhir Sudah Pernah Dibuat (Tidak Boleh Sama)"] : ["Gagal Membuat Undangan Sidang Akhir", "Nomor Surat Pada Undangan Sidang Akhir Sudah Pernah Dibuat (Tidak Boleh Sama)"]
-			};
-
-			return HelperController::Message("dialog_info", $messages);
-		}
+			return HelperController::Message("dialog_info", [$isUpdate ? __($this->queryType . ".failedtochangeletter") : __($this->queryType . ".failedtocreateletter"), __($this->queryType . ".existedletternumber")]);
 	
 		return null;
 	}
@@ -93,19 +81,12 @@ class LetterController extends Controller
 		return Letter::select($columns)->get();
 	}
 
-	public static function IsExist(?string $academicid, $filter = "") : bool
+	public static function IsExist(?string $academicid) : bool
 	{
 		if (empty($academicid))
 			return false;
 
-		$query = Letter::where("academicid", $academicid);
-
-		if (strtolower($filter) === "seminar")
-			$query->where(function($query)
-			{
-				$query->whereNull("chairman_session")
-					->orWhere("chairman_session", "");
-			});
+		$query = Letter::where("letterid", $academicid);
 
 		return $query->exists();
 	}
@@ -115,7 +96,7 @@ class LetterController extends Controller
 		if (empty($academicid))
 			return response()->json([]);
 
-		$letter = Letter::where("academicid", $academicid)->first();
+		$letter = Letter::where("letterid", $academicid)->first();
 		
 		if (!$letter)
 			return response()->json([]);
@@ -123,7 +104,6 @@ class LetterController extends Controller
 		$data =
 		[
 			"letterid" => $letter->letterid,
-			"academicid" => $letter->academicid,
 			"letternumber" => $letter->letternumber,
 			"moderator" => $letter->moderator,
 			"letterdate" => $letter->letterdate,
@@ -136,10 +116,7 @@ class LetterController extends Controller
 
 	public function Store(Request $request, string $academicid)
 	{
-		$validated = $this->Validate($request);
-
-		$validated["letterid"] = (string)Str::uuid();
-		$validated["academicid"] = trim($academicid);
+		$validated = $this->Validate($request, false, $academicid);
 
 		$check = $this->CheckData($validated);
 
@@ -148,48 +125,30 @@ class LetterController extends Controller
 		
 		Letter::create($validated);
 
-		$message = match($this->queryType)
-		{
-			"seminar" => "Pengumuman Seminar Berhasil Dibuat",
-			"thesisdefense" => "Undangan Sidang Akhir Berhasil Dibuat"
-		};
+		Academic::where("academicid", $academicid)->first()->update(["is_completed" => 1]);
 
-		return HelperController::Message("toast_success", $message);
+		return HelperController::Message("toast_success", __($this->queryType . ".succeededtocreateletter"));
 	}
 
 	public function Update(Request $request, string $academicid)
 	{
-		$validated = $this->Validate($request);
+		$letter = Letter::where("letterid", $academicid)->first();
 
-		$validated["academicid"] = trim($academicid);
+		if (!$letter)
+			return HelperController::Message("dialog_info", [__($this->queryType . ".failedtochangeletter"), __($this->queryType . ".letternotfound")]);
+		
+		$validated = $this->Validate($request, true);
+
+		$validated["letterid"] = $academicid;
 
 		$check = $this->CheckData($validated, true);
 
 		if ($check !== null)
 			return $check;
-		
-		$letter = Letter::where("academicid", $academicid)->first();
-
-		if (!$letter)
-		{
-			$messages = match($this->queryType)
-			{
-				"seminar" => ["Gagal Mengubah Pengumuman Seminar", "Data Pengumuman Seminar Tidak Ditemukan"],
-				"thesisdefense" => ["Gagal Mengubah Undangan Sidang Akhir", "Data Undangan Sidang Akhir Tidak Ditemukan"]
-			};
-
-			return HelperController::Message("dialog_info", $messages);
-		}
 
 		$letter->update($validated);
 
-		$message = match($this->queryType)
-		{
-			"seminar" => "Pengumuman Seminar Berhasil Diubah",
-			"thesisdefense" => "Undangan Sidang Akhir Berhasil Diubah"
-		};
-
-		return HelperController::Message("toast_success", $message);
+		return HelperController::Message("toast_success", __($this->queryType . ".succeededtochangeletter"));
 	}
 
 	public function Print(?string $academicid)
@@ -198,14 +157,6 @@ class LetterController extends Controller
 			return redirect()->back();
 
 		if (!self::IsExist($academicid))
-		{
-			$messages = match($this->queryType)
-			{
-				"seminar" => ["Gagal Mencetak Pengumuman Seminar", "Form Pengumuman Seminar Tidak Ditemukan Atau Harus Dibuat Terlebih Dahulu"],
-				"thesisdefense" => ["Gagal Mencetak Undangan Sidang Akhir", "Form Undangan Sidang Akhir Tidak Ditemukan Atau Harus Dibuat Terlebih Dahulu"]
-			};
-
-			return HelperController::Message("dialog_info", $messages);
-		}
+			return HelperController::Message("dialog_info", [__($this->queryType . ".failedtoprintletter"), __($this->queryType . ".letterformnotfound")]);
 	}
 }
