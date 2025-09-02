@@ -2,6 +2,38 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.9.02 [ Last update: 09/02/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+`This update has so many changes. The fact about removing existed seminar and thesis defense (codes and files), is about codes and logics efficiency. Also to avoid duplicated data, system crash, bugs, and more in some cases.`
+
+**[ COMMONS ]**
+- Fixed some bugs
+
+**[ DATABASE ]**
+- Added Academic database<br>
+`To replace existed separated seminar and thesis defense database`
+
+**[ UI/UX ]**
+- Added academics page
+
+**[ LARAVEL ]**
+- Added AcademicContoller controller
+- Added Academic model
+- Added dynamic-language texts for some codes
+- Fixed some codes on LetterContoller controller
+- Fixed some codes on PageContoller controller
+- Fixed some codes on RoomContoller controller
+- Fixed `Message` function on HelperController controller to make dynamic route instead of only for redirect back
+- Fixed default `fallback_locale` into Indonesia
+- Fixed some routes
+- Fixed typo
+- Removed unused codes
+- Removed unused files
+
+</details>
+
 #### UPDATE Version 1.25.9.01 [ Last update: 09/01/2025 ]
 <details>
 <summary>Click to expand</summary>
