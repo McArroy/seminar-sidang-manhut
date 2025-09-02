@@ -8,6 +8,9 @@ if ($id)
 	$id = "pdf-source-" . $id;
 else
 	$id = "pdf-source";
+
+$dataLecturer1 = $data["lecturers"][0];
+$dataLecturer2 = $data["lecturers"][1];
 @endphp
 
 <x-letter-viewer id="{{ $id }}" title="Pratinjau Formulir {{ $IsThesisDefense ? 'Sidang Akhir' : 'Seminar' }}" sandbox="allow-scripts allow-same-origin allow-modals">
@@ -149,7 +152,7 @@ else
 						<tr>
 							<td class='label'>Tempat / Ruangan</td>
 							<td class='colon'>:</td>
-							<td class='value'>{{ $data['place'] }}</td>
+							<td class='value'>{{ $data['room'] }}</td>
 						</tr>
 						<tr>
 							<td class='label'>Judul Skripsi</td>
@@ -183,7 +186,7 @@ else
 						<tr>
 							<td class='label'>Tempat / Ruangan</td>
 							<td class='colon'>:</td>
-							<td class='value'>{{ $data['place'] }}</td>
+							<td class='value'>{{ $data['room'] }}</td>
 						</tr>
 						<tr>
 							<td class='label'>Judul Skripsi</td>
@@ -200,13 +203,13 @@ else
 									'Diketahui oleh:<br>Dosen Pembimbing,' :
 									'<br><br>Ketua Komisi Pembimbing,' }}
 								<div style='margin-top: 87px;'>
-									1. <span style='border-bottom: 1px solid black; display: inline-block; width: 200px;'>{{ explode(' - ', $data['supervisor1'])[1] }}</span><br>
-									&nbsp;NIP&nbsp;&nbsp;{{ strtoupper(explode(' - ', $data['supervisor1'])[0]) }}
+									1. <span style='border-bottom: 1px solid black; display: inline-block; width: 200px;'>{{ explode(' - ', $dataLecturer1)[1] }}</span><br>
+									&nbsp;NIP&nbsp;&nbsp;{{ strtoupper(explode(' - ', $dataLecturer1)[0]) }}
 								</div>
-								@if (!$IsThesisDefense)
+								@if (!$IsThesisDefense && (!empty($dataLecturer2) || $dataLecturer2 !== ""))
 								<div style='margin-top: 87px;'>
-									2. <span style='border-bottom: 1px solid black; display: inline-block; width: 200px;'>{{ explode(' - ', $data['supervisor2'])[1] }}</span><br>
-									&nbsp;NIP&nbsp;&nbsp;{{ strtoupper(explode(' - ', $data['supervisor2'])[0]) }}
+									2. <span style='border-bottom: 1px solid black; display: inline-block; width: 200px;'>{{ explode(' - ', $dataLecturer2)[1] }}</span><br>
+									&nbsp;NIP&nbsp;&nbsp;{{ strtoupper(explode(' - ', $dataLecturer2)[0]) }}
 								</div>
 								@endif
 							</td>
@@ -226,8 +229,8 @@ else
 									<div style='margin-top: 35px;'>
 										{{ $IsThesisDefense ? '<br>Anggota Komisi Pembimbing' : 'Komisi AJMP dan Kemahasiswaan' }}
 										<div style='margin-top: 90px;'>
-											<span style='border-bottom: 1px solid black; display: inline-block; width: 200px;'>{{ (isset($IsThesisDefense) ? explode(' - ', $data['supervisor2'])[1] : '') }}</span><br>
-											&nbsp;NIP&nbsp;&nbsp;{{ strtoupper(explode(' - ', $data['supervisor2'])[0]) }}
+											<span style='border-bottom: 1px solid black; display: inline-block; width: 200px;'>{{ (isset($IsThesisDefense) ? explode(' - ', $dataLecturer1)[1] : '') }}</span><br>
+											&nbsp;NIP&nbsp;&nbsp;{{ strtoupper(explode(' - ', $dataLecturer1)[0]) }}
 										</div>
 									</div>
 								</div>

@@ -24,6 +24,7 @@
 
 	<form action="{{ route('student.registrationform', ['type' => $queryType]) }}" method="POST">
 		@csrf
+		@method("POST")
 
 		<div class="input">
 			<x-input-wrapper id="username" label="Nama" type="text" value="{{ Auth::user()->username }}" readonly/>
@@ -55,7 +56,7 @@
 			<x-input-wrapper id="time" label="Waktu" type="select2" placeholder="Pilih Waktu {{ (isset($IsThesisDefense) ? 'Sidang' : 'Seminar') }}" :options="$dataTime" required/>
 		</div>
 		<div class="input">
-			<x-input-wrapper id="place" label="Tempat/Ruangan" type="select2" placeholder="Pilih Ruang Sidang" :options="$dataRooms->pluck('roomname', 'roomname')->toArray()" required />
+			<x-input-wrapper id="room" label="Tempat/Ruangan" type="select2" placeholder="Pilih Ruang Sidang" :options="$dataRooms->pluck('roomname', 'roomname')->toArray()" required />
 		</div>
 		<div class="input">
 			<x-input-wrapper id="title" label="Judul Skripsi" type="textarea" placeholder="Masukkan Judul Skripsi" required/>

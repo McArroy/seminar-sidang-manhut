@@ -1,9 +1,9 @@
 @php
-	$dataSeminar = $dataSeminar->filter(function($item){ return $item->status !== 0; })->count();
-	$dataThesisdefense = $dataThesisdefense->filter(function($item){ return $item->status !== 0; })->count();
-	$dataWaiting = $dataSubmissions->filter(function($item){ return ($item->status === null || $item->status === "") && ($item->comment === null || $item->comment === ""); })->count();
-	$dataVerified = $dataSubmissions->filter(function($item){ return $item->status === 1; })->count();
-	$dataRejected = $dataSubmissions->filter(function($item){ return $item->status === 0; })->count();
+	$dataSeminar = $academics->filter(function($item){ return ($item->academictype === "seminar" && $item->is_accepted !== 0); })->count();
+	$dataThesisdefense = $academics->filter(function($item){ return ($item->academictype === "thesisdefense" && $item->is_accepted !== 0); })->count();
+	$dataWaiting = $academics->filter(function($item){ return ($item->is_accepted === null || $item->is_accepted === "") && ($item->comment === null || $item->comment === ""); })->count();
+	$dataVerified = $academics->filter(function($item){ return $item->is_accepted === 1; })->count();
+	$dataRejected = $academics->filter(function($item){ return $item->is_accepted === 0; })->count();
 @endphp
 
 <x-app-layout>

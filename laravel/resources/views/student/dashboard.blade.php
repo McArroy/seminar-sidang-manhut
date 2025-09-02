@@ -25,15 +25,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				@forelse ($dataSubmissions as $index => $item)
+				@forelse ($academics as $index => $item)
 				<tr>
 					<td class="numbered"></td>
-					<td class="type">{{ ucfirst($item->submission_type) }}</td>
+					<td class="type">{{ __($item->academictype . ".text") }}</td>
 					<td class="date">{{ $item->created_at_parsed }}</td>
 					<td class="comment">{{ $item->comment }}</td>
 					<td class="link">
 						@php
-						if ($item->submission_type === "Seminar")
+						if ($item->academictype === "seminar")
 							$dataLink = route('student.requirements', ['type' => 'seminar']);
 						else
 							$dataLink = route('student.requirements', ['type' => 'thesisdefense']);
@@ -42,13 +42,13 @@
 						@if (!empty($item->link))
 						<x-button href="{{ $item->link }}" target="_blank" class="folder active" icon="fluent:folder-open-20-filled" iconwidth="30"></x-button>
 						@else
-						<x-button class="folder" id="folder-link" icon="fluent:folder-open-20-filled" iconwidth="30" data-link="{{ $dataLink }}" data-text="{{ ucfirst($item->submission_type) }}"></x-button>
+						<x-button class="folder" id="folder-link" icon="fluent:folder-open-20-filled" iconwidth="30" data-link="{{ $dataLink }}" data-text="{{ __($item->academictype . '.regulation') }}"></x-button>
 						@endif
 					</td>
 					<td class="status">
-						@if ($item->status === 0)
+						@if ($item->is_accepted === 0)
 						<span class="status rejected">Ditolak</span>
-						@elseif ($item->status === 1)
+						@elseif ($item->is_accepted === 1)
 						<span class="status verified">Disetujui</span>
 						@elseif (!empty($item->comment))
 						<span class="status revised">Revisi</span>
@@ -57,38 +57,13 @@
 						@endif
 					</td>
 					<td class="actions">
-						@php
-						if ($item->submission_type === "Seminar")
-						{
-							$pageName = "seminar";
-							$params =
-							[
-								"id" => $item->seminarid,
-								"type" => $pageName
-							];
-						}
-						else
-						{
-							$pageName = "thesisdefense";
-							$params =
-							[
-								"id" => $item->thesisdefenseid,
-								"type" => $pageName
-							];
-						}
-
-						$query = http_build_query($params);
-
-						$url = route("student.registrationletterrepreview") . "?" . $query;
-						@endphp
-
-						<x-button href="{!! $url !!}" class="viewform" icon="fe:document" iconwidth="23">Lihat</x-button>
+						<x-button href="{{ route('student.registrationletterrepreview', $item->academicid) . '?type=' . $item->academictype }}" class="viewform" icon="fe:document" iconwidth="23">Lihat</x-button>
 					</td>
 					<td class="actions">
-						@if ($item->status === 1)
+						@if ($item->is_accepted === 1)
 						<x-button class="remove" disabled>Hapus</x-button>
 						@else
-						<form id="form-delete" action="{{ route('student.' . $pageName . '.delete', $item->{$pageName . 'id'}) }}" method="POST">
+						<form id="form-delete" action="{{ route('student.academic.delete', $item->academicid) . '?type=' . $item->academictype }}" method="POST">
 							@csrf
 							@method("DELETE")
 							

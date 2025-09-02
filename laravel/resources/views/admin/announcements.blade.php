@@ -38,7 +38,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				@forelse ($dataSubmissions as $index => $item)
+				@forelse ($academics as $index => $item)
 				<tr>
 					<td class="numbered"></td>
 					<td class="number">{{ strtoupper($item->useridnumber) }}</td>
@@ -73,7 +73,7 @@
 		</table>
 	</div>
 
-	<x-navigator-buttons :data="$dataSubmissions" />
+	<x-navigator-buttons :data="$academics" />
 	
 	<script>
 		$(document).on("click", "button#add-form-letter", function()
@@ -88,13 +88,13 @@
 			@if ($queryType === "seminar")
 				$innerContent +=
 				`
-					<x-input-wrapper id="moderator" type="select2" label="Moderator" placeholder="Pilih Dosen Moderator" :options="$dataLecturers" required />
+					<x-input-wrapper id="moderator" type="select2" label="Moderator" placeholder="Pilih Dosen Moderator" :options="$lecturers" required />
 				`;
 			@elseif ($queryType === "thesisdefense")
 				$innerContent +=
 				`
-					<x-input-wrapper id="external_examiner" type="select2" label="Penguji Luar Komisi" placeholder="Pilih Penguji Luar Komisi" :options="$dataLecturers" required />
-					<x-input-wrapper id="chairman_session" type="select2" label="Ketua Sidang" placeholder="Pilih Ketua Sidang" :options="$dataLecturers" required />
+					<x-input-wrapper id="external_examiner" type="select2" label="Penguji Luar Komisi" placeholder="Pilih Penguji Luar Komisi" :options="$lecturers" required />
+					<x-input-wrapper id="chairman_session" type="select2" label="Ketua Sidang" placeholder="Pilih Ketua Sidang" :options="$lecturers" required />
 				`;
 			@endif
 
@@ -113,13 +113,13 @@
 			@if ($queryType === "seminar")
 				$innerContent +=
 				`
-					<x-input-wrapper id="moderator" type="select2" label="Moderator" placeholder="Pilih Dosen Moderator" :options="$dataLecturers" required />
+					<x-input-wrapper id="moderator" type="select2" label="Moderator" placeholder="Pilih Dosen Moderator" :options="$lecturers" required />
 				`;
 			@elseif ($queryType === "thesisdefense")
 				$innerContent +=
 				`
-					<x-input-wrapper id="external_examiner" type="select2" label="Penguji Luar Komisi" placeholder="Pilih Penguji Luar Komisi" :options="$dataLecturers" required />
-					<x-input-wrapper id="chairman_session" type="select2" label="Ketua Sidang" placeholder="Pilih Ketua Sidang" :options="$dataLecturers" required />
+					<x-input-wrapper id="external_examiner" type="select2" label="Penguji Luar Komisi" placeholder="Pilih Penguji Luar Komisi" :options="$lecturers" required />
+					<x-input-wrapper id="chairman_session" type="select2" label="Ketua Sidang" placeholder="Pilih Ketua Sidang" :options="$lecturers" required />
 				`;
 			@endif
 
