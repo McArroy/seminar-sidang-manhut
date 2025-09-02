@@ -58,10 +58,18 @@ class HelperController extends Controller
 		});
 	}
 
-	public static function Message(string $type = "dialog_info", string|array $messages)
+	public static function Message(string $type = "dialog_info", string|array $messages, string|array $route = "")
 	{
-		if ($type === "dialog_info")
-			$messages = array_merge($messages, ["Tutup", "", "", ""]);
+		if ($type === "dialog_info" || $type === "dialog_success")
+			$messages = array_merge($messages, [__("common.close.text"), "", "", ""]);
+
+		if (!empty($route))
+		{
+			if (is_array($route))
+				return redirect()->route($route[0], $route[1])->with($type, $messages);
+
+			return redirect()->route($route)->with($type, $messages);
+		}
 
 		return redirect()->back()->with($type, $messages);
 	}
