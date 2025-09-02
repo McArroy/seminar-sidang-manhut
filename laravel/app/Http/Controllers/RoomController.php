@@ -10,12 +10,15 @@ use App\Http\Controllers\HelperController;
 
 class RoomController extends Controller
 {
-	private function Validate(Request $request) : array
+	private function Validate(Request $request, bool $isUpdate = false) : array
 	{
 		$validated = $request->validate(
 		[
 			"roomname" => "required|string|max:255",
 		]);
+
+		if (!$isUpdate)
+			$validated["roomid"] = (string)Str::uuid();
 
 		return $validated;
 	}
@@ -28,7 +31,7 @@ class RoomController extends Controller
 			$query->where("roomid", "!=", $data["roomid"]);
 
 		if ($query->exists())
-			return HelperController::Message("dialog_info", [$isUpdate ? "Gagal Mengubah Data Ruangan" : "Gagal Menambahkan Data Ruangan", "Data Ruangan Sudah Pernah Ditambahkan"]);
+			return HelperController::Message("dialog_info", [$isUpdate ? __("room.failedtochange") : __("room.failedtocreate"), __("room.existed")]);
 	
 		return null;
 	}
@@ -47,8 +50,6 @@ class RoomController extends Controller
 	{
 		$validated = $this->Validate($request);
 
-		$validated["roomid"] = (string)Str::uuid();
-
 		$check = $this->CheckData($validated);
 
 		if ($check !== null)
@@ -56,7 +57,7 @@ class RoomController extends Controller
 
 		Room::create($validated);
 
-		return HelperController::Message("toast_success", "Data Ruangan Berhasil Ditambahkan");
+		return HelperController::Message("toast_success", __("room.succeededtocreate"));
 	}
 
 	public function Update(Request $request, string $roomid)
@@ -64,9 +65,9 @@ class RoomController extends Controller
 		$room = Room::where("roomid", $roomid)->first();
 
 		if (!$room)
-			return HelperController::Message("dialog_info", ["Gagal Mengubah Data Ruangan", "Data Ruangan Tidak Ditemukan"]);
+			return HelperController::Message("dialog_info", [__("room.failedtochange"), __("room.notfound")]);
 
-		$validated = $this->Validate($request);
+		$validated = $this->Validate($request, true);
 
 		$validated["roomid"] = trim($roomid);
 
@@ -77,7 +78,7 @@ class RoomController extends Controller
 
 		$room->update($validated);
 
-		return HelperController::Message("toast_success", "Data Ruangan Berhasil Diubah");
+		return HelperController::Message("toast_success", __("room.succeededtochange"));
 	}
 
 	public function Destroy(string $roomid)
@@ -85,10 +86,10 @@ class RoomController extends Controller
 		$room = Room::where("roomid", $roomid)->first();
 
 		if (!$room)
-			return HelperController::Message("dialog_info", ["Gagal Menghapus Data Ruangan", "Data Ruangan Tidak Ditemukan"]);
+			return HelperController::Message("dialog_info", [__("room.failedtodelete"), __("room.notfound")]);
 
 		$room->delete();
 
-		return HelperController::Message("toast_success", "Ruang Berhasil Dihapus");
+		return HelperController::Message("toast_success", __("room.succeededtodelete"));
 	}
 }
