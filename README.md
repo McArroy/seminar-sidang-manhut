@@ -17,6 +17,7 @@ These changelogs are basically just a summary list of changes that are very impo
 
 **[ UI/UX ]**
 - Added academics page
+- Fixed side-navigationbar
 
 **[ LARAVEL ]**
 - Added AcademicContoller controller
