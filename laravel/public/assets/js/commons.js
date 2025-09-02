@@ -115,12 +115,12 @@ $(document).on("click", "button.navigator-button", function()
 
 $(document).on("click", "button#folder-link", function()
 {
-	return DialogMessage(0, ["Dokumen Tidak Tersedia", "Silakan Kirim Dokumen Berupa Link Google Drive Di Menu <a href='" + $(this).attr("data-link") + "'>" + "Persyaratan " + $(this).attr("data-text") + "</a>"], ["Kembali"]);
+	return DialogMessage(0, ["Dokumen Tidak Tersedia", "Silakan Kirim Dokumen Berupa Link Google Drive Di Menu <a href='" + $(this).attr("data-link") + "'>" + $(this).attr("data-text") + "</a>"], ["Kembali"]);
 });
 
 $(document).on("click", "button#folder-link-admin", function()
 {
-	return DialogMessage(0, ["Dokumen Tidak Tersedia", "Mahasiswa Belum Mengirim Dokumen Berupa Link Google Drive Di Menu Persyaratan " + $(this).attr("data-text")], ["Kembali"]);
+	return DialogMessage(0, [$(this).attr("data-text-title"), $(this).attr("data-text-content")], ["Kembali"]);
 });
 
 $(document).on("keydown", "dialog form", function(event)
