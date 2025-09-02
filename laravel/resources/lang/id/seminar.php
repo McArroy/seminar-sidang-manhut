@@ -1,0 +1,33 @@
+<?php
+
+return
+[
+	"text" => "Seminar",
+	"search" => "Cari Data Seminar",
+	"regulation" => "Persyaratan Seminar",
+	"failedtoload" => "Gagal Memuat Data Seminar",
+	"failedtochange" => "Gagal Mengubah Data Seminar",
+	"failedtodelete" => "Gagal Menghapus Data Seminar",
+	"failedtoverification" => "Gagal Verifikasi Data Seminar",
+	"failedtocomment" => "Gagal Revisi Data Seminar",
+	"failedtocreateletter" => "Gagal Membuat Pengumuman Seminar",
+	"failedtochangeletter" => "Gagal Mengubah Pengumuman Seminar",
+	"failedtoprintletter" => "Gagal Mencetak Pengumuman Seminar",
+	"notfound" => "Data Seminar Tidak Ditemukan",
+	"letternotfound" => "Data Pengumuman Seminar Tidak Ditemukan",
+	"letterformnotfound" => "Form Pengumuman Seminar Tidak Ditemukan Atau Harus Dibuat Terlebih Dahulu",
+	"documentnotfound" => "Dokumen Seminar Tidak Ditemukan",
+	"succeededtocreate" => "Data Seminar Berhasil Dibuat",
+	"succeededtodelete" => "Data Seminar Berhasil Dihapus",
+	"succeededtoaccept" => "Pengajuan Seminar Berhasil Diverifikasi",
+	"succeededtoreject" => "Pengajuan Seminar Berhasil Ditolak",
+	"succeededtocreateletter" => "Pengumuman Seminar Berhasil Dibuat",
+	"succeededtochangeletter" => "Pengumuman Seminar Berhasil Diubah",
+	"needrequirements" => "Unggah Persyaratan Seminar Untuk Melengkapi Data Seminar Anda",
+	"requirementsadded" => "Link Dokumen Seminar Berhasil Ditambahkan",
+	"requirementsnotadded" => "Data Seminar Tidak Lengkap. Mahasiswa Belum Mengirim Dokumen Berupa Link Google Drive Di Menu Persyaratan Seminar",
+	"completed" => "Semua Data Seminar Anda Sudah Lengkap",
+	"accessdenied" => "Anda Tidak Memiliki Akses Untuk Data Seminar Yang Anda Cari",
+	"existedletter" => "Pengumuman Seminar Sudah Pernah Dibuat",
+	"existedletternumber" => "Nomor Surat Pada Pengumuman Seminar Sudah Pernah Dibuat (Tidak Boleh Sama)"
+];
