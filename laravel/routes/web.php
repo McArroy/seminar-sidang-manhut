@@ -5,8 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\SeminarController;
-use App\Http\Controllers\ThesisdefenseController;
+use App\Http\Controllers\AcademicController;
 use App\Http\Controllers\LetterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoomController;
@@ -58,19 +57,21 @@ Route::middleware(
 		Route::post("/rooms/update/{roomid}", [RoomController::class, "Update"])->name("rooms.update");
 		Route::delete("/rooms/delete/{roomid}", [RoomController::class, "Destroy"])->name("rooms.delete");
 
-		// Seminar
-		Route::get("/seminars", [PageController::class, "Seminars"])->name("seminars");
-		Route::get("/seminars/comment/{seminarid}", [SeminarController::class, "GetCommentById"])->name("seminars.comment");
-		Route::post("/seminars/accept/{seminar}", [SeminarController::class, "Accept"])->name("seminars.accept");
-		Route::post("/seminars/revision/{seminar}", [SeminarController::class, "Comment"])->name("seminars.revision");
-		Route::post("/seminars/reject/{seminar}", [SeminarController::class, "Reject"])->name("seminars.reject");
+		// Academic
+		Route::get("/academics", function(Request $request)
+		{
+			if (!in_array($request->query("type") ?? null, ["seminar", "thesisdefense"]))
+			{
+				header("Location: " . url()->current() . "?type=seminar");
+				exit;
+			}
 
-		// Thesisdefense
-		Route::get("/thesisdefenses", [PageController::class, "Thesisdefenses"])->name("thesisdefenses");
-		Route::get("/thesisdefenses/comment/{thesisdefenseid}", [ThesisdefenseController::class, "GetCommentById"])->name("thesisdefenses.comment");
-		Route::post("/thesisdefenses/accept/{thesisdefense}", [ThesisdefenseController::class, "Accept"])->name("thesisdefenses.accept");
-		Route::post("/thesisdefenses/revision/{thesisdefense}", [ThesisdefenseController::class, "Comment"])->name("thesisdefenses.revision");
-		Route::post("/thesisdefenses/reject/{thesisdefense}", [ThesisdefenseController::class, "Reject"])->name("thesisdefenses.reject");
+			return app()->make(PageController::class)->Academics($request);
+		})->name("academics");
+		Route::get("/academics/comment/{academicid}", [AcademicController::class, "GetCommentById"])->name("academics.comment");
+		Route::post("/academics/accept/{academicid}", [AcademicController::class, "Accept"])->name("academics.accept");
+		Route::post("/academics/revision/{academicid}", [AcademicController::class, "Comment"])->name("academics.revision");
+		Route::post("/academics/reject/{academicid}", [AcademicController::class, "Reject"])->name("academics.reject");
 
 		// Announcement
 		Route::get("/announcements", function(Request $request)
@@ -84,7 +85,7 @@ Route::middleware(
 			return app()->make(PageController::class)->Announcements($request);
 		})->name("announcements");
 		Route::get("/announcements/letter/{academicid}", [LetterController::class, "GetValuesByAcademicId"])->name("announcements.letter");
-		Route::post("/announcements/{academicid}", [LetterController::class, "Store"])->name("announcements.letter.add");
+		Route::post("/announcements/add/{academicid}", [LetterController::class, "Store"])->name("announcements.letter.add");
 		Route::post("/announcements/update/{academicid}", [LetterController::class, "Update"])->name("announcements.letter.update");
 		Route::post("/announcements/print/{academicid}", [LetterController::class, "Print"])->name("announcements.letter.print");
 
@@ -106,21 +107,9 @@ Route::middleware(
 	{
 		// Dashboard
 		Route::get("/dashboard", [PageController::class, "Dashboard"])->name("dashboard");
+		Route::delete("/dashboard/delete/{academicid}", [AcademicController::class, "Destroy"])->name("academic.delete");
 
-		Route::delete("/dashboard/delete/seminar/{seminar}", [SeminarController::class, "Destroy"])
-		->missing(function()
-		{
-			return redirect()->back()->with("dialog_info", ["Gagal Menghapus Data", "Data Seminar Tidak Ditemukan", "Tutup", "", "", ""]);
-		})
-		->name("seminar.delete");
-
-		Route::delete("/dashboard/delete/thesisdefense/{thesisdefense}", [ThesisdefenseController::class, "Destroy"])
-		->missing(function()
-		{
-			return redirect()->back()->with("dialog_info", ["Gagal Menghapus Data", "Data Sidang Akhir Tidak Ditemukan", "Tutup", "", "", ""]);
-		})
-		->name("thesisdefense.delete");
-
+		// Flow
 		Route::get("/flow", function(Request $request)
 		{
 			if (!in_array($request->query("type") ?? null, ["seminar", "thesisdefense"]))
@@ -141,11 +130,7 @@ Route::middleware(
 			}
 
 			$dataLecturers = app()->make(UserController::class)->GetLecturers()->pluck("username", "useridnumber")->mapWithKeys(fn($v, $k) => [$k . " - " . $v => $v])->toArray();
-
-			if ($request->query("type") === "seminar")
-				$dataTime = app()->make(SeminarController::class)->GetDataTime();
-			else if ($request->query("type") === "thesisdefense")
-				$dataTime = app()->make(ThesisdefenseController::class)->GetDataTime();
+			$dataTime = app()->make(AcademicController::class)->GetDataTime($request->query("type"));
 
 			$dataTimeAssoc = [];
 			foreach ($dataTime as $time)
@@ -166,10 +151,7 @@ Route::middleware(
 				exit;
 			}
 
-			if ($request->query("type") === "seminar")
-				return app()->make(SeminarController::class)->Store($request);
-			else
-				return app()->make(ThesisdefenseController::class)->Store($request);
+			return app()->make(AcademicController::class)->Store($request);
 		})->name("registrationform");
 
 		Route::get("/registrationform/letter", function(Request $request)
@@ -180,25 +162,10 @@ Route::middleware(
 				exit;
 			}
 
-			if ($request->query("type") === "seminar")
-				return app()->make(SeminarController::class)->Created($request);
-			else
-				return app()->make(ThesisdefenseController::class)->Created($request);
+			return app()->make(AcademicController::class)->Created($request);
 		})->name("registrationletter");
 
-		Route::get("/registrationform/letter/preview", function(Request $request)
-		{
-			if (!in_array($request->query("type") ?? null, ["seminar", "thesisdefense"]))
-			{
-				header("Location: " . url()->current() . "?type=seminar");
-				exit;
-			}
-
-			if ($request->query("type") === "seminar")
-				return app()->make(SeminarController::class)->RePreview($request);
-			else
-				return app()->make(ThesisdefenseController::class)->RePreview($request);
-		})->name("registrationletterrepreview");
+		Route::get("/registrationform/letter/preview/{academicid}", [AcademicController::class, "RePreview"])->name("registrationletterrepreview");
 
 		Route::get("/requirements", function(Request $request)
 		{
@@ -219,16 +186,8 @@ Route::middleware(
 				exit;
 			}
 
-			if ($request->query("type") === "seminar")
-				return app()->make(SeminarController::class)->UpdateLink($request);
-			else
-				return app()->make(ThesisdefenseController::class)->UpdateLink($request);
+			return app()->make(AcademicController::class)->UpdateLink($request);
 		})->name("requirements");
-
-		Route::get("/thesisdefenseflow", function()
-		{
-			return view("student.thesisdefenseflow");
-		})->name("thesisdefenseflow");
 
 		Route::get("/schedule", [PageController::class, "Schedule"])->name("schedule");
 	});
