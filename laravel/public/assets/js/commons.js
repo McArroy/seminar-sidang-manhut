@@ -69,6 +69,11 @@ $(document).on("submit", "form#form-delete-user", function(event)
 	return FormConfirmation(event, ["Anda Yakin Akan Menghapus Data Pengguna Ini?", "Pastikan Data Pengguna Yang Anda Pilih Benar<br><br>Data Pengguna Yang Dihapus, Memungkinkan Juga Akan Menghapus Seluruh Data Yang Mencakup ID, Nama, Hak Akses, Dan Surat-Surat Yang Berhubungan Dengan Data Pengguna Serta Aksi Penghapusan Tidak Bisa Dibatalkan Atau Dikembalikan"], ["Batal", "Hapus"]);
 });
 
+$(document).on("submit", "form#form-delete-schedule", function(event)
+{
+	return FormConfirmation(event, ["Anda Yakin Akan Menghapus Data Ini?", "Pastikan Data Yang Anda Pilih Benar<br><br>Data Akan Dihapus Secara Keseluruhan, Mencakup Data Akademik (Seminar Atau Sidang Akhir) Mahasiswa, Pengumuman Atau Undangan Akademik, Dan Jadwal Yang Anda Pilih Serta Aksi Penghapusan Tidak Bisa Dibatalkan Atau Dikembalikan"], ["Batal", "Hapus"]);
+});
+
 $(document).on("submit", "form#form-letter", function(event)
 {
 	if (IsGoogleDriveUrl($("#link").val().trim()))
