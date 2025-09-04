@@ -35,7 +35,7 @@
 		<option value="all" {{ ($querySemester === "all" || $querySemester === "" ? " selected" : "") }}>Semua Semester</option>
 		
 		@foreach ($semesterList as $code => $label)
-			<option value="{{ $code }}" {{ ($querySemester === $code ? " selected" : "") }}>{{ $label }}</option>
+		<option value="{{ $code }}" {{ ($querySemester === $code ? " selected" : "") }}>{{ $label }}</option>
 		@endforeach
 	</x-input-wrapper>
 
@@ -52,8 +52,10 @@
 	<div class="top">
 		<x-input-wrapper class="filter" id="type" type="select" placeholder="Pilih Jenis">
 			<option value="all" {{ ($queryType === "all" || $queryType === "" ? " selected" : "") }}>Semua Jenis</option>
-			<option value="seminar" {{ ($queryType === "seminar" ? " selected" : "") }}>Seminar Proposal</option>
-			<option value="thesisdefense" {{ ($queryType === "thesisdefense" ? " selected" : "") }}>Sidang Akhir</option>
+			
+			@foreach ($academicTypeList as $index => $item)
+			<option value="{{ $item->academictype }}" {{ ($queryType === $item->academictype ? " selected" : "") }}>{{ __($item->academictype . ".text") }}</option>
+			@endforeach
 		</x-input-wrapper>
 
 		<x-input-wrapper class="search type-1" id="search" type="text" placeholder="Cari" value="{{ $querySearch }}" autofocus />
@@ -83,7 +85,7 @@
 						@if ($item->status_schedule === 1)
 						<x-button class="status-passed" disabled>Selesai</x-button>
 						@else
-						<form id="form-delete" action="{{ route('admin.schedule') }}" method="POST">
+						<form id="form-delete-schedule" action="{{ route('admin.schedule.delete', $item->academicid) . '?type=' . $item->academictype }}" method="POST">
 							@csrf
 							@method("DELETE")
 							

@@ -435,7 +435,22 @@ class PageController extends Controller
 
 		$userRole = $this->userRole;
 		$semesterList = $this->semesterList;
+		$academicTypeList = app()->make(AcademicController::class)->GetAll(["academictype"])->unique("academictype")->values();
 
-		return view("schedule", compact("userRole", "academics", "semesterList"));
+		return view("schedule", compact("userRole", "academics", "academicTypeList", "semesterList"));
+	}
+
+	public function ScheduleDestroy(Request $request, string $academicid)
+	{
+		$academic = app()->make(AcademicController::class)->GetById($academicid);
+		$letter = app()->make(LetterController::class)->GetById($academicid);
+
+		if (!$academic || !$letter)
+			return HelperController::Message("dialog_info", [__($this->queryType . ".failedtodelete"), __($this->queryType . ".notfound")]);
+
+		$academic->delete();
+		$letter->delete();
+
+		return HelperController::Message("toast_success", __($this->queryType . ".succeededtodelete"));
 	}
 }
