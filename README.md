@@ -6,9 +6,14 @@ These changelogs are basically just a summary list of changes that are very impo
 <details>
 <summary>Click to expand</summary>
 
+**[ UI/UX]**
+- Fixed some table columns' width
+
 **[ LARAVEL ]**
 - Fixed academics are no longer removable if already accepted
+- Fixed schedule page is now using latest controllers, databases, and codes logic
 - Fixed some codes
+- Removed unused codes
 
 </details>
 
