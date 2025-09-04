@@ -4,6 +4,7 @@
 {
 	.main-content
 	{
+		overflow-x: hidden;
 		padding-left: 290px;
 	}
 	
