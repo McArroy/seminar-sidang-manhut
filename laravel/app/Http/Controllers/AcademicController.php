@@ -114,10 +114,7 @@ class AcademicController extends Controller
 			"date" => $academic->date,
 			"time" => $academic->time,
 			"room" => $academic->room,
-			"title" => $academic->title,
-			"link" => $academic->link,
-			"comment" => $academic->comment,
-			"is_accepted" => $academic->is_accepted
+			"title" => $academic->title
 		];
 
 		session(["validated_data_letter" => $academic]);
