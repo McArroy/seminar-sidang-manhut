@@ -91,6 +91,7 @@ Route::middleware(
 
 		// Sechedule
 		Route::get("/schedule", [PageController::class, "Schedule"])->name("schedule");
+		Route::delete("/schedule/{academicid}", [PageController::class, "ScheduleDestroy"])->name("schedule.delete");
 	});
 });
 
