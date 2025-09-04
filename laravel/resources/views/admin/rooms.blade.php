@@ -25,7 +25,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				@forelse ($dataRooms as $index => $item)
+				@forelse ($rooms as $index => $item)
 				<tr>
 					<td class="numbered"></td>
 					<td class="name">{{ $item->roomname }}</td>
@@ -48,7 +48,7 @@
 		</table>
 	</div>
 
-	<x-navigator-buttons :data="$dataRooms" />
+	<x-navigator-buttons :data="$rooms" />
 	
 	<script>
 		$(document).on("click", "button#add-room", function()

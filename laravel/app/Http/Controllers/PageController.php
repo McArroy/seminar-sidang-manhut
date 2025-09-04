@@ -190,7 +190,7 @@ class PageController extends Controller
 
 	public function Rooms(Request $request)
 	{
-		$dataRooms = app()->make(RoomController::class)->Index($request);
+		$rooms = app()->make(RoomController::class)->Index($request);
 
 		// filters
 		$searchValidated = request()->validate(
@@ -202,7 +202,7 @@ class PageController extends Controller
 
 		if ($search)
 		{
-			$dataRooms = $dataRooms->filter(function($item) use ($search)
+			$rooms = $rooms->filter(function($item) use ($search)
 			{
 				$fields =
 				[
@@ -222,10 +222,10 @@ class PageController extends Controller
 			})->values();
 		}
 		
-		$dataRooms = $this->PagePaginator($request, $dataRooms);
+		$rooms = $this->PagePaginator($request, $rooms);
 
 		if ($this->userRole === "admin")
-			return view("admin.rooms", compact("dataRooms"));
+			return view("admin.rooms", compact("rooms"));
 	}
 
 	public function Academics(Request $request)
