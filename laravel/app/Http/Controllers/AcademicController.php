@@ -63,6 +63,11 @@ class AcademicController extends Controller
 		return Academic::select($columns)->get();
 	}
 
+	public static function GetById(string $academicid)
+	{
+		return Academic::where("academicid", $academicid)->first();
+	}
+
 	public function Index()
 	{
 		if ($this->userRole === "admin")
