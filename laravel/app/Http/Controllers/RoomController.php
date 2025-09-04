@@ -43,7 +43,10 @@ class RoomController extends Controller
 
 	public function Index(Request $request)
 	{
-		return self::GetAll()->sortBy("roomname");
+		return self::GetAll()->sortBy(function($item)
+		{
+			return strtolower($item->roomname);
+		})->values();
 	}
 
 	public function Store(Request $request)
