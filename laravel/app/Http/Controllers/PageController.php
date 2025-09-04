@@ -331,34 +331,6 @@ class PageController extends Controller
 
 	public function Schedule(Request $request)
 	{
-		$dataSeminar = app()->make(SeminarController::class)->GetAll()->filter(function($item)
-		{
-			return $item->status === 1;
-		})->map(function($item)
-		{
-			$item->submission_type = "Seminar";
-			$item->username = UserController::GetUsername($item->useridnumber);
-			$item->supervisor1 = explode(" - ", $item->supervisor1)[1];
-			$item->supervisor2 = explode(" - ", $item->supervisor2)[1];
-			$item->date_parsed = DateIndoFormatterController::Full($item->date, 1);
-			return $item;
-		});
-
-		$dataThesisdefense = app()->make(ThesisdefenseController::class)->GetAll()->filter(function($item)
-		{
-			return $item->status === 1;
-		})->map(function($item)
-		{
-			$item->submission_type = "Sidang Akhir";
-			$item->username = UserController::GetUsername($item->useridnumber);
-			$item->supervisor1 = explode(" - ", $item->supervisor1)[1];
-			$item->supervisor2 = explode(" - ", $item->supervisor2)[1];
-			$item->date_parsed = DateIndoFormatterController::Full($item->date, 1);
-			return $item;
-		});
-
-		$allData = $dataSeminar->merge($dataThesisdefense)->sortByDesc("created_at")->values();
-
 		// filters
 		$validated = request()->validate(
 		[
@@ -369,26 +341,42 @@ class PageController extends Controller
 
 		$search = isset($validated["search"]) ? mb_strtolower(trim($validated["search"])) : null;
 		$type = isset($validated["type"]) ? mb_strtolower(trim($validated["type"])) : null;
+		$isSearchType = false;
 		$semester = isset($validated["semester"]) ? mb_strtolower(trim($validated["semester"])) : null;
-		$this->GetAllSemesterList($allData);
 
-		if ($type)
+		if ($type === "seminar" || $type === "thesisdefense")
+			$isSearchType = true;
+		
+		$letters = LetterController::GetAll();
+		$lettersById = $letters->keyBy("letterid");
+
+		$academics = app()->make(AcademicController::class)->GetAll()->filter(function($item) use ($isSearchType, $type)
 		{
-			if ($type === "seminar")
-				$dataSubmissions = $dataSeminar->sortByDesc("created_at")->values();
-			else if ($type === "thesisdefense")
-				$dataSubmissions = $dataThesisdefense->sortByDesc("created_at")->values();
-			else
-				$dataSubmissions = $allData;
-		}
-		else
+			return ((!$isSearchType || $item->academictype === $type) && $item->is_accepted === 1 && $item->is_completed === 1);
+		})->map(function($item) use ($lettersById)
 		{
-			$dataSubmissions = $allData;
-		}
+			$letter = $lettersById->get($item->academicid);
+
+			if ($letter)
+			{
+				$item->moderator = explode(" - ", $letter->moderator)[1] ?? "";
+				$item->external_examiner = explode(" - ", $letter->external_examiner)[1] ?? "";
+				$item->chairman_session = explode(" - ", $letter->chairman_session)[1] ?? "";
+			}
+
+			$item->username = UserController::GetUsername($item->useridnumber);
+			$item->lecturer1 = explode(" - ", $item->lecturers[0])[1];
+			$item->lecturer2 = explode(" - ", $item->lecturers[1])[1] ?? "";
+			$item->date_parsed = DateIndoFormatterController::Full($item->date, 1);
+
+			return $item;
+		})->sortByDesc("created_at")->values();
+
+		$this->GetAllSemesterList($academics);
 
 		if ($semester && $semester !== "all")
 		{
-			$dataSubmissions = $dataSubmissions->filter(function($item) use ($semester)
+			$academics = $academics->filter(function($item) use ($semester)
 			{
 				if (empty($item->date))
 					return false;
@@ -407,19 +395,22 @@ class PageController extends Controller
 
 		if ($search)
 		{
-			$dataSubmissions = $dataSubmissions->filter(function($item) use ($search)
+			$academics = $academics->filter(function($item) use ($search)
 			{
 				$fields =
 				[
-					$item->submission_type ?? "",
+					$item->academictype ?? "",
 					$item->title ?? "",
 					$item->useridnumber ?? "",
 					$item->username ?? "",
-					$item->supervisor1 ?? "",
-					$item->supervisor2 ?? "",
-					$item->place ?? "",
+					$item->lecturer1 ?? "",
+					$item->lecturer2 ?? "",
+					$item->room ?? "",
 					$item->time ?? "",
-					DateIndoFormatterController::Full($item->date, 1) ?? ""
+					$item->date_parsed ?? "",
+					$item->moderator ?? "",
+					$item->external_examiner ?? "",
+					$item->chairman_session ?? ""
 				];
 
 				foreach ($fields as $field)
@@ -436,12 +427,15 @@ class PageController extends Controller
 		}
 
 		if ($this->userRole === "admin")
-			$dataSubmissions = HelperController::MarkIfDatePassed($dataSubmissions);
+			$academics = HelperController::MarkIfDatePassed($academics);
 		else
-			$dataSubmissions = HelperController::FilterByDateRange($dataSubmissions);
+			$academics = HelperController::FilterByDateRange($academics);
 
-		$dataSubmissions = $this->PagePaginator($request, $dataSubmissions);
+		$academics = $this->PagePaginator($request, $academics);
 
-		return view("schedule", ["userRole" => $this->userRole, "dataSubmissions" => $dataSubmissions, "semesterList" => $this->semesterList]);
+		$userRole = $this->userRole;
+		$semesterList = $this->semesterList;
+
+		return view("schedule", compact("userRole", "academics", "semesterList"));
 	}
 }
