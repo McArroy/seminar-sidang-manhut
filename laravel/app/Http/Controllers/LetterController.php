@@ -105,8 +105,8 @@ class LetterController extends Controller
 		[
 			"letterid" => $letter->letterid,
 			"letternumber" => $letter->letternumber,
-			"moderator" => $letter->moderator,
 			"letterdate" => $letter->letterdate,
+			"moderator" => $letter->moderator,
 			"external_examiner" => $letter->external_examiner,
 			"chairman_session" => $letter->chairman_session
 		];

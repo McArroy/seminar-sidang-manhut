@@ -3,7 +3,7 @@
 
 	$querySearch = request()->query("search") ?? "";
 	$queryType = request()->query("type") ?? "";
-	$querySemester = request()->query("search") ?? "";
+	$querySemester = request()->query("semester") ?? "";
 
 	if (empty($querySemester))
 	{
@@ -22,6 +22,7 @@
 
 <x-app-layout>
 	@section("css")
+		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/elements/tables.css') }}">
 		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/pages/datatables.css') }}">
 		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/pages/schedule.css') }}">
 	@endsection
@@ -69,12 +70,13 @@
 					<th class="title">Judul</th>
 					<th class="name">Mahasiswa</th>
 					<th class="name">Pembimbing</th>
+					<th class="name">Moderator/Ketua Sidang</th>
 					<th class="name">Penguji</th>
 					<th class="schedule">Jadwal Sidang</th>
 				</tr>
 			</thead>
 			<tbody>
-			@forelse ($dataSubmissions as $index => $item)
+			@forelse ($academics as $index => $item)
 				<tr>
 					@if ($userRole === "admin")
 					<th class="status-schedule">
@@ -90,24 +92,34 @@
 						@endif
 					</th>
 					@endif
-					<td class="type">{{ ucfirst($item->submission_type) }}</td>
+					<td class="type">{{ __($item->academictype . ".text") }}</td>
 					<td class="title">{{ $item->title }}</td>
 					<td class="name">{!! $item->username ?? "<i>Data Mahasiswa Tidak Ditemukan</i>" !!}</td>
 					<td class="name">
+						@if (!empty($item->lecturer2))
 						<ul>
-							<li>{!! $item->supervisor1 ?? "<i>Data Dosen Tidak Ditemukan</i>" !!}</li>
-							<li>{!! $item->supervisor2 ?? "<i>Data Dosen Tidak Ditemukan</i>" !!}</li>
+							<li>{{ $item->lecturer1 }}</li>
+							<li>{{ $item->lecturer2 }}</li>
 						</ul>
+						@else
+						{{ $item->lecturer1 }}
+						@endif
 					</td>
 					<td class="name">
-						<ul>
-							<li>Prof. Dr. Ir. Sudarsono Soedomo, MS</li>
-							<li>Dr. Ir. Harnios Arief, M.Sc.F.Trop</li>
-						</ul>
+						@if (!empty($item->moderator))
+						{{ $item->moderator }}
+						@elseif (!empty($item->chairman_session))
+						{{ $item->chairman_session }}
+						@endif
+					</td>
+					<td class="name">
+						@if (!empty($item->external_examiner))
+						{{ $item->external_examiner }}
+						@endif
 					</td>
 					<td class="schedule">
 						<ul>
-							<li>{{ $item->place }}</li>
+							<li>{{ $item->room }}</li>
 							<li>{{ $item->date_parsed }}</li>
 							<li>{{ $item->time }}</li>
 						</ul>
@@ -122,5 +134,5 @@
 		</table>
 	</div>
 
-	<x-navigator-buttons :data="$dataSubmissions" />
+	<x-navigator-buttons :data="$academics" />
 </x-app-layout>
