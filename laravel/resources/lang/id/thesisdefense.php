@@ -8,6 +8,7 @@ return
 	"failedtoload" => "Gagal Memuat Data Sidang Akhir",
 	"failedtochange" => "Gagal Mengubah Data Sidang Akhir",
 	"failedtodelete" => "Gagal Menghapus Data Sidang Akhir",
+	"failedtodeletealreadyaccepted" => "Data Sidang Akhir Yang Sudah Disetujui Tidak Dapat Dihapus",
 	"failedtoverification" => "Gagal Verifikasi Data Sidang Akhir",
 	"failedtocomment" => "Gagal Revisi Data Sidang Akhir",
 	"failedtocreateletter" => "Gagal Membuat Pengumuman Sidang Akhir",

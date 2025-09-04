@@ -8,6 +8,7 @@ return
 	"failedtoload" => "Gagal Memuat Data Seminar",
 	"failedtochange" => "Gagal Mengubah Data Seminar",
 	"failedtodelete" => "Gagal Menghapus Data Seminar",
+	"failedtodeletealreadyaccepted" => "Data Seminar Yang Sudah Disetujui Tidak Dapat Dihapus",
 	"failedtoverification" => "Gagal Verifikasi Data Seminar",
 	"failedtocomment" => "Gagal Revisi Data Seminar",
 	"failedtocreateletter" => "Gagal Membuat Pengumuman Seminar",

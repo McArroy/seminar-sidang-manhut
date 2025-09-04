@@ -297,6 +297,9 @@ class AcademicController extends Controller
 		if (!$academic)
 			return HelperController::Message("dialog_info", [__($this->queryType . ".failedtodelete"), __($this->queryType . ".notfound")]);
 
+		if ($academic->is_accepted === 1)
+			return HelperController::Message("dialog_info", [__($this->queryType . ".failedtodelete"), __($this->queryType . ".failedtodeletealreadyaccepted")]);
+
 		$academic->delete();
 
 		return HelperController::Message("toast_success", __($this->queryType . ".succeededtodelete"));
