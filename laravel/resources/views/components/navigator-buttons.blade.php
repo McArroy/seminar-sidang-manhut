@@ -3,7 +3,11 @@
 @php $queryPageSearch = request()->query("page") ?? "1"; @endphp
 
 <div class="navigator-buttons">
+	@if ($data->total() > 0)
 	<p>Menampilkan {{ $data->firstItem() }} sampai {{ $data->lastItem() }} dari {{ $data->total() ?? 0 }} data</p>
+	@else
+	<p>Tidak data ada yang ditampilkan</p>
+	@endif
 
 	<div class="buttons">
 		@php
