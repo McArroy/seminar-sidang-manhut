@@ -2,6 +2,16 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.9.04 [ Last update: 09/04/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ LARAVEL ]**
+- Fixed academics are no longer removable if already accepted
+- Fixed some codes
+
+</details>
+
 #### UPDATE Version 1.25.9.02 [ Last update: 09/02/2025 ]
 <details>
 <summary>Click to expand</summary>
