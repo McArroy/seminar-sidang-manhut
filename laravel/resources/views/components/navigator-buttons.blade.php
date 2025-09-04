@@ -11,24 +11,39 @@
 
 	<div class="buttons">
 		@php
-			$CurrentPage = $data->currentPage();
-			$LastPage = $data->lastPage();
+			$currentPage = $data->currentPage();
+			$lastPage = $data->lastPage();
+			$paginationRange = 2;
 		@endphp
 
-		@if ($CurrentPage <= 1)
+		@if ($currentPage <= 1)
 			<x-button class="previous" disabled>Sebelumnya</x-button>
 		@else
-			<x-button class="previous navigator-button" data-link="{{ $CurrentPage > 1 ? $CurrentPage - 1 : 1 }}">Sebelumnya</x-button>
+			<x-button class="previous navigator-button" data-link="{{ $currentPage > 1 ? $currentPage - 1 : 1 }}">Sebelumnya</x-button>
 		@endif
 
-		@for ($i = 1; $i <= $LastPage; $i++)
-			<x-button class="page navigator-button {{ $CurrentPage === $i ? 'active' : '' }}" data-link="{{ $i }}">{{ $i }}</x-button>
+		<x-button class="page navigator-button {{ $currentPage === 1 ? 'active' : '' }}" data-link="1">1</x-button>
+
+		@if ($currentPage > ($paginationRange + 2))
+			...
+		@endif
+
+		@for ($i = max(2, $currentPage - $paginationRange); $i <= min($lastPage - 1, $currentPage + $paginationRange); $i++)
+			<x-button class="page navigator-button {{ $currentPage === $i ? 'active' : '' }}" data-link="{{ $i }}">{{ $i }}</x-button>
 		@endfor
 		
-		@if ($CurrentPage >= $LastPage)
+		@if ($currentPage < ($lastPage - $paginationRange - 1))
+			...
+		@endif
+
+		@if ($lastPage > 1)
+			<x-button class="page navigator-button {{ $currentPage === $lastPage ? 'active' : '' }}" data-link="{{ $lastPage }}">{{ $lastPage }}</x-button>
+		@endif
+		
+		@if ($currentPage >= $lastPage)
 			<x-button class="next" disabled>Berikutnya</x-button>
 		@else
-			<x-button class="next navigator-button" data-link="{{ (isset($queryPageSearch) ? ((int)$queryPageSearch + 1) : 2) }}">Berikutnya</x-button>
+			<x-button class="next navigator-button" data-link="{{ $currentPage + 1 }}">Berikutnya</x-button>
 		@endif
 	</div>
 </div>
