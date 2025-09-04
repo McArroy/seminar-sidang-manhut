@@ -12,6 +12,7 @@ These changelogs are basically just a summary list of changes that are very impo
 **[ UI/UX]**
 - Fixed some table columns' width
 - Fixed navigator-buttons not display correctly if the data is empty
+- Fixed overflow-x on main-content if the side navigation-bar is active
 
 **[ LARAVEL ]**
 - Added function `GetById` on AcademicController controller
@@ -21,6 +22,8 @@ These changelogs are basically just a summary list of changes that are very impo
 - Fixed schedule page now is using latest controllers, databases, and codes logic
 - Fixed search by academic type on schedule page now is using by existed data
 - Fixed delete academic now is enabled
+- Fixed roomname not sorted alphabetically
+- Fixed codes logic on navigator-buttons to prevent overflow button page
 - Fixed some codes
 - Removed unused codes
 
