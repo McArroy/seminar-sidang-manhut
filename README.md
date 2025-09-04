@@ -6,12 +6,21 @@ These changelogs are basically just a summary list of changes that are very impo
 <details>
 <summary>Click to expand</summary>
 
+**[ COMMONS ]**
+- Added form confirmation before delete academics data
+
 **[ UI/UX]**
 - Fixed some table columns' width
+- Fixed navigator-buttons not display correctly if the data is empty
 
 **[ LARAVEL ]**
+- Added function `GetById` on AcademicController controller
+- Added function `GetById` on LetterController controller
+- Added route to delete academic's data
 - Fixed academics are no longer removable if already accepted
-- Fixed schedule page is now using latest controllers, databases, and codes logic
+- Fixed schedule page now is using latest controllers, databases, and codes logic
+- Fixed search by academic type on schedule page now is using by existed data
+- Fixed delete academic now is enabled
 - Fixed some codes
 - Removed unused codes
 
@@ -413,7 +422,7 @@ These changelogs are basically just a summary list of changes that are very impo
 <summary>Click to expand</summary>
 
 **[ COMMONS ]**
-- Fixed dialog input-data is now called via server instead plain-text using jQuery
+- Fixed dialog input-data now is called via server instead plain-text using jQuery
 - Fixed some bugs
 - Removed unused codes
 
