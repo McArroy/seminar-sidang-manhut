@@ -81,6 +81,11 @@ class LetterController extends Controller
 		return Letter::select($columns)->get();
 	}
 
+	public static function GetById(string $letterid)
+	{
+		return Letter::where("letterid", $letterid)->first();
+	}
+
 	public static function IsExist(?string $academicid) : bool
 	{
 		if (empty($academicid))
