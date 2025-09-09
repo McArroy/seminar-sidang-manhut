@@ -17,7 +17,7 @@ These changelogs are basically just a summary list of changes that are very impo
 - Added `is_active` database-field on users' database
 
 **[ UI/UX ]**
-- Added failed login if user is not activated
+- Added failed login-message if user is not activated
 - Fixed `useridnumber` is not in uppercase if failed to login
 - Fixed input-wrapper element by adding checked attribute for checkbox input-type
 - Fixed checkbox style
