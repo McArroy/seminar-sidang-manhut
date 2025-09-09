@@ -23,6 +23,7 @@ These changelogs are basically just a summary list of changes that are very impo
 - Fixed checkbox style
 
 **[ LARAVEL ]**
+- Fixed admin is no longer deactivated his own data
 - Fixed some codes
 - Removed unused codes
 
