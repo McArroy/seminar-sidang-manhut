@@ -29,7 +29,8 @@ class User extends Authenticatable
 		"useridnumber",
 		"username",
 		"userrole",
-		"password"
+		"password",
+		"is_active"
 	];
 
 	// List of attributes to encrypt

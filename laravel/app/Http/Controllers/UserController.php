@@ -27,6 +27,11 @@ class UserController extends Controller
 
 	private function Validate(Request $request, bool $isUpdate = false) : array
 	{
+		$request->merge(
+		[
+			"is_active" => $request->has("is_active") ? 1 : 0
+		]);
+
 		$rules =
 		[
 			"username" => "required|string|max:255",
@@ -35,7 +40,8 @@ class UserController extends Controller
 				$isUpdate ? "nullable" : "required",
 				"string",
 				"max:127"
-			]
+			],
+			"is_active" => "required|integer|in:0,1"
 		];
 
 		if (!$isUpdate)
@@ -194,7 +200,7 @@ class UserController extends Controller
 
 	public function GetAdmins()
 	{
-		return self::GetAll(["userid", "useridnumber", "username", "userrole", "created_at"])->filter(function($user)
+		return self::GetAll(["userid", "useridnumber", "username", "userrole", "is_active", "created_at"])->filter(function($user)
 		{
 			return $user->userrole === "admin";
 		});
@@ -233,7 +239,7 @@ class UserController extends Controller
 
 	public function GetStudents()
 	{
-		return self::GetAll(["userid", "useridnumber", "username", "userrole", "created_at"])->filter(function($user)
+		return self::GetAll(["userid", "useridnumber", "username", "userrole", "is_active", "created_at"])->filter(function($user)
 		{
 			return $user->userrole === "student";
 		});
@@ -272,7 +278,7 @@ class UserController extends Controller
 
 	public function GetLecturers()
 	{
-		return self::GetAll(["userid", "useridnumber", "username", "userrole", "created_at"])->filter(function($user)
+		return self::GetAll(["userid", "useridnumber", "username", "userrole", "is_active", "created_at"])->filter(function($user)
 		{
 			return $user->userrole === "lecturer";
 		});

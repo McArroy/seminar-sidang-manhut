@@ -18,6 +18,7 @@ return new class extends Migration
 			$table->text("username");
 			$table->text("userrole");
 			$table->string("password");
+			$table->tinyInteger("is_active")->default(1);
 			$table->timestamps();
 		});
 
