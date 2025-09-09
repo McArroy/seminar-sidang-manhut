@@ -36,12 +36,6 @@
 		<script src="https://cdn.jsdelivr.net/npm/html2pdf.js@latest/dist/html2pdf.bundle.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/chart.umd.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/select2@latest/dist/js/select2.min.js"></script>
-
-		<script src="{{ \App\Http\Controllers\HelperController::Asset('assets/js/functions.js') }}"></script>
-		<script src="{{ \App\Http\Controllers\HelperController::Asset('assets/js/dialog.js') }}"></script>
-		<script src="{{ \App\Http\Controllers\HelperController::Asset('assets/js/form.js') }}"></script>
-		<script src="{{ \App\Http\Controllers\HelperController::Asset('assets/js/pdf.js') }}"></script>
-		<script src="{{ \App\Http\Controllers\HelperController::Asset('assets/js/commons.js') }}"></script>
 	</head>
 	<body>
 		<loading class="active">
@@ -174,54 +168,6 @@
 			@endauth
 		</div>
 
-		@stack("modals")
-
-		@if (session("dialog_info") || session("dialog_success"))
-		<script>
-			DialogMessage(
-				{{ session("dialog_info") ? 0 : 2 }},
-				[@json(session("dialog_info")[0] ?? session("dialog_success")[0]), @json(session("dialog_info")[1] ?? session("dialog_success")[1])],
-				[@json(session("dialog_info")[2] ?? session("dialog_success")[2]), @json(session("dialog_info")[3] ?? session("dialog_success")[3])],
-				[@json(session("dialog_info")[4] ?? session("dialog_success")[4]), @json(session("dialog_info")[5] ?? session("dialog_success")[5])]
-			);
-		</script>
-		@endif
-
-		@if (session("toast_info") || session("toast_success"))
-		<script>
-			DialogMessageToast(
-				{{ session("toast_info") ? 0 : 1 }},
-				@json(session("toast_info") ?? session("toast_success"))
-			);
-		</script>
-		@endif
-
-		<script>
-			function DialogInputData($path = "{{ url()->current() }}", $title = "", $type = "POST", $innerContent = "")
-			{
-				const $content = 
-				`<form action="${$path}" method="${$type}">
-					<input type="hidden" name="_token" value="{{ csrf_token() }}">
-					<input type="hidden" name="_method" value="${$type}">
-
-					<div class="top">
-						<img src="{{ \App\Http\Controllers\HelperController::Asset('assets/img/background-banner.png') }}" alt="background-banner">
-						<div class="text">
-							<iconify-icon icon="{{ $icon ?? '' }}" width="24"></iconify-icon>
-							${$title} {{ $pagetitle ?? "" }}
-						</div>
-					</div>
-					<div class="content">
-						${$innerContent}
-						<div class="buttons">
-							<x-button class="confirmation-close">Batal</x-button>
-							<x-button class="confirmation-ok active" disabled>Simpan</x-button>
-						</div>
-					</div>
-				</form>`;
-
-				CreateDialog($content, "input-data");
-			}
-		</script>
+		<x-javascripts/>
 	</body>
 </html>
