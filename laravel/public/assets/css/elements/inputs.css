@@ -13,6 +13,13 @@
 		}
 	}
 
+	&:has([type="checkbox"])
+	{
+		align-items: center !important;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
 	&:not(:has([readonly]))
 	{
 		&:hover
@@ -109,6 +116,13 @@
 			border-color: var(--blue);
 			border-radius: 10px;
 			cursor: text;
+		}
+
+		&[type="checkbox"]
+		{
+			aspect-ratio: 1/1;
+			cursor: pointer;
+			width: 1rem;
 		}
 
 		&:read-only
