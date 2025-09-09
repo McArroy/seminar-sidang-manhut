@@ -2,6 +2,27 @@
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.9.09 [ Last update: 09/09/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ COMMONS ]**
+- Fixed some form-validation's codes logic
+
+**[ DATABASE ]**
+- Added `is_active` database-field on users' database
+
+**[ UI/UX ]**
+- Added failed login if user is not activated
+- Fixed `useridnumber` is not in uppercase if failed to login
+- Fixed input-wrapper element by adding checked attribute for checkbox input-type
+- Fixed checkbox style
+
+**[ LARAVEL ]**
+- Fixed some codes
+
+</details>
+
 #### UPDATE Version 1.25.9.04 [ Last update: 09/04/2025 ]
 <details>
 <summary>Click to expand</summary>
@@ -9,7 +30,7 @@ These changelogs are basically just a summary list of changes that are very impo
 **[ COMMONS ]**
 - Added form confirmation before delete academics data
 
-**[ UI/UX]**
+**[ UI/UX ]**
 - Fixed some table columns' width
 - Fixed navigator-buttons not display correctly if the data is empty
 - Fixed overflow-x on main-content if the side navigation-bar is active
