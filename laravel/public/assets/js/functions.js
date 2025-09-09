@@ -113,7 +113,12 @@ function ValidateForms()
 		{
 			const name = $(this).attr("name");
 
-			if (name)
+			if (!name)
+				return;
+
+			if ($(this).is(":checkbox"))
+				initialValues[name] = $(this).prop("checked");
+			else
 				initialValues[name] = $(this).val();
 		});
 
@@ -124,6 +129,13 @@ function ValidateForms()
 
 			$RequiredFields.each(function()
 			{
+				if ($(this).is(":checkbox") && $(this).prop("required") && !$(this).prop("checked"))
+				{
+					IsValid = false;
+
+					return false;
+				}
+				
 				if (!this.checkValidity())
 				{
 					IsValid = false;
@@ -135,13 +147,27 @@ function ValidateForms()
 			$NamedInputs.each(function()
 			{
 				const name = $(this).attr("name");
-				const currentValue = $(this).val();
 
-				if (initialValues.hasOwnProperty(name) && initialValues[name] !== currentValue)
+				if (!name || !initialValues.hasOwnProperty(name))
+					return;
+
+				if ($(this).is(":checkbox"))
 				{
-					IsChanged = true;
+					if (initialValues[name] !== $(this).prop("checked"))
+					{
+						IsChanged = true;
 
-					return false;
+						return false;
+					}
+				}
+				else
+				{
+					if (initialValues[name] !== $(this).val())
+					{
+						IsChanged = true;
+
+						return false;
+					}
 				}
 			});
 
@@ -151,7 +177,8 @@ function ValidateForms()
 			$Form.find("button.confirmation-close").prop("disabled", false);
 		}
 
-		$Form.find("input, select, textarea").on("input change", ValidateLocalForm);
+		$Form.on("change", "input[type=checkbox], select, textarea", ValidateLocalForm);
+		$Form.on("input", "input:not([type=checkbox])", ValidateLocalForm);
 		$Form.find("select").each(function()
 		{
 			const $select = $(this);
