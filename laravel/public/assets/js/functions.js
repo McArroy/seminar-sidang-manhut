@@ -177,8 +177,8 @@ function ValidateForms()
 			$Form.find("button.confirmation-close").prop("disabled", false);
 		}
 
-		$Form.on("change", "input[type=checkbox], select, textarea", ValidateLocalForm);
-		$Form.on("input", "input:not([type=checkbox])", ValidateLocalForm);
+		$Form.on("input change", "input[type=checkbox], select, textarea", ValidateLocalForm);
+		$Form.on("input change", "input:not([type=checkbox])", ValidateLocalForm);
 		$Form.find("select").each(function()
 		{
 			const $select = $(this);
