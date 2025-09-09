@@ -36,7 +36,7 @@
 					<td class="number">{{ strtoupper($currentAdmin->useridnumber) }}</td>
 					<td class="name">{{ $currentAdmin->username }}</td>
 					<td class="button-actions">
-						<x-button class="edit" id="edit-admin" data-link="{{ $currentAdmin->userid }}">Ubah</x-button>
+						<x-button class="edit" id="edit-admin" data-link="{{ $currentAdmin->userid }}" data-active="{{ $currentAdmin->is_active }}">Ubah</x-button>
 						<x-button class="remove" disabled>Hapus</x-button>
 					</td>
 				</tr>
@@ -49,7 +49,7 @@
 						<td class="number">{{ strtoupper($item->useridnumber) }}</td>
 						<td class="name">{{ $item->username }}</td>
 						<td class="button-actions">
-							<x-button class="edit" id="edit-admin" data-link="{{ $item->userid }}">Ubah</x-button>
+							<x-button class="edit" id="edit-admin" data-link="{{ $item->userid }}" data-active="{{ $item->is_active }}">Ubah</x-button>
 							<form id="form-delete-user" action="{{ route('admin.admins.delete', [$item->userid]) }}" method="POST">
 								@csrf
 								@method("DELETE")
@@ -80,6 +80,7 @@
 				<x-input-wrapper class="password" id="password" type="password" label="Kata Sandi" placeholder="********" required>
 					<iconify-icon icon="basil:eye-outline" class="show-hide-password" width="24" onclick="TogglePassword($(this))"></iconify-icon>
 				</x-input-wrapper>
+				<x-input-wrapper id="is_active" type="checkbox" label="Aktif" checked />
 			`);
 		});
 
@@ -88,14 +89,19 @@
 			const $userIdNumber = $(this).closest("tr").find("td.number").text().trim();
 			const $userName = $(this).closest("tr").find("td.name").text().trim();
 
-			return DialogInputData("{{ route('admin.admins.update', ':id') }}".replace(":id", $(this).data("link")), "Ubah", "POST",
+			DialogInputData("{{ route('admin.admins.update', ':id') }}".replace(":id", $(this).data("link")), "Ubah", "POST",
 			`
 				<x-input-wrapper id="useridnumber" type="text" label="NIP" placeholder="Masukkan NIP Admin" value="${$userIdNumber}" readonly />
 				<x-input-wrapper id="username" type="text" label="Nama" placeholder="Masukkan Nama Admin" value="${$userName}" required />
 				<x-input-wrapper class="password" id="password" type="password" label="Kata Sandi" placeholder="********">
 					<iconify-icon icon="basil:eye-outline" class="show-hide-password" width="24" onclick="TogglePassword($(this))"></iconify-icon>
 				</x-input-wrapper>
+				<x-input-wrapper id="is_active" type="checkbox" label="Aktif" />
 			`);
+
+			$("input#is_active").prop("checked", $(this).data("active") == 1);
+
+			ValidateForms();
 		});
 	</script>
 </x-app-layout>
