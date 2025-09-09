@@ -53,7 +53,7 @@
 	<script>
 		$(document).on("click", "button#add-room", function()
 		{
-			return DialogInputData("{{ route('admin.rooms.add') }}", "Tambah", "POST",
+			return DialogInputData("{{ route('admin.rooms.add') }}", "mdi:door", "Tambah Data Ruangan", "POST",
 			`
 				<x-input-wrapper id="roomname" type="text" label="Nama Ruangan" placeholder="Masukkan Nama Ruangan" required />
 			`);
@@ -63,7 +63,7 @@
 		{
 			const $roomname = $(this).closest("tr").find("td.name").text().trim();
 
-			return DialogInputData("{{ route('admin.rooms.update', ':id') }}".replace(":id", $(this).data("link")), "Ubah", "POST",
+			return DialogInputData("{{ route('admin.rooms.update', ':id') }}".replace(":id", $(this).data("link")), "mdi:door", "Ubah Data Ruangan", "POST",
 			`
 				<x-input-wrapper id="roomname" type="text" label="Nama Ruangan" placeholder="Masukkan Nama Ruangan" value="${$roomname}" required />
 			`);

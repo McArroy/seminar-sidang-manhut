@@ -10,11 +10,16 @@
 
 	<x-slot name="title">{{ __($queryType . ".text") }}</x-slot>
 	<x-slot name="icon">
-		@if ($queryType === "seminar")
-			fluent:form-28-regular
-		@else
-			streamline-flex:presentation
-		@endif
+		@php
+
+		if ($queryType === "seminar")
+			$icon = "fluent:form-28-regular";
+		else
+			$icon = "streamline-flex:presentation";
+
+		@endphp
+
+		{{ $icon }}
 	</x-slot>
 	<x-slot name="pagetitle">{{ __($queryType . ".text") }}</x-slot>
 	
@@ -91,7 +96,7 @@
 		{
 			const $academicid = $(this).data("link");
 			
-			DialogInputData("{{ route('admin.academics.revision', ':id') . '?type=' . $queryType }}".replace(":id", $academicid), "Revisi", "POST",
+			DialogInputData("{{ route('admin.academics.revision', ':id') . '?type=' . $queryType }}".replace(":id", $academicid), "{{ $icon }}", "{{ __($queryType . '.revision') }}", "POST",
 			`<x-input-wrapper id="comment" type="textarea" label="Komentar" placeholder="Memuat Komentar..." loading />`);
 
 			$.get(`{{ route("admin.academics.comment", ":id") }}`.replace(":id", $academicid), function(response)

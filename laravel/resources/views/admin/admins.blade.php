@@ -73,7 +73,7 @@
 	<script>
 		$(document).on("click", "button#add-admin", function()
 		{
-			return DialogInputData("{{ route('admin.admins.add') }}", "Tambah", "POST",
+			return DialogInputData("{{ route('admin.admins.add') }}", "eos-icons:admin", "Tambah Data Admin", "POST",
 			`
 				<x-input-wrapper id="useridnumber" type="text" label="NIP" placeholder="Masukkan NIP Admin" required />
 				<x-input-wrapper id="username" type="text" label="Nama" placeholder="Masukkan Nama Admin" required />
@@ -89,7 +89,7 @@
 			const $userIdNumber = $(this).closest("tr").find("td.number").text().trim();
 			const $userName = $(this).closest("tr").find("td.name").text().trim();
 
-			DialogInputData("{{ route('admin.admins.update', ':id') }}".replace(":id", $(this).data("link")), "Ubah", "POST",
+			DialogInputData("{{ route('admin.admins.update', ':id') }}".replace(":id", $(this).data("link")), "eos-icons:admin", "Ubah Data Admin", "POST",
 			`
 				<x-input-wrapper id="useridnumber" type="text" label="NIP" placeholder="Masukkan NIP Admin" value="${$userIdNumber}" readonly />
 				<x-input-wrapper id="username" type="text" label="Nama" placeholder="Masukkan Nama Admin" value="${$userName}" required />

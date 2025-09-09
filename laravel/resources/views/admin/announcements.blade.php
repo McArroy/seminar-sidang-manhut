@@ -8,19 +8,9 @@
 		<link rel="stylesheet" href="{{ \App\Http\Controllers\HelperController::Asset('assets/css/pages/datatables.css') }}">
 	@endsection
 
-	<x-slot name="icon">fluent:form-28-regular</x-slot>
-
-	@if ($queryType === "seminar")
-
-	<x-slot name="title">Pengumuman Seminar</x-slot>
-	<x-slot name="pagetitle">Pengumuman Seminar</x-slot>
-
-	@elseif ($queryType === "thesisdefense")
-
-	<x-slot name="title">Undangan Sidang</x-slot>
-	<x-slot name="pagetitle">Undangan Sidang</x-slot>
-
-	@endif
+	<x-slot name="icon">hugeicons:folder-upload</x-slot>
+	<x-slot name="title">{{ __($queryType . ".lettertitle") }}</x-slot>
+	<x-slot name="pagetitle">{{ __($queryType . ".lettertitle") }}</x-slot>
 
 	<div class="top">
 		<x-input-wrapper class="search type-2" id="search" type="text" placeholder="Cari Data {{ request()->query('type') === 'seminar' ? 'Seminar' : 'Sidang Akhir' }}" value="{{ $querySearch }}" autofocus />
@@ -98,7 +88,7 @@
 				`;
 			@endif
 
-			return DialogInputData("{{ route('admin.announcements.letter.add', ':id') }}".replace(":id", $id) + "?type={{ $queryType }}", "Buat", "POST", $innerContent);
+			return DialogInputData("{{ route('admin.announcements.letter.add', ':id') }}".replace(":id", $id) + "?type={{ $queryType }}", "hugeicons:folder-upload", "{{ __($queryType . '.lettercreatetitle') }}", "POST", $innerContent);
 		});
 
 		$(document).on("click", "button#edit-form-letter", function()
@@ -123,7 +113,7 @@
 				`;
 			@endif
 
-			DialogInputData("{{ route('admin.announcements.letter.update', ':id') }}".replace(":id", $id) + "?type={{ $queryType }}", "Ubah", "POST", $innerContent);
+			DialogInputData("{{ route('admin.announcements.letter.update', ':id') }}".replace(":id", $id) + "?type={{ $queryType }}", "hugeicons:folder-upload", "{{ __($queryType . '.letterchangetitle') }}", "POST", $innerContent);
 
 			$.get(`{{ route("admin.announcements.letter", ":id") }}`.replace(":id", $id), function(response)
 			{
