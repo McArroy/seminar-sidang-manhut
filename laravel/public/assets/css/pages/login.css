@@ -6,7 +6,7 @@ body
 .content-container
 {
 	background: unset;
-	background-image: linear-gradient(to right, rgba(var(--blueRGB), .5), rgba(var(--grey2RGB), .5)), url("../../img/auth-background.png");
+	background-image: linear-gradient(to right, rgba(var(--blueRGB), .4), rgba(var(--grey2RGB), .5)), url("../../img/auth-background.png");
 	background-repeat: no-repeat;
 	background-size: cover;
 	flex-direction: row;
@@ -33,7 +33,7 @@ body
 				-webkit-background-clip: text;
 				-webkit-text-fill-color: transparent;
 				
-				background: linear-gradient(90deg, var(--white), var(--orange));
+				background: linear-gradient(90deg, var(--white), var(--blue));
 				background-clip: text;
 				color: transparent;
 				font-size: 40pt;
