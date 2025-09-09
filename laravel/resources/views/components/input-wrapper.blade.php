@@ -1,4 +1,4 @@
-@props(["id" => "input-name", "label" => null, "type" => "text", "placeholder" => "", "value" => "", "options" => [], "oninput" => null, "onchange" => null, "readonly" => false, "required" => false, "autofocus" => false, "loading" => false])
+@props(["id" => "input-name", "label" => null, "type" => "text", "placeholder" => "", "value" => "", "options" => [], "oninput" => null, "onchange" => null, "readonly" => false, "required" => false, "checked" => false, "autofocus" => false, "loading" => false])
 
 <div {{ $attributes->merge(["class" => "input-wrapper"]) }}>
 	@if ($label)
@@ -21,7 +21,7 @@
 		@endif
 	</select>
 	@else
-	<input type="{{ $type }}" id="{{ $id }}" class="{{ $loading ? 'loading' : '' }}" name="{{ $id }}" placeholder="{{ $placeholder }}" oninput="{{ $oninput }}" onchange="{{ $onchange }}" value="{{ $value }}" @if($readonly || $loading) readonly @endif @if($required) required @endif @if($autofocus) autofocus @endif>
+	<input type="{{ $type }}" id="{{ $id }}" class="{{ $loading ? 'loading' : '' }}" name="{{ $id }}" placeholder="{{ $placeholder }}" oninput="{{ $oninput }}" onchange="{{ $onchange }}" value="{{ $value }}" @if($readonly || $loading) readonly @endif @if($required) required @endif @if($checked) checked @endif @if($autofocus) autofocus @endif>
 	@endif
 
 	@if ($type !== "select" && empty($options))
