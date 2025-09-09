@@ -85,6 +85,9 @@ class UserController extends Controller
 			
 			return HelperController::Message("toast_info", $message);
 		}
+
+		if (($data["useridnumber"] === $this->userId) && $data["is_active"] === 0)
+			return HelperController::Message("dialog_info", ["Gagal Mengubah Data Admin", "Anda Tidak Bisa Menonaktifkan Data Diri Anda"]);
 	
 		return null;
 	}
