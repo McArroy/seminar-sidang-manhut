@@ -7,7 +7,11 @@ These changelogs are basically just a summary list of changes that are very impo
 <summary>Click to expand</summary>
 
 **[ COMMONS ]**
+- Added separated javascripts element by imported via .blade instead .js to make consistency and stable ones
 - Fixed some form-validation's codes logic
+- Fixed some codes form input-data not displayed properly
+- Fixed some bugs
+- Removed unused files
 
 **[ DATABASE ]**
 - Added `is_active` database-field on users' database
@@ -20,6 +24,7 @@ These changelogs are basically just a summary list of changes that are very impo
 
 **[ LARAVEL ]**
 - Fixed some codes
+- Removed unused codes
 
 </details>
 
