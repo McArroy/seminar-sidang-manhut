@@ -52,16 +52,11 @@
 						@endif
 					</td>
 					<td class="form">
-						@if ($item->printable)
-						<form id="form-print" action="{{ route('admin.announcements.letter.print', [$item->academicid]) }}" method="POST">
-							@csrf
-							@method("POST")
-							
-							<x-button class="print" icon="material-symbols-light:print-outline-rounded" iconwidth="23">Cetak</x-button>
-						</form>
-						@else
-						<x-button class="print" icon="material-symbols-light:print-outline-rounded" iconwidth="23" disabled>Cetak</x-button>
-						@endif
+    					@if ($item->printable)
+    					<x-button class="print viewform" icon="material-symbols-light:print-outline-rounded" iconwidth="23" onclick="window.open('{{ route('admin.announcements.letter.preview', [$item->academicid]) . '?type=' . $item->academictype }}', '_blank')">Pratinjau</x-button>
+    					@else
+    					<x-button class="print" icon="material-symbols-light:print-outline-rounded" iconwidth="23" disabled>Pratinjau</x-button>
+    					@endif
 					</td>
 				</tr>
 				@empty

@@ -38,6 +38,7 @@ Route::middleware(
 		Route::post("/admins", [UserController::class, "StoreAdmins"])->name("admins.add");
 		Route::post("/admins/update/{userid}", [UserController::class, "UpdateAdmins"])->name("admins.update");
 		Route::delete("/admins/delete/{userid}", [UserController::class, "DestroyAdmins"])->name("admins.delete");
+		Route::get("/announcements/letter/preview/{academicid}", [LetterController::class, "Preview"])->name("announcements.letter.preview");
 
 		// Student
 		Route::get("/students", [PageController::class, "Students"])->name("students");

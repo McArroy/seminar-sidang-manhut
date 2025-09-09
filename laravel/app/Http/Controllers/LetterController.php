@@ -164,4 +164,26 @@ class LetterController extends Controller
 		if (!self::IsExist($academicid))
 			return HelperController::Message("dialog_info", [__($this->queryType . ".failedtoprintletter"), __($this->queryType . ".letterformnotfound")]);
 	}
+
+	public function Preview(string $academicid)
+{
+    $academic = Academic::where("academicid", $academicid)->first();
+    $letter = Letter::where("letterid", $academicid)->first();
+
+    if (!$academic || !$letter) {
+        return HelperController::Message("dialog_info", [__("common.failedtoload"), __("common.notfound")]);
+    }
+
+    $academic->username = UserController::GetUsername($academic->useridnumber);
+    $data = [
+        "academic" => $academic,
+        "letter" => $letter,
+    ];
+
+    if ($academic->academictype === "seminar") {
+        return view("admin.letters.announcement-seminar", compact("data"));
+    } else {
+        return view("admin.letters.invitation-thesis", compact("data"));
+    }
+}
 }
