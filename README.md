@@ -21,6 +21,7 @@ These changelogs are basically just a summary list of changes that are very impo
 - Fixed `useridnumber` is not in uppercase if failed to login
 - Fixed input-wrapper element by adding checked attribute for checkbox input-type
 - Fixed checkbox style
+- Fixed color on login page
 
 **[ LARAVEL ]**
 - Fixed admin is no longer deactivated his own data
