@@ -49,7 +49,16 @@ class FortifyServiceProvider extends ServiceProvider
 			$user = User::where("useridnumber", $this->encryptDeterministic(strtolower(trim($request->useridnumber))))->first();
 
 			if ($user && Hash::check($request->password, $user->password))
+			{
+				if (!$user->is_active)
+				{
+					session()->flash("dialog_info", ["Akun Anda Tidak Aktif", "Maaf, Akun Anda Tidak Aktif. Silakan Menghubungi Pihak Akademik Atau Admin Mengenai Aktivasi Akun Anda", __("common.close.text"), "", "", ""]);
+
+					return null;
+				}
+
 				return $user;
+			}
 
 			session()->flash("toast_info", "ID Pengguna atau Password Salah!");
 
