@@ -35,7 +35,7 @@ class AcademicController extends Controller
 			"address" => "nullable|string|max:1000",
 			"supervisor1" => "required|string|max:255",
 			"supervisor2" => "nullable|string|max:255",
-			"date" => "required|string|max:17",
+			"date" => "required|date",
 			"time" => "required|string|max:17",
 			"room" => "required|string|max:255",
 			"title" => "required|string|max:255",
