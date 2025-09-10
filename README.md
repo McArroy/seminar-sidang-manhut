@@ -1,6 +1,46 @@
+## Debugging
+1. `git clone --recursive https://github.com/McArroy/seminar-sidang-manhut` to somewhere that doesn't contain space in the directory path
+2. Open the cloned folder using your desired code editor (recommended using `Visual Studio Code`)
+3. Redirect the work directory into `Laravel`
+```c
+cd laravel
+```
+4. Run the Laravel artisan
+```c
+php artisan serve
+```
+5. Run the Laravel Database Migration
+```c
+php artisan migrate --seed
+```
+or if you have already migrated and need to restore to default databases (empty)
+```c
+php artisan migrate:fresh --seed
+```
+6. Login with default user as admin
+UserID:
+```c
+akun-admin-manhut-332211
+```
+Password:
+```c
+akunadminmanhutpusat123
+```
+
 ## Developer Informations
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
+
+#### UPDATE Version 1.25.9.10 [ Last update: 09/10/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ LARAVEL ]**
+- Added `DefaultUserSeeder` for default user right after migrated the database (as a admin)
+- Fixed display or search lecturers if only `is_active`
+- Removed default register from existence
+
+</details>
 
 #### UPDATE Version 1.25.9.09 [ Last update: 09/09/2025 ]
 <details>
