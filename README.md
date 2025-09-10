@@ -17,7 +17,7 @@ or if you have already migrated and need to restore to default databases (empty)
 ```c
 php artisan migrate:fresh --seed
 ```
-6. Login with default user as admin
+6. Login with default user as admin<br>
 UserID:
 ```c
 akun-admin-manhut-332211
