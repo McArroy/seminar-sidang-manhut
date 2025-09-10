@@ -324,7 +324,7 @@ class PageController extends Controller
 		}
 
 		$academics = $this->PagePaginator($request, $academics);
-		$lecturers = app()->make(UserController::class)->GetLecturers()->pluck("username", "useridnumber")->mapWithKeys(fn($v, $k) => [$k . " - " . $v => $v])->toArray();
+		$lecturers = app()->make(UserController::class)->GetLecturers(true)->pluck("username", "useridnumber")->mapWithKeys(fn($v, $k) => [$k . " - " . $v => $v])->toArray();
 
 		return view("admin.announcements", compact("academics", "lecturers"));
 	}

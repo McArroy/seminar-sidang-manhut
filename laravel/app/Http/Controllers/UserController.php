@@ -279,11 +279,11 @@ class UserController extends Controller
 		return $this->Destroy($request, $userid);
 	}
 
-	public function GetLecturers()
+	public function GetLecturers(bool $onlyIsActive = false)
 	{
-		return self::GetAll(["userid", "useridnumber", "username", "userrole", "is_active", "created_at"])->filter(function($user)
+		return self::GetAll(["userid", "useridnumber", "username", "userrole", "is_active", "created_at"])->filter(function($user) use ($onlyIsActive)
 		{
-			return $user->userrole === "lecturer";
+			return ($user->userrole === "lecturer" && (!$onlyIsActive || $user->is_active == 1));
 		});
 	}
 

@@ -130,7 +130,7 @@ Route::middleware(
 				exit;
 			}
 
-			$dataLecturers = app()->make(UserController::class)->GetLecturers()->pluck("username", "useridnumber")->mapWithKeys(fn($v, $k) => [$k . " - " . $v => $v])->toArray();
+			$dataLecturers = app()->make(UserController::class)->GetLecturers(true)->pluck("username", "useridnumber")->mapWithKeys(fn($v, $k) => [$k . " - " . $v => $v])->toArray();
 			$dataTime = app()->make(AcademicController::class)->GetDataTime($request->query("type"));
 
 			$dataTimeAssoc = [];
