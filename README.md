@@ -1,4 +1,5 @@
-## Debugging
+## Developer Informations
+### Debugging
 1. `git clone --recursive https://github.com/McArroy/seminar-sidang-manhut` to somewhere that doesn't contain space in the directory path
 2. Open the cloned folder using your desired code editor (recommended using `Visual Studio Code`)
 3. Redirect the working directory into `Laravel`
@@ -27,7 +28,6 @@ akunadminmanhutpusat123
 php artisan serve
 ```
 
-## Developer Informations
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
