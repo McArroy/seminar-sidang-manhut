@@ -42,7 +42,11 @@ These changelogs are basically just a summary list of changes that are very impo
 **[ LARAVEL ]**
 - Added `DefaultUserSeeder` for default user right after migrated the database (as a admin)
 - Fixed display or search lecturers if only `is_active`
+- Fixed `Message` function on HelperController controller not redirected `withInput`
+- Fixed check room-availability before create academics
+- Fixed typo
 - Removed default register from existence
+- Removed unused files
 
 </details>
 
