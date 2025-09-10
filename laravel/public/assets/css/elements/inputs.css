@@ -182,9 +182,18 @@
 	}
 }
 
+.select2-container--open .select2-dropdown
+{
+	bottom: auto !important;
+	top: 100% !important;
+}
+
 .select2-results__options
 {
 	justify-content: flex-start;
+	max-height: 6rem;
+	overflow-x: hidden;
+	overflow-y: auto;
 	
 	.select2-results__option
 	{
