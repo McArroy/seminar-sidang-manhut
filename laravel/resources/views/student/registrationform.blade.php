@@ -33,10 +33,10 @@
 
 		@if (isset($IsThesisDefense))
 		<div class="input">
-			<x-input-wrapper id="semester" label="Semester" type="text" placeholder="8 (Delapan)" required/>
+			<x-input-wrapper id="semester" label="Semester" type="text" placeholder="8 (Delapan)" value="{{ old('semester') }}" required/>
 		</div>
 		<div class="input">
-			<x-input-wrapper id="address" label="Alamat di Bogor" type="textarea" placeholder="Perumahan Taman Dramaga Permai Blok C1 No. 2" required/>
+			<x-input-wrapper id="address" label="Alamat di Bogor" type="textarea" placeholder="Perumahan Taman Dramaga Permai Blok C1 No. 2" value="{{ old('address') }}" required/>
 		</div>
 		@else
 		<div class="input">
@@ -59,7 +59,7 @@
 			<x-input-wrapper id="room" label="Tempat/Ruangan" type="select2" placeholder="Pilih Ruang Sidang" :options="$dataRooms->pluck('roomname', 'roomname')->toArray()" required />
 		</div>
 		<div class="input">
-			<x-input-wrapper id="title" label="Judul Skripsi" type="textarea" placeholder="Masukkan Judul Skripsi" required/>
+			<x-input-wrapper id="title" label="Judul Skripsi" type="textarea" placeholder="Masukkan Judul Skripsi" value="{{ old('title') }}" required/>
 		</div>
 
 		<x-button>SIMPAN</x-button>

@@ -58,6 +58,11 @@ class AcademicController extends Controller
 		return $validated;
 	}
 
+	private static function CheckRoomAvailability(string $room, string $date, string $time) : bool
+	{
+		return !Academic::where("room", $room)->where("date", $date)->where("time", $time)->exists();
+	}
+
 	public static function GetAll(array $columns = ["*"])
 	{
 		return Academic::select($columns)->get();
@@ -133,6 +138,9 @@ class AcademicController extends Controller
 
 		$validated["academictype"] = strtolower(trim($this->queryType));
 		$validated["useridnumber"] = strtolower(trim($this->userId));
+
+		if (!$this->CheckRoomAvailability($validated["room"], $validated["date"], $validated["time"]))
+			return HelperController::Message("dialog_info", [__($this->queryType . ".failedtocreate"), __($this->queryType . ".roomnotavailable")]);
 
 		Academic::create($validated);
 
