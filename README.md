@@ -1,7 +1,7 @@
 ## Debugging
 1. `git clone --recursive https://github.com/McArroy/seminar-sidang-manhut` to somewhere that doesn't contain space in the directory path
 2. Open the cloned folder using your desired code editor (recommended using `Visual Studio Code`)
-3. Redirect the work directory into `Laravel`
+3. Redirect the working directory into `Laravel`
 ```c
 cd laravel
 ```
@@ -34,6 +34,10 @@ These changelogs are basically just a summary list of changes that are very impo
 #### UPDATE Version 1.25.9.10 [ Last update: 09/10/2025 ]
 <details>
 <summary>Click to expand</summary>
+
+**[ UI/UX ]**
+- Fixed overflow in dialog-popup
+- Fixed select2 element not displayed properly
 
 **[ LARAVEL ]**
 - Added `DefaultUserSeeder` for default user right after migrated the database (as a admin)
