@@ -68,9 +68,9 @@ class HelperController extends Controller
 			if (is_array($route))
 				return redirect()->route($route[0], $route[1])->with($type, $messages);
 
-			return redirect()->route($route)->with($type, $messages);
+			return redirect()->route($route)->withInput()->with($type, $messages);
 		}
 
-		return redirect()->back()->with($type, $messages);
+		return redirect()->back()->withInput()->with($type, $messages);
 	}
 }
