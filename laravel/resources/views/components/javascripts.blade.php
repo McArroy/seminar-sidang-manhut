@@ -226,6 +226,7 @@
 				<div class="text">
 					<iconify-icon icon="${$icon}" width="24"></iconify-icon>
 					${$title}
+					<x-button class="confirmation-close top" icon="mingcute:close-fill" iconwidth="25" />
 				</div>
 			</div>
 			<div class="content">
