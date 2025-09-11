@@ -31,6 +31,16 @@ php artisan serve
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.9.11 [ Last update: 09/11/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[ UI/UX ]**
+- Fixed overflow for dialog and dialog input-data enabled overflow the content instead of the dialog element itself
+- Fixed side navigation-bar's height
+
+</details>
+
 #### UPDATE Version 1.25.9.10 [ Last update: 09/10/2025 ]
 <details>
 <summary>Click to expand</summary>
