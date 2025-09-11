@@ -49,6 +49,7 @@ These changelogs are basically just a summary list of changes that are very impo
 - Fixed semesters list not displayed correctly and added text `(Today)` on the schedule if the academic's date is today
 - Fixed some codes logic
 - Fixed some codes
+- Fixed typo
 - Removed unused files
 
 </details>
