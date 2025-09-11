@@ -341,12 +341,10 @@ class PageController extends Controller
 			$item->username = UserController::GetUsername($item->useridnumber);
 			$item->lecturer1 = explode(" - ", $item->lecturers[0])[1];
 			$item->lecturer2 = explode(" - ", $item->lecturers[1])[1] ?? "";
-			$item->date_parsed = DateIndoFormatterController::Full($item->date, 1);
+			$item->date_parsed = DateIndoFormatterController::Full($item->date, 1, true);
 
 			return $item;
 		})->sortByDesc("created_at")->values();
-
-		$this->GetAllSemesterList($academics);
 
 		if ($semester && $semester !== "all")
 		{
@@ -404,6 +402,8 @@ class PageController extends Controller
 			$academics = HelperController::MarkIfDatePassed($academics);
 		else
 			$academics = HelperController::FilterByDateRange($academics);
+
+		$this->GetAllSemesterList($academics);
 
 		$academics = $this->PagePaginator($request, $academics);
 

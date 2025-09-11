@@ -26,7 +26,7 @@ class DateIndoFormatterController
 	/**
 	 * Format date into Indonesian: e.g. "Jumat / 1 Agustus 2025"
 	 */
-	public static function Full(DateTime|string $date, int $type = 0) : string
+	public static function Full(DateTime|string $date, int $type = 0, bool $todayText = false) : string
 	{
 		$date = self::EnsureDateTime($date);
 
@@ -35,10 +35,13 @@ class DateIndoFormatterController
 		$month = self::$monthNames[(int) $date->format("n")];
 		$year = $date->format("Y");
 
+		$isToday = $date->format("Y-m-d") === (new \DateTime())->format("Y-m-d");
+		$todaySuffix = ($todayText && $isToday) ? " (" . __("common.today.text") . ")" : "";
+
 		if ($type === 0)
-			return "$dayName / $day $month $year";
+			return "$dayName / $day $month $year$todaySuffix";
 		else if ($type === 1)
-			return "$dayName, $day $month $year";
+			return "$dayName, $day $month $year$todaySuffix";
 	}
 
 	/**

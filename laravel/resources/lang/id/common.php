@@ -14,6 +14,10 @@ return
 	[
 		"text" => "Genap"
 	],
+	"today" =>
+	[
+		"text" => "Hari Ini"
+	],
 	"password" =>
 	[
 		"text" => "Kata Sandi"
