@@ -24,7 +24,7 @@ class AcademicController extends Controller
 		$this->userRole = Auth::user()->userrole;
 
 		$allowedTypes = ["seminar", "thesisdefense"];
-		$type = $request->query("role", "admin");
+		$type = $request->query("type", "seminar");
 		$this->queryType = in_array($type, $allowedTypes) ? $type : "seminar";
 	}
 
