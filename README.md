@@ -36,6 +36,7 @@ These changelogs are basically just a summary list of changes that are very impo
 <summary>Click to expand</summary>
 
 **[ UI/UX ]**
+- Added close-icon on dialog input-data for another option to close the dialog
 - Fixed overflow for dialog and dialog input-data enabled overflow the content instead of the dialog element itself
 - Fixed side navigation-bar's height
 
