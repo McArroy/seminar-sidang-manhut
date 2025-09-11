@@ -26,7 +26,10 @@ class PageController extends Controller
 	public function __construct(Request $request)
 	{
 		$this->userRole = Auth::user()->userrole;
-		$this->queryType = $request->query("type", "seminar");
+
+		$allowedTypes = ["seminar", "thesisdefense"];
+		$type = $request->query("role", "admin");
+		$this->queryType = in_array($type, $allowedTypes) ? $type : "seminar";
 	}
 
     private function PagePaginator(Request $request, Collection $data) : LengthAwarePaginator
@@ -117,14 +120,10 @@ class PageController extends Controller
 		return view($this->userRole . ".dashboard", $data);
 	}
 
-	private function Users(Request $request, string $findAs = "students")
+	public function Users(Request $request)
 	{
-		if ($findAs === "admins")
-			$dataUsers = app()->make(UserController::class)->GetAdmins()->sortByDesc("created_at")->values();
-		else if ($findAs === "students")
-			$dataUsers = app()->make(UserController::class)->GetStudents()->sortByDesc("created_at")->values();
-		else if ($findAs === "lecturers")
-			$dataUsers = app()->make(UserController::class)->GetLecturers()->sortByDesc("created_at")->values();
+		$dataUsers = app()->make(UserController::class)->GetUsers($request->query("role", "admin"))->sortByDesc("created_at")->values();
+		$currentUser = Auth::user();
 
 		// filters
 		$searchValidated = request()->validate(
@@ -160,32 +159,7 @@ class PageController extends Controller
 		
 		$dataUsers = $this->PagePaginator($request, $dataUsers);
 
-		return $dataUsers;
-	}
-
-	public function Admins(Request $request)
-	{
-		$dataUsers = $this->Users($request, "admins");
-		$currentUser = Auth::user();
-
-		if ($this->userRole === "admin")
-			return view("admin.admins", compact("dataUsers", "currentUser"));
-	}
-
-	public function Students(Request $request)
-	{
-		$dataUsers = $this->Users($request, "students");
-
-		if ($this->userRole === "admin")
-			return view("admin.students", compact("dataUsers"));
-	}
-
-	public function Lecturers(Request $request)
-	{
-		$dataUsers = $this->Users($request, "lecturers");
-
-		if ($this->userRole === "admin")
-			return view("admin.lecturers", compact("dataUsers"));
+		return view("admin.users", compact("dataUsers", "currentUser"));
 	}
 
 	public function Rooms(Request $request)
@@ -324,7 +298,7 @@ class PageController extends Controller
 		}
 
 		$academics = $this->PagePaginator($request, $academics);
-		$lecturers = app()->make(UserController::class)->GetLecturers(true)->pluck("username", "useridnumber")->mapWithKeys(fn($v, $k) => [$k . " - " . $v => $v])->toArray();
+		$lecturers = app()->make(UserController::class)->GetUsers("lecturer", true)->pluck("username", "useridnumber")->mapWithKeys(fn($v, $k) => [$k . " - " . $v => $v])->toArray();
 
 		return view("admin.announcements", compact("academics", "lecturers"));
 	}

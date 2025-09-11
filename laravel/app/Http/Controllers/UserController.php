@@ -17,12 +17,16 @@ class UserController extends Controller
 
 	private string $userId;
 	private string $userRole;
-	private string $queryFrom;
+	private string $queryRole;
 
-	public function __construct()
+	public function __construct(Request $request)
 	{
 		$this->userId = Auth::user()->useridnumber;
 		$this->userRole = Auth::user()->userrole;
+
+		$allowedRoles = ["admin", "student", "lecturer"];
+		$role = $request->query("role", "admin");
+		$this->queryRole = in_array($role, $allowedRoles) ? $role : "admin";
 	}
 
 	private function Validate(Request $request, bool $isUpdate = false) : array
@@ -92,102 +96,6 @@ class UserController extends Controller
 		return null;
 	}
 
-	private function Store(Request $request)
-	{
-		$this->queryFrom = $request["from"];
-
-		$validated = $this->Validate($request);
-
-		$check = $this->CheckData($validated, false);
-
-		if ($check !== null)
-			return $check;
-
-		User::create($validated);
-
-		$message = match($this->queryFrom)
-		{
-			"admins" => "Data Admin Berhasil Ditambahkan",
-			"students" => "Data Mahasiswa Berhasil Ditambahkan",
-			"lecturers" => "Data Dosen Berhasil Ditambahkan"
-		};
-
-		return HelperController::Message("toast_success", $message);
-	}
-
-	private function Update(Request $request, string $userid)
-	{
-		$this->queryFrom = $request["from"];
-
-		$user = User::where("userid", $userid)->first();
-
-		if (!$user)
-		{
-			$messages = match($this->queryFrom)
-			{
-				"admins" => ["Gagal Mengubah Data Admin", "Data Admin Tidak Ditemukan"],
-				"students" => ["Gagal Mengubah Data Mahasiswa", "Data Mahasiswa Tidak Ditemukan"],
-				"lecturers" => ["Gagal Mengubah Data Dosen", "Data Dosen Tidak Ditemukan"]
-			};
-			
-			return HelperController::Message("dialog_info", $messages);
-		}
-
-		$validated = $this->Validate($request, true);
-
-		$validated["userid"] = trim($userid);
-		$validated["useridnumber"] = trim($user->useridnumber);
-
-		$check = $this->CheckData($validated, true);
-
-		if ($check !== null)
-			return $check;
-
-		$user->update($validated);
-
-		$message = match($this->queryFrom)
-		{
-			"admins" => "Data Admin Berhasil Diubah",
-			"students" => "Data Mahasiswa Berhasil Diubah",
-			"lecturers" => "Data Dosen Berhasil Diubah"
-		};
-
-		return HelperController::Message("toast_success", $message);
-	}
-
-	private function Destroy(Request $request, string $userid)
-	{
-		$this->queryFrom = $request["from"];
-
-		$user = User::where("userid", $userid)->first();
-
-		if (!$user)
-		{
-			$messages = match($this->queryFrom)
-			{
-				"admins" => ["Gagal Menghapus Data Admin", "Data Admin Tidak Ditemukan"],
-				"students" => ["Gagal Menghapus Data Mahasiswa", "Data Mahasiswa Tidak Ditemukan"],
-				"lecturers" => ["Gagal Menghapus Data Dosen", "Data Dosen Tidak Ditemukan"]
-			};
-			
-			return HelperController::Message("dialog_info", $messages);
-		}
-
-		if ($userid === Auth::user()->userid)
-			return HelperController::Message("dialog_info", ["Gagal Menghapus Data Admin", "Anda Tidak Bisa Menghapus Data Diri Anda"]);
-
-		$user->delete();
-
-		$message = match($this->queryFrom)
-		{
-			"admins" => "Data Admin Berhasil Dihapus",
-			"students" => "Data Mahasiswa Berhasil Dihapus",
-			"lecturers" => "Data Dosen Berhasil Dihapus"
-		};
-
-		return HelperController::Message("toast_success", $message);
-	}
-
 	public static function GetAll(array $columns = ["*"])
 	{
 		return User::select($columns)->get();
@@ -201,120 +109,67 @@ class UserController extends Controller
 		return User::where("useridnumber", DeterministicEncryption::encryptDeterministic(strtolower(trim($useridnumber))))->value("username");
 	}
 
-	public function GetAdmins()
+	public function GetUsers(string $userrole = "admin", bool $onlyIsActive = false)
 	{
-		return self::GetAll(["userid", "useridnumber", "username", "userrole", "is_active", "created_at"])->filter(function($user)
+		return self::GetAll(["userid", "useridnumber", "username", "userrole", "is_active", "created_at"])->filter(function($user) use ($userrole, $onlyIsActive)
 		{
-			return $user->userrole === "admin";
+			return ($user->userrole === $userrole && (!$onlyIsActive || $user->is_active == 1));
 		});
 	}
 
-	public function StoreAdmins(Request $request)
+	public function Store(Request $request)
 	{
 		$request->merge(
 		[
-			"from" => "admins",
-			"userrole" => "admin"
+			"userrole" => $this->queryRole
 		]);
 
-		return $this->Store($request);
+		$validated = $this->Validate($request);
+
+		$check = $this->CheckData($validated, false);
+
+		if ($check !== null)
+			return $check;
+
+		User::create($validated);
+
+		return HelperController::Message("toast_success", __("user." . $this->queryRole . ".succeededtocreate"));
 	}
 
-	public function UpdateAdmins(Request $request, string $userid)
+	public function Update(Request $request, string $userid)
 	{
-		$request->merge(
-		[
-			"from" => "admins"
-		]);
+		$user = User::where("userid", $userid)->first();
 
-		return $this->Update($request, $userid);
+		if (!$user)
+			return HelperController::Message("dialog_info", [__("user." . $this->queryRole . ".failedtochange"), __("user." . $this->queryRole . ".notfound")]);
+
+		$validated = $this->Validate($request, true);
+
+		$validated["userid"] = trim($userid);
+		$validated["useridnumber"] = trim($user->useridnumber);
+
+		$check = $this->CheckData($validated, true);
+
+		if ($check !== null)
+			return $check;
+
+		$user->update($validated);
+
+		return HelperController::Message("toast_success", __("user." . $this->queryRole . ".succeededtochange"));
 	}
 
-	public function DestroyAdmins(Request $request, string $userid)
+	public function Destroy(Request $request, string $userid)
 	{
-		$request->merge(
-		[
-			"from" => "admins"
-		]);
+		$user = User::where("userid", $userid)->first();
 
-		return $this->Destroy($request, $userid);
-	}
+		if (!$user)
+			return HelperController::Message("dialog_info", [__("user." . $this->queryRole . ".failedtodelete"), __("user." . $this->queryRole . ".notfound")]);
 
-	public function GetStudents()
-	{
-		return self::GetAll(["userid", "useridnumber", "username", "userrole", "is_active", "created_at"])->filter(function($user)
-		{
-			return $user->userrole === "student";
-		});
-	}
+		if ($userid === Auth::user()->userid)
+			return HelperController::Message("dialog_info", ["Gagal Menghapus Data Admin", "Anda Tidak Bisa Menghapus Data Diri Anda"]);
 
-	public function StoreStudents(Request $request)
-	{
-		$request->merge(
-		[
-			"from" => "students",
-			"userrole" => "student"
-		]);
+		$user->delete();
 
-		return $this->Store($request);
-	}
-
-	public function UpdateStudents(Request $request, string $userid)
-	{
-		$request->merge(
-		[
-			"from" => "students"
-		]);
-
-		return $this->Update($request, $userid);
-	}
-
-	public function DestroyStudents(Request $request, string $userid)
-	{
-		$request->merge(
-		[
-			"from" => "students"
-		]);
-
-		return $this->Destroy($request, $userid);
-	}
-
-	public function GetLecturers(bool $onlyIsActive = false)
-	{
-		return self::GetAll(["userid", "useridnumber", "username", "userrole", "is_active", "created_at"])->filter(function($user) use ($onlyIsActive)
-		{
-			return ($user->userrole === "lecturer" && (!$onlyIsActive || $user->is_active == 1));
-		});
-	}
-
-	public function StoreLecturers(Request $request)
-	{
-		$request->merge(
-		[
-			"from" => "lecturers",
-			"userrole" => "lecturer"
-		]);
-		
-		return $this->Store($request);
-	}
-
-	public function UpdateLecturers(Request $request, string $userid)
-	{
-		$request->merge(
-		[
-			"from" => "lecturers"
-		]);
-		
-		return $this->Update($request, $userid);
-	}
-
-	public function DestroyLecturers(Request $request, string $userid)
-	{
-		$request->merge(
-		[
-			"from" => "lecturers"
-		]);
-		
-		return $this->Destroy($request, $userid);
+		return HelperController::Message("toast_success", __("user." . $this->queryRole . ".succeededtodelete"));
 	}
 }

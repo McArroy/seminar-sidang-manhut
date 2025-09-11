@@ -13,5 +13,9 @@ return
 	"even" =>
 	[
 		"text" => "Genap"
+	],
+	"password" =>
+	[
+		"text" => "Kata Sandi"
 	]
 ];

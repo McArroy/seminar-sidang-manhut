@@ -80,13 +80,13 @@
 
 				@if (Auth::user()->userrole === "admin")
 
-				<x-nav-link href="{{ route('admin.admins') }}" icon="eos-icons:admin" iconwidth="21" :active="request()->routeIs('admin.admins')">
+				<x-nav-link href="{{ route('admin.users', ['role' => 'admin']) }}" icon="eos-icons:admin" iconwidth="21" :active="request()->routeIs('admin.users') && request()->query('role') === 'admin'">
 					Data Admin
 				</x-nav-link>
-				<x-nav-link href="{{ route('admin.students') }}" icon="heroicons:user-group-solid" iconwidth="21" :active="request()->routeIs('admin.students')">
+				<x-nav-link href="{{ route('admin.users', ['role' => 'student']) }}" icon="heroicons:user-group-solid" iconwidth="21" :active="request()->routeIs('admin.users') && request()->query('role') === 'student'">
 					Data Mahasiswa
 				</x-nav-link>
-				<x-nav-link href="{{ route('admin.lecturers') }}" icon="fontisto:person" iconwidth="15" :active="request()->routeIs('admin.lecturers')">
+				<x-nav-link href="{{ route('admin.users', ['role' => 'lecturer']) }}" icon="fontisto:person" iconwidth="15" :active="request()->routeIs('admin.users') && request()->query('role') === 'lecturer'">
 					Data Dosen
 				</x-nav-link>
 				<x-nav-link href="{{ route('admin.rooms') }}" icon="mdi:door" iconwidth="21" :active="request()->routeIs('admin.rooms')">
@@ -98,11 +98,17 @@
 				<x-nav-link href="{{ route('admin.announcements', ['type' => 'seminar']) }}"  icon="hugeicons:folder-upload" iconwidth="21" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'seminar'">
 					Pengumuman Seminar
 				</x-nav-link>
+				<x-nav-link href="{{ route('admin.announcements', ['type' => 'seminar']) }}"  icon="fluent:presenter-20-regular" iconwidth="21" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'seminar'">
+					Pelaksanaan Seminar
+				</x-nav-link>
 				<x-nav-link href="{{ route('admin.academics', ['type' => 'thesisdefense']) }}" icon="streamline-flex:presentation" iconwidth="21" :active="request()->routeIs('admin.academics') && request()->query('type') === 'thesisdefense'">
 					Sidang Akhir
 				</x-nav-link>
 				<x-nav-link href="{{ route('admin.announcements', ['type' => 'thesisdefense']) }}" icon="hugeicons:folder-upload" iconwidth="21" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'thesisdefense'">
 					Undangan Sidang
+				</x-nav-link>
+				<x-nav-link href="{{ route('admin.announcements', ['type' => 'thesisdefense']) }}" icon="fluent:presenter-20-regular" iconwidth="21" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'thesisdefense'">
+					Pelaksanaan Sidang
 				</x-nav-link>
 
 				@elseif (Auth::user()->userrole === "student")
