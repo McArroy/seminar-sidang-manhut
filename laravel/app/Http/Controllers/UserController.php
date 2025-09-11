@@ -79,19 +79,12 @@ class UserController extends Controller
 			$query->where("userid", "!=", $data["userid"]);
 
 		if ($query->exists())
-		{
-			$message = match($this->queryFrom)
-			{
-				"admins" => $isUpdate ? "NIP Sudah Digunakan. Gagal Mengubah Data Admin" : "NIP Sudah Digunakan. Gagal Menambahkan Data Admin",
-				"students" => $isUpdate ? "NIM Sudah Digunakan. Gagal Mengubah Data Mahasiswa" : "NIM Sudah Digunakan. Gagal Menambahkan Data Mahasiswa",
-				"lecturers" => $isUpdate ? "NIP Sudah Digunakan. Gagal Mengubah Data Dosen" : "NIP Sudah Digunakan. Gagal Menambahkan Data Dosen"
-			};
-			
-			return HelperController::Message("toast_info", $message);
-		}
+			return HelperController::Message("toast_info", __("user." . $this->queryRole . ".existeduseridnumber") . ". " . ($isUpdate
+					? __("user." . $this->queryRole . ".failedtochange")
+					: __("user." . $this->queryRole . ".failedtocreate")));
 
 		if (($data["useridnumber"] === $this->userId) && $data["is_active"] === 0)
-			return HelperController::Message("dialog_info", ["Gagal Mengubah Data Admin", "Anda Tidak Bisa Menonaktifkan Data Diri Anda"]);
+			return HelperController::Message("dialog_info", [__("user.admin.failedtochange"), "Anda Tidak Bisa Menonaktifkan Data Diri Anda"]);
 	
 		return null;
 	}

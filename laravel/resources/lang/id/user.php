@@ -17,9 +17,11 @@ return
 		"succeededtocreate" => "Data Admin Berhasil Ditambahkan",
 		"succeededtochange" => "Data Admin Berhasil Diubah",
 		"succeededtodelete" => "Data Admin Berhasil Dihapus",
+		"failedtocreate" => "Gagal Menambahkan Data Admin",
 		"failedtochange" => "Gagal Mengubah Data Admin",
 		"failedtodelete" => "Gagal Menghapus Data Admin",
-		"notfound" => "Data Admin Tidak Ditemukan"
+		"notfound" => "Data Admin Tidak Ditemukan",
+		"existeduseridnumber" => "NIP Sudah Digunakan"
 	],
 	"student" =>
 	[
@@ -36,9 +38,11 @@ return
 		"succeededtocreate" => "Data Mahasiswa Berhasil Ditambahkan",
 		"succeededtochange" => "Data Mahasiswa Berhasil Diubah",
 		"succeededtodelete" => "Data Mahasiswa Berhasil Dihapus",
+		"failedtocreate" => "Gagal Menambahkan Data Mahasiswa",
 		"failedtochange" => "Gagal Mengubah Data Mahasiswa",
 		"failedtodelete" => "Gagal Menghapus Data Mahasiswa",
-		"notfound" => "Data Mahasiswa Tidak Ditemukan"
+		"notfound" => "Data Mahasiswa Tidak Ditemukan",
+		"existeduseridnumber" => "NIM Sudah Digunakan"
 	],
 	"lecturer" =>
 	[
@@ -55,8 +59,10 @@ return
 		"succeededtocreate" => "Data Dosen Berhasil Ditambahkan",
 		"succeededtochange" => "Data Dosen Berhasil Diubah",
 		"succeededtodelete" => "Data Dosen Berhasil Dihapus",
+		"failedtocreate" => "Gagal Menambahkan Data Dosen",
 		"failedtochange" => "Gagal Mengubah Data Dosen",
 		"failedtodelete" => "Gagal Menghapus Data Dosen",
-		"notfound" => "Data Dosen Tidak Ditemukan"
+		"notfound" => "Data Dosen Tidak Ditemukan",
+		"existeduseridnumber" => "NIP Sudah Digunakan"
 	]
 ];
