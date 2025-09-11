@@ -41,6 +41,8 @@ These changelogs are basically just a summary list of changes that are very impo
 - Fixed side navigation-bar's height
 
 **[ LARAVEL ]**
+- Fixed request-query type to prevent data mismatch
+- Fixed admin, student, and lecturer page by removing them and replaced by users page instead to prevent low performance in the backend and gives cleaner codes
 - Removed unused files
 
 </details>
