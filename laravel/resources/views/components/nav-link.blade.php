@@ -1,13 +1,13 @@
 @props(["href" => "javascript:void(0);", "target" => "_self", "icon" => null, "iconclass" => "", "iconwidth" => "", "active"])
 
 @php
-$href = ($active ?? false)
-	? "javascript:void(0);"
-	: $href;
-
 $OriginalClass = $attributes->get("class");
 
 $IsButtonList = str_contains($OriginalClass, "button-list");
+
+$href = (($active ?? false) && $IsButtonList)
+	? "javascript:void(0);"
+	: $href;
 
 $classes = ($active ?? false)
 	? "button active" . ($IsButtonList ? " listed" : "")
