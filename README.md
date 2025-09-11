@@ -39,6 +39,7 @@ These changelogs are basically just a summary list of changes that are very impo
 - Added close-icon on dialog input-data for another option to close the dialog
 - Fixed overflow for dialog and dialog input-data enabled overflow the content instead of the dialog element itself
 - Fixed side navigation-bar's height
+- Fixed nav-link element when the button activated is no longer not clickable except if the button is a button-list
 
 **[ LARAVEL ]**
 - Fixed request-query type to prevent data mismatch
