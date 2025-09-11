@@ -44,6 +44,7 @@ These changelogs are basically just a summary list of changes that are very impo
 **[ LARAVEL ]**
 - Fixed request-query type to prevent data mismatch
 - Fixed admin, student, and lecturer page by removing them and replaced by users page instead to prevent low performance in the backend and gives cleaner codes
+- Fixed semesters list not displayed correctly and added text `(Today)` on the schedule if the academic's date is today
 - Removed unused files
 
 </details>
