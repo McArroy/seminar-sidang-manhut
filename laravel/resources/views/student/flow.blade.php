@@ -1,5 +1,5 @@
 @php
-	$queryType = request()->query("type") ?? "";
+	$queryType = request()->query("type") ?? "seminar";
 @endphp
 
 <x-app-layout>

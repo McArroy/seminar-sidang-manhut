@@ -22,7 +22,10 @@ class AcademicController extends Controller
 	{
 		$this->userId = Auth::user()->useridnumber;
 		$this->userRole = Auth::user()->userrole;
-		$this->queryType = $request->query("type", "seminar");
+
+		$allowedTypes = ["seminar", "thesisdefense"];
+		$type = $request->query("role", "admin");
+		$this->queryType = in_array($type, $allowedTypes) ? $type : "seminar";
 	}
 
 	private function Validate(Request $request, bool $isUpdate = false) : array
