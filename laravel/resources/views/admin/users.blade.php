@@ -36,6 +36,7 @@
 					<th class="numbered">No</th>
 					<th class="number">{{ __("user." . $queryRole . ".useridnumber") }}</th>
 					<th class="name">Nama</th>
+					<th class="status">Status</th>
 					<th class="actions">Aksi</th>
 				</tr>
 			</thead>
@@ -50,6 +51,13 @@
 						<td class="numbered"></td>
 						<td class="number">{{ strtoupper($currentAdmin->useridnumber) }}</td>
 						<td class="name">{{ $currentAdmin->username }}</td>
+						<td class="status">
+							@if ($currentAdmin->is_active === 1)
+							<span class="status verified">Aktif</span>
+							@elseif ($currentAdmin->is_active === 0)
+							<span class="status rejected">Nonaktif</span>
+							@endif
+						</td>
 						<td class="button-actions">
 							<x-button class="edit" id="edit-user" data-link="{{ $currentAdmin->userid }}" data-active="{{ $currentAdmin->is_active }}">Ubah</x-button>
 							<x-button class="remove" disabled>Hapus</x-button>
@@ -64,6 +72,13 @@
 						<td class="numbered"></td>
 						<td class="number">{{ strtoupper($item->useridnumber) }}</td>
 						<td class="name">{{ $item->username }}</td>
+						<td class="status">
+							@if ($item->is_active === 1)
+							<span class="status verified">Aktif</span>
+							@elseif ($item->is_active === 0)
+							<span class="status rejected">Nonaktif</span>
+							@endif
+						</td>
 						<td class="button-actions">
 							<x-button class="edit" id="edit-user" data-link="{{ $item->userid }}" data-active="{{ $item->is_active }}">Ubah</x-button>
 							<form id="form-delete-user" action="{{ route('admin.users.delete', ['role' => $queryRole, $item->userid]) }}" method="POST">
@@ -96,7 +111,10 @@
 				<x-input-wrapper class="password" id="password" type="password" label="{{ __('common.password.text') }}" placeholder="********" required>
 					<iconify-icon icon="basil:eye-outline" class="show-hide-password" width="24" onclick="TogglePassword($(this))"></iconify-icon>
 				</x-input-wrapper>
-				<x-input-wrapper id="is_active" type="checkbox" label="{{ __('user.' . $queryRole . '.status') }}" checked />
+				<x-input-wrapper id="is_active" type="select" label="{{ __('user.' . $queryRole . '.status') }}" placeholder="{{ __('user.' . $queryRole . '.statusplaceholder') }}">
+					<option value="1" selected>Aktif</option>
+					<option value="0">Nonaktif</option>
+				</x-input-wrapper>
 			`);
 		});
 
@@ -112,10 +130,13 @@
 				<x-input-wrapper class="password" id="password" type="password" label="{{ __('common.password.text') }}" placeholder="********">
 					<iconify-icon icon="basil:eye-outline" class="show-hide-password" width="24" onclick="TogglePassword($(this))"></iconify-icon>
 				</x-input-wrapper>
-				<x-input-wrapper id="is_active" type="checkbox" label="{{ __('user.' . $queryRole . '.status') }}" />
+				<x-input-wrapper id="is_active" type="select" label="{{ __('user.' . $queryRole . '.status') }}" placeholder="{{ __('user.' . $queryRole . '.statusplaceholder') }}">
+					<option value="1">Aktif</option>
+					<option value="0">Nonaktif</option>
+				</x-input-wrapper>
 			`);
 
-			$("input#is_active").prop("checked", $(this).data("active") == 1);
+			$("select#is_active").val(String($(this).data("active")));
 
 			ValidateForms();
 		});
