@@ -151,6 +151,8 @@ Route::middleware(
 
 			return app()->make(AcademicController::class)->Store($request);
 		})->name("registrationform");
+		
+		Route::get("/academics/checkroomavailability/{room}/{date}/{time}/{response?}", [AcademicController::class, "CheckRoomAvailability"])->name("academics.checkroomavailability");
 
 		Route::get("/registrationform/letter", function(Request $request)
 		{

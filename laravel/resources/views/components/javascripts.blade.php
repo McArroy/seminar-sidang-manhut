@@ -378,10 +378,7 @@
 
 		$Dialog[0].showModal();
 
-		$("select.select2").select2(
-		{
-			dropdownParent: $Dialog
-		});
+		$("select.select2").select2();
 
 		$Dialog.on("keydown", function(event)
 		{
@@ -568,6 +565,41 @@
 	$(document).on("input change", "dialog.input-data input#useridnumber", function()
 	{
 		$("input#password").val($(this).val());
+	});
+
+	let LastUnavailableKey = null;
+	
+	$(document).on("change", "form#registrationform select[name='room'], form#registrationform input[name='date'], form#registrationform select[name='time']", function()
+	{
+		const room = $("form#registrationform select[name='room']").val();
+		const date = $("form#registrationform input[name='date']").val();
+		const time = $("form#registrationform select[name='time']").val();
+
+		if (!room || !date || !time)
+			return;
+
+		const CurrentKey = `${room}_${date}_${time}`;
+		const url = `{{ url('/student/academics/checkroomavailability') }}/${encodeURIComponent(room)}/${encodeURIComponent(date)}/${encodeURIComponent(time)}/true`;
+		
+		$.get(url, function(response)
+		{
+			if (!response.available)
+			{
+				if (LastUnavailableKey === CurrentKey)
+					return;
+
+				if ($("dialog.dialog-message").length < 1)
+				{
+					LastUnavailableKey = CurrentKey;
+					
+					DialogMessage(0, ["Gagal Memilih Tanggal/Waktu/Ruangan", "{{ __(request()->query('type') . '.roomnotavailable') }}"], ["{{ __('common.close.text') }}"]);
+				}
+			}
+			else
+			{
+				LastUnavailableKey = null;
+			}
+		});
 	});
 
 	$(document).on("submit", "form#form-logout", function(event)
