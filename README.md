@@ -31,6 +31,21 @@ php artisan serve
 ### Changelogs
 These changelogs are basically just a summary list of changes that are very important for developers information.
 
+#### UPDATE Version 1.25.9.12 [ Last update: 09/12/2025 ]
+<details>
+<summary>Click to expand</summary>
+
+**[[ COMMONS ]]**
+- Fixed `FullScreenPDFFrame` codes logic
+
+**[ UI/UX ]**
+- Fixed some letter element codes
+
+**[ LARAVEL ]**
+- Fixed academic-type list on schedule page
+
+</details>
+
 #### UPDATE Version 1.25.9.11 [ Last update: 09/11/2025 ]
 <details>
 <summary>Click to expand</summary>
