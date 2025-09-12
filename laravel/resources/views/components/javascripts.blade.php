@@ -465,42 +465,40 @@
 
 	function FullScreenPDFFrame($Icon, $Element)
 	{
-		const IsFullscreen = $Element.data("fullscreen") === true;
-		const PDFFrameFullScreenClassName = $Element.attr("class") + " dialog";
-		const PDFFrameFullScreenDialog = "." + PDFFrameFullScreenClassName.trim().split(" ").join(".");
+		const ExistingDialog = $Element.find("dialog.pdf-fullscreen")[0];
 
-		if (IsFullscreen)
+		if (ExistingDialog && ExistingDialog.open)
 		{
-			$Icon.attr("icon", "material-symbols-light:pan-zoom");
-			
-			if ($(PDFFrameFullScreenDialog)[0])
+			ExistingDialog.addEventListener("close", function()
 			{
-				$(PDFFrameFullScreenDialog)[0].addEventListener("close", function()
-				{
-					RemoveElement($($(PDFFrameFullScreenDialog)[0]));
-				}, { once: true });
+				ExistingDialog.remove();
+			},
+			{
+				once: true
+			});
 
-				$(PDFFrameFullScreenDialog)[0].close();
-				$($(PDFFrameFullScreenDialog)[0]).removeClass("active");
-			}
+			ExistingDialog.close();
 		}
 		else
 		{
-			$Icon.attr("icon", "material-symbols-light:hide-rounded");
+			$Element.find("dialog.pdf-fullscreen").remove();
 
-			RemoveElement($(PDFFrameFullScreenDialog));
+			const Dialog = document.createElement("dialog");
 
-			const PDFFrameFullScreen = document.createElement("dialog");
+			Dialog.classList.add("dialog", "letter-viewer", "pdf-fullscreen", "active");
+			Dialog.innerHTML = $Element.html().replaceAll("pdf-source", "pdf-source-2");
+			$(Dialog).find(".icon-fullscreen iconify-icon").attr("icon", "material-symbols-light:hide-rounded");
+			Dialog.addEventListener("close", function()
+			{
+				Dialog.remove();
+			},
+			{
+				once: true
+			});
 
-			PDFFrameFullScreen.className = PDFFrameFullScreenClassName;
-			PDFFrameFullScreen.innerHTML = $Element.html().replaceAll("pdf-source", "pdf-source-2");
-
-			$Element.append(PDFFrameFullScreen);
-			PDFFrameFullScreen.showModal();
-			$(PDFFrameFullScreenDialog).addClass("active");
+			$Element.append(Dialog);
+			Dialog.showModal();
 		}
-		
-		$Element.data("fullscreen", !IsFullscreen);
 	}
 
 	function DownloadPDF($PDFFrame)
