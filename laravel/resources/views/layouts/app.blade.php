@@ -98,7 +98,7 @@
 				<x-nav-link href="{{ route('admin.announcements', ['type' => 'seminar']) }}"  icon="hugeicons:folder-upload" iconwidth="21" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'seminar'">
 					Pengumuman Seminar
 				</x-nav-link>
-				<x-nav-link href="{{ route('admin.announcements', ['type' => 'seminar']) }}"  icon="fluent:presenter-20-regular" iconwidth="21" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'seminar'">
+				<x-nav-link href="{{ route('admin.execution', ['type' => 'seminar']) }}" icon="fluent:presenter-20-regular" iconwidth="21" :active="request()->routeIs('admin.execution') && request()->query('type') === 'seminar'">
 					Pelaksanaan Seminar
 				</x-nav-link>
 				<x-nav-link href="{{ route('admin.academics', ['type' => 'thesisdefense']) }}" icon="streamline-flex:presentation" iconwidth="21" :active="request()->routeIs('admin.academics') && request()->query('type') === 'thesisdefense'">
@@ -107,7 +107,7 @@
 				<x-nav-link href="{{ route('admin.announcements', ['type' => 'thesisdefense']) }}" icon="hugeicons:folder-upload" iconwidth="21" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'thesisdefense'">
 					Undangan Sidang
 				</x-nav-link>
-				<x-nav-link href="{{ route('admin.announcements', ['type' => 'thesisdefense']) }}" icon="fluent:presenter-20-regular" iconwidth="21" :active="request()->routeIs('admin.announcements') && request()->query('type') === 'thesisdefense'">
+				<x-nav-link href="{{ route('admin.execution', ['type' => 'thesisdefense']) }}" icon="fluent:presenter-20-regular" iconwidth="21" :active="request()->routeIs('admin.execution') && request()->query('type') === 'thesisdefense'">
 					Pelaksanaan Sidang
 				</x-nav-link>
 

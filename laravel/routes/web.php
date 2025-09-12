@@ -89,6 +89,18 @@ Route::middleware(
 		// Sechedule
 		Route::get("/schedule", [PageController::class, "Schedule"])->name("schedule");
 		Route::delete("/schedule/{academicid}", [PageController::class, "ScheduleDestroy"])->name("schedule.delete");
+
+		// Pelaksanaan
+		Route::get("/execution", function(Request $request)
+		{
+			if (!in_array($request->query("type") ?? null, ["seminar", "thesisdefense"]))
+			{
+				header("Location: " . url()->current() . "?type=seminar");
+				exit;
+			}
+
+			return app()->make(PageController::class)->Execution($request);
+		})->name("execution");
 	});
 });
 

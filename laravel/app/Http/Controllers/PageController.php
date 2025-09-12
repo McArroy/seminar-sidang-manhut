@@ -427,4 +427,51 @@ class PageController extends Controller
 
 		return HelperController::Message("toast_success", __($this->queryType . ".succeededtodelete"));
 	}
+
+	public function Execution(Request $request)
+	{
+		$academics = app()->make(AcademicController::class)->Index()->filter(function($item)
+		{
+			return ($item->academictype === $this->queryType);
+		})->map(function($item)
+		{
+			$item->username = UserController::GetUsername($item->useridnumber);
+			return $item;
+		})->sortByDesc("created_at")->values();
+
+		// filters
+		$searchValidated = request()->validate(
+		[
+			"search" => "nullable|string|max:255"
+		]);
+
+		$search = isset($searchValidated["search"]) ? mb_strtolower(trim($searchValidated["search"])) : null;
+
+		if ($search)
+		{
+			$academics = $academics->filter(function($item) use ($search)
+			{
+				$fields =
+				[
+					$item->useridnumber ?? "",
+					$item->username ?? "",
+				];
+
+				foreach ($fields as $field)
+				{
+					if (!is_string($field))
+						continue;
+
+					if (str_contains(mb_strtolower(trim($field)), $search))
+						return true;
+				}
+
+				return false;
+			})->values();
+		}
+		
+		$academics = $this->PagePaginator($request, $academics);
+
+		return view("admin.execution", compact("academics"));
+	}
 }
