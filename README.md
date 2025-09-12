@@ -35,7 +35,7 @@ These changelogs are basically just a summary list of changes that are very impo
 <details>
 <summary>Click to expand</summary>
 
-**[[ COMMONS ]]**
+**[ COMMONS ]**
 - Fixed `FullScreenPDFFrame` codes logic
 
 **[ UI/UX ]**
