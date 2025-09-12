@@ -411,6 +411,9 @@ class PageController extends Controller
 		$semesterList = $this->semesterList;
 		$academicTypeList = app()->make(AcademicController::class)->GetAll(["academictype"])->unique("academictype")->values();
 
+		if ($this->userRole === "student")
+			$academicTypeList = HelperController::FilterByDateRange($academicTypeList);
+
 		return view("schedule", compact("userRole", "academics", "academicTypeList", "semesterList"));
 	}
 
