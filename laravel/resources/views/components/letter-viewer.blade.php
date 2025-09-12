@@ -11,5 +11,5 @@
 			<x-button icon="mynaui:download" iconwidth="25" onclick="return DownloadPDF($('#{{ $id }}'));"></x-button>
 		</div>
 	</div>
-	<iframe id="{{ $id }}" class="viewer" sandbox="{{ $sandbox }}" onload="return ApplyZoomPDFFrame($('#{{ $id }}'));" srcdoc="{{ $slot }}"></iframe>
+	<iframe id="{{ $id }}" class="viewer"  sandbox="allow-scripts allow-same-origin allow-modals" onload="return ApplyZoomPDFFrame($('#{{ $id }}'));" srcdoc="{{ $slot }}"></iframe>
 </div>

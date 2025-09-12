@@ -6,6 +6,9 @@
 	&.dialog
 	{
 		justify-content: flex-start;
+		max-width: 90%;
+		overflow: hidden;
+		overflow-y: auto;
 
 		&.active
 		{
@@ -62,8 +65,10 @@
 	iframe
 	{
 		background: var(--grey4);
-		height: max-content;
+		height: 100%;
 		margin-top: 20px;
+		overflow: hidden;
+		overflow-x: auto;
 		padding: 0 30px;
 		width: 100%;
 	}
