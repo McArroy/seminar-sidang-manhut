@@ -43,6 +43,7 @@ These changelogs are basically just a summary list of changes that are very impo
 
 **[ LARAVEL ]**
 - Fixed academic-type list on schedule page
+- Fixed check room-availability via client-side before create academics
 
 </details>
 
